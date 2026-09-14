@@ -1,0 +1,5 @@
+# This file ensures the models/ directory is tracked by Git while large model weight binaries are ignored.
+# To download the default offline model (TinyLlama 1.1B GGUF), run:
+# python3 backend/download_model.py
+
+<!-- Agri-Saarthi 2026 Sync -->

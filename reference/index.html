@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🌱 AI Agri — Smart &amp; Simple Farming Assistant</title>
+  <meta name="description" content="Simple, trustworthy AI farming assistant for Indian farmers. Crop disease check, 7-day disease risk forecast, weather advice, mandi prices, and multilingual voice Krishi Copilot.">
+  
+  <!-- Premium Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700&family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body id="home">
+
+  <!-- Ambient Organic Background Blobs (Living Farm Atmosphere) -->
+  <div class="organic-blob organic-blob-1" aria-hidden="true"></div>
+  <div class="organic-blob organic-blob-2" aria-hidden="true"></div>
+  <div class="organic-blob organic-blob-3" aria-hidden="true"></div>
+  <div class="organic-blob organic-blob-4" aria-hidden="true"></div>
+
+  <!-- Floating Nature Leaves Container (JS-Driven) -->
+  <div class="floating-nature-container" id="floatingNature" aria-hidden="true"></div>
+
+  <!-- ==========================================================================
+       NAVBAR (STICKY, BLURRED ON SCROLL)
+       ========================================================================== -->
+  <nav class="top-nav">
+    <div class="nav-container">
+      <a class="brand-logo" href="#home">
+        <div class="brand-icon-wrap">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+            <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"/>
+          </svg>
+        </div>
+        <div class="brand-name">🌱 AI <span>Agri</span><span class="brand-tag">Krishi OS</span></div>
+      </a>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a class="nav-link active" href="#home">Home</a></li>
+        <li><a class="nav-link" href="#disease">Crop Health</a></li>
+        <li><a class="nav-link" href="#weather">Weather</a></li>
+        <li><a class="nav-link" href="#prices">Market</a></li>
+        <li><a class="nav-link" href="#action-plan">Action Plan</a></li>
+        <li><a class="nav-link" href="#analytics">Farm Insights</a></li>
+        <li><a class="nav-link" href="#voice">Krishi Copilot</a></li>
+        <li><a class="nav-link" href="#remedies">Remedies</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <button class="btn-copilot-nav" onclick="scrollTo('voice')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" x2="12" y1="19" y2="22"/>
+          </svg>
+          <span>Ask AI</span>
+        </button>
+        <button class="hamburger-btn" onclick="document.getElementById('navLinks').classList.toggle('open')" aria-label="Toggle Menu">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="4" x2="20" y1="12" y2="12"/>
+            <line x1="4" x2="20" y1="6" y2="6"/>
+            <line x1="4" x2="20" y1="18" y2="18"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ==========================================================================
+       HERO SECTION (AGRICULTURAL PHOTOGRAPHY + FOREST OVERLAY)
+       ========================================================================== -->
+  <header class="hero-section" id="hero">
+    <div class="hero-bg-photo"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-horizon" aria-hidden="true"></div>
+    <div class="hero-sun-glow"></div>
+    <div class="hero-sun-rays" aria-hidden="true"></div>
+    <div class="hero-pollen" id="heroPollen" aria-hidden="true"></div>
+    <div class="hero-floating-leaf leaf-1">🌿</div>
+    <div class="hero-floating-leaf leaf-2">🌱</div>
+    <div class="hero-floating-leaf leaf-3">🍃</div>
+
+    <div class="hero-container">
+      <div class="hero-copy-layer">
+        <div class="hero-badge-pill">
+          <span class="badge-dot"></span>
+          <span>Smart India Hackathon • Made for Indian Farmers</span>
+        </div>
+        <h1 class="hero-title">Smarter Farming Starts <span>Here</span></h1>
+        <p class="hero-subtitle">
+          Check your crop, understand the weather, track prices and get simple AI advice — all in one place.
+        </p>
+        <p class="hero-indic">
+          फसल की जांच करें • मौसम समझें • सही मंडी भाव जानें • आसान भाषा में सलाह
+        </p>
+        <div class="hero-actions-row">
+          <button class="btn-primary" onclick="scrollTo('disease')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+              <circle cx="12" cy="13" r="3"/>
+            </svg>
+            <span>Analyze My Crop</span>
+          </button>
+          <button class="btn-secondary" onclick="scrollTo('voice')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+              <line x1="12" x2="12" y1="19" y2="22"/>
+            </svg>
+            <span>Ask Krishi Copilot</span>
+          </button>
+        </div>
+        <div class="hero-trust-line">
+          🌱 Simple farming advice • Your language • AI-powered
+        </div>
+      </div>
+
+      <!-- Hero Floating Live Farm Cards (Layered 3D Stage) -->
+      <div class="hero-floating-card-wrap hero-3d-stage" id="hero3d">
+        <!-- Floating depth cards -->
+        <div class="hero-float-chip chip-health" data-depth="34">
+          <span class="hfc-icon">🌱</span>
+          <div>
+            <div class="hfc-label">Crop Health</div>
+            <div class="hfc-value">82 / 100</div>
+          </div>
+        </div>
+
+        <div class="hero-float-chip chip-weather" data-depth="58">
+          <span class="hfc-icon">🌧</span>
+          <div>
+            <div class="hfc-label">Weather</div>
+            <div class="hfc-value">Rain tomorrow</div>
+          </div>
+        </div>
+
+        <div class="hero-float-chip chip-market" data-depth="22">
+          <span class="hfc-icon">📈</span>
+          <div>
+            <div class="hfc-label">Market</div>
+            <div class="hfc-value">Prices rising</div>
+          </div>
+        </div>
+
+        <div class="hero-telemetry-card">
+          <div class="telemetry-header">
+            <div class="telemetry-title">
+              <span>🌱 Your Farm Status</span>
+            </div>
+            <span class="telemetry-live-badge">Live Farm View</span>
+          </div>
+
+          <div class="telemetry-grid">
+            <div class="telemetry-item">
+              <div class="telemetry-label">Active Crop</div>
+              <div class="telemetry-val">Wheat (HD-2967)</div>
+              <div class="telemetry-sub">Growing nicely • Day 68</div>
+            </div>
+            <div class="telemetry-item">
+              <div class="telemetry-label">Crop Health Score</div>
+              <div class="telemetry-val">82 / 100</div>
+              <div class="telemetry-sub">Good crop condition</div>
+            </div>
+            <div class="telemetry-item">
+              <div class="telemetry-label">Weather Now</div>
+              <div class="telemetry-val">28°C • Pleasant</div>
+              <div class="telemetry-sub">Humidity: 62%</div>
+            </div>
+            <div class="telemetry-item">
+              <div class="telemetry-label">Good Time to Spray?</div>
+              <div class="telemetry-val" style="color:#86efac">Yes, This Morning</div>
+              <div class="telemetry-sub">Safe until 10:30 AM</div>
+            </div>
+          </div>
+
+          <div class="telemetry-banner">
+            <span style="font-size:1.1rem">🌧</span>
+            <span><strong>Farmer Notice:</strong> Rain expected tomorrow. Plan spraying carefully.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ==========================================================================
+       1. "YOUR FARM TODAY" (MAIN INTEGRATED DASHBOARD)
+       ========================================================================== -->
+  <section class="dashboard-overview-strip" id="overview">
+    <div class="overview-wrap">
+      <div class="overview-header-row">
+        <div class="overview-title">
+          <span>🌾 Your Farm Today</span>
+        </div>
+        <div class="overview-sub">
+          One look tells you how your farm is doing right now • Demo data
+        </div>
+      </div>
+
+      <div class="farm-today-grid reveal-stagger">
+        <!-- 1. Crop Health -->
+        <div class="farm-today-card">
+          <div class="ft-top">🌱 Crop Health</div>
+          <div class="ft-val">82 / 100</div>
+          <div class="ft-status good">✓ Good condition</div>
+        </div>
+
+        <!-- 2. Disease Risk -->
+        <div class="farm-today-card">
+          <div class="ft-top">⚠️ Disease Risk</div>
+          <div class="ft-val" style="font-size:1.3rem">Low</div>
+          <div class="ft-status good">✓ No major warning</div>
+        </div>
+
+        <!-- 3. Weather -->
+        <div class="farm-today-card">
+          <div class="ft-top">🌦 Weather</div>
+          <div class="ft-val">28°C</div>
+          <div class="ft-status good">✓ Rain tomorrow</div>
+        </div>
+
+        <!-- 4. Market -->
+        <div class="farm-today-card">
+          <div class="ft-top">💰 Crop Price</div>
+          <div class="ft-val">₹2,180</div>
+          <div class="ft-status good">▲ Prices rising</div>
+        </div>
+
+        <!-- 5. AI Advice -->
+        <div class="farm-today-card" style="background:#f1f8f3;border-color:#c8e6c9">
+          <div class="ft-top" style="color:var(--leaf-700)">🤖 Today's AI Advice</div>
+          <div class="ft-val" style="font-size:0.96rem;color:var(--forest-900)">"Check your crop leaves today."</div>
+          <div class="ft-status good" style="font-size:0.75rem">Look for brown or yellow spots</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==========================================================================
+       MAIN CONTENT CONTAINER (CLEAR NARRATIVE JOURNEY)
+       ========================================================================== -->
+  <main class="main-content">
+
+    <!-- ==========================================================================
+         2. "WHAT NEEDS ATTENTION" (ACTIONABLE RISK HUB)
+         ========================================================================== -->
+    <section class="section-anchor section-bg-dark-green" id="risk-center">
+      <div class="section-head">
+        <div class="section-title-wrap">
+          <h2>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            What Needs Attention
+          </h2>
+          <p>Important field safety alerts to check today | आपके खेत की सुरक्षा अलर्ट</p>
+        </div>
+        <span class="section-tag">Daily Safety Check</span>
+      </div>
+
+      <div class="risk-center-grid reveal-stagger">
+        <!-- 1. Disease Risk -->
+        <div class="risk-card high-threat">
+          <div>
+            <div class="risk-card-head">
+              <div class="risk-type">🍄 Disease Risk</div>
+              <span class="risk-badge rb-high">🔴 HIGH RISK</span>
+            </div>
+            <div class="risk-factor-title">Early Blight Threat</div>
+            <div class="risk-reason-text">High humidity and warm air may increase fungal disease on leaves.</div>
+          </div>
+          <div>
+            <button class="risk-action-btn" onclick="toggleRiskDetail(this, 'rd-disease')">
+              <span>See What To Do</span> <span>▼</span>
+            </button>
+            <div class="risk-action-detail" id="rd-disease">
+              👉 <strong>Action:</strong> Inspect lower leaves today. Spray neem oil (5ml/L) or Mancozeb if spots appear.
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. Weather Risk -->
+        <div class="risk-card medium-threat">
+          <div>
+            <div class="risk-card-head">
+              <div class="risk-type">🌧 Weather Risk</div>
+              <span class="risk-badge rb-medium">🟠 MEDIUM RISK</span>
+            </div>
+            <div class="risk-factor-title">Rain Expected Tomorrow</div>
+            <div class="risk-reason-text">20–30mm rainfall expected in 48 hours. Spraying now will wash medicine away.</div>
+          </div>
+          <div>
+            <button class="risk-action-btn" onclick="toggleRiskDetail(this, 'rd-weather')">
+              <span>See What To Do</span> <span>▼</span>
+            </button>
+            <div class="risk-action-detail" id="rd-weather">
+              👉 <strong>Action:</strong> Wait until Friday morning before spraying pesticides or spreading urea.
+            </div>
+          </div>
+        </div>
+
+        <!-- 3. Pest Risk -->
+        <div class="risk-card medium-threat">
+          <div>
+            <div class="risk-card-head">
+              <div class="risk-type">🐛 Pest Risk</div>
+              <span class="risk-badge rb-medium">🟠 MEDIUM RISK</span>
+            </div>
+            <div class="risk-factor-title">Aphids &amp; Whiteflies</div>
+            <div class="risk-reason-text">Small sucking insects may attack new green shoots on warm afternoons.</div>
+          </div>
+          <div>
+            <button class="risk-action-btn" onclick="toggleRiskDetail(this, 'rd-pest')">
+              <span>See What To Do</span> <span>▼</span>
+            </button>
+            <div class="risk-action-detail" id="rd-pest">
+              👉 <strong>Action:</strong> Hang yellow sticky paper traps (8 per acre) and spray garlic-chilli natural spray.
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. Water / Soil Risk -->
+        <div class="risk-card good-threat">
+          <div>
+            <div class="risk-card-head">
+              <div class="risk-type">💧 Soil Moisture</div>
+              <span class="risk-badge rb-good">🟡 LOW RISK</span>
+            </div>
+            <div class="risk-factor-title">Moisture is Slightly Low</div>
+            <div class="risk-reason-text">Topsoil is drying in upper fields (42%). Roots still have adequate deep moisture.</div>
+          </div>
+          <div>
+            <button class="risk-action-btn" onclick="toggleRiskDetail(this, 'rd-water')">
+              <span>See What To Do</span> <span>▼</span>
+            </button>
+            <div class="risk-action-detail" id="rd-water">
+              👉 <strong>Action:</strong> Light watering recommended tomorrow morning, or wait for Wednesday rain.
+            </div>
+          </div>
+        </div>
+
+        <!-- 5. Market Risk -->
+        <div class="risk-card medium-threat">
+          <div>
+            <div class="risk-card-head">
+              <div class="risk-type">💰 Market Alert</div>
+              <span class="risk-badge rb-medium">PRICE ALERT</span>
+            </div>
+            <div class="risk-factor-title">Tomato Price Drop</div>
+            <div class="risk-reason-text">Heavy tomato arrivals expected in mandis next week, which may lower prices.</div>
+          </div>
+          <div>
+            <button class="risk-action-btn" onclick="toggleRiskDetail(this, 'rd-market')">
+              <span>See What To Do</span> <span>▼</span>
+            </button>
+            <div class="risk-action-detail" id="rd-market">
+              👉 <strong>Action:</strong> Harvest all ripe tomatoes today and sell in mandi within 48 hours for best price.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         3. "CHECK YOUR CROP" & "COULD YOUR CROP GET SICK SOON?" (7-DAY RISK)
+         ========================================================================== -->
+    <section class="section-anchor section-bg-field" id="disease">
+      <div class="section-head">
+        <div class="section-title-wrap">
+          <h2>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+            Check Your Crop &amp; 7-Day Early Warning
+          </h2>
+          <p>Take one photo, see what is wrong, and know what to do | फोटो से फसल की जांच</p>
+        </div>
+        <span class="section-tag">AI Crop Scanner</span>
+      </div>
+
+      <!-- How the crop check works: visual product story -->
+      <div class="crop-flow-strip reveal-stagger" aria-label="How the crop check works">
+        <div class="crop-flow-step">
+          <span class="cfs-icon">📷</span>
+          <span class="cfs-name">Crop photo</span>
+          <span class="cfs-note">You upload</span>
+        </div>
+        <span class="crop-flow-arrow" aria-hidden="true">→</span>
+        <div class="crop-flow-step">
+          <span class="cfs-icon">🔍</span>
+          <span class="cfs-name">AI check</span>
+          <span class="cfs-note">Few seconds</span>
+        </div>
+        <span class="crop-flow-arrow" aria-hidden="true">→</span>
+        <div class="crop-flow-step">
+          <span class="cfs-icon">🍂</span>
+          <span class="cfs-name">Health result</span>
+          <span class="cfs-note">Sick or healthy</span>
+        </div>
+        <span class="crop-flow-arrow" aria-hidden="true">→</span>
+        <div class="crop-flow-step">
+          <span class="cfs-icon">📈</span>
+          <span class="cfs-name">7-day risk</span>
+          <span class="cfs-note">What may come</span>
+        </div>
+        <span class="crop-flow-arrow" aria-hidden="true">→</span>
+        <div class="crop-flow-step cfs-final">
+          <span class="cfs-icon">✅</span>
+          <span class="cfs-name">What to do</span>
+          <span class="cfs-note">In simple words</span>
+        </div>
+      </div>
+
+      <div class="grid-12">
+        <!-- Scanner Card -->
+        <div class="col-6">
+          <div class="card-ui card-tilt card-scanner">
+            <div class="card-ui-header">
+              <div class="card-ui-title">
+                <div class="card-icon ci-green">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                    <circle cx="12" cy="13" r="4"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3>Check Your Crop</h3>
+                  <p>Upload a clear photo of your crop or tap a demo sample below | फसल की फोटो डालें</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Upload Dropzone -->
+            <div class="upload-dropzone" id="upZone">
+              <div class="scanner-laser" id="scannerLaser"></div>
+              <input type="file" accept="image/*" onchange="analyzeDisease(event)">
+              <svg class="upload-icon-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="17 8 12 3 7 8"/>
+                <line x1="12" x2="12" y1="3" y2="15"/>
+              </svg>
+              <div class="upload-title" id="upText">Click or drag a crop leaf photo here</div>
+              <div class="upload-sub">Take a clear photo with your phone camera • JPG or PNG</div>
+            </div>
+
+            <!-- 1-Click Sample Leaf Chips for Quick Testing -->
+            <div class="sample-leaves-row">
+              <span class="sample-leaf-label">⚡ 1-Click Demo Samples:</span>
+              <button class="sample-leaf-chip" onclick="loadSampleLeaf('tomato')">🍅 Tomato Leaf (Blight)</button>
+              <button class="sample-leaf-chip" onclick="loadSampleLeaf('wheat')">🌾 Wheat Leaf (Rust)</button>
+              <button class="sample-leaf-chip" onclick="loadSampleLeaf('healthy')">🌿 Healthy Leaf</button>
+            </div>
+
+            <!-- Image Preview Wrap -->
+            <div class="preview-image-wrap" id="prevWrap">
+              <img class="prev-img" id="prevImg" alt="Crop preview">
+            </div>
+
+            <!-- Disease Result Output -->
+            <div class="disease-result" id="disRes">
+              <div class="diagnosis-badge diag-danger" id="dBadge">⚠️ Early Blight • AI is 91% sure</div>
+              <div class="diag-details-box" id="dBox">
+                <!-- Injected via JavaScript -->
+              </div>
+
+            </div>
+
+            <!-- 7-Day Disease Risk Early Warning (always visible) -->
+            <div class="forecast-risk-panel panel-dark-feature">
+              <div class="forecast-risk-head">
+                <div>
+                  <span class="panel-eyebrow">Know the risk</span>
+                  <div class="fr-title">Could your crop get sick in the next 7 days?</div>
+                </div>
+                <span class="fr-sub">Chance of disease spreading</span>
+              </div>
+              <div class="fr-timeline" id="riskTimeline">
+                <!-- Injected via JavaScript -->
+              </div>
+              <div class="fr-why">
+                <strong>Why is the risk rising?</strong> Rain and high humidity help disease grow. Check your crop within 24 hours.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Treatment & Health Score Card -->
+        <div class="col-6">
+          <div class="card-ui card-tilt card-treatment">
+            <div class="card-ui-header">
+              <div class="card-ui-title">
+                <div class="card-icon ci-soil">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3>What Should I Do?</h3>
+                  <p>Shop medicine and home remedies, written in simple words | आसान इलाज</p>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div class="treatment-content-box" id="treatBox">
+                <div style="text-align:center;padding:36px 16px;color:var(--text-muted)">
+                  <div style="font-size:2.4rem;margin-bottom:8px">🌿</div>
+                  <p style="font-weight:800;font-size:1rem;color:var(--forest-900)">Ready to Check Your Crop</p>
+                  <p style="font-size:0.84rem;margin-top:4px">Upload a photo or tap any demo sample above to get an instant treatment plan.</p>
+                </div>
+              </div>
+
+              <!-- Health Score Gauge -->
+              <div class="health-score-container">
+                <svg width="78" height="78" class="ring" viewBox="0 0 80 80">
+                  <circle class="rng" cx="40" cy="40" r="35"/>
+                  <circle class="rnf" id="hring" cx="40" cy="40" r="35" stroke-dasharray="220" stroke-dashoffset="220"/>
+                </svg>
+                <div>
+                  <div class="hscore-val" id="hscore">--</div>
+                  <div class="hscore-label">Crop Health Score (0 - 100)</div>
+                  <div style="font-size:0.75rem;color:var(--leaf-700);font-weight:700;margin-top:2px">"Your farm looks healthy today."</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         4. "WEATHER FOR YOUR FARM" ("How does this affect my farm?")
+         ========================================================================== -->
+    <section class="section-anchor section-bg-sky" id="weather">
+      <div class="weather-cloud weather-cloud-1" aria-hidden="true">☁️</div>
+      <div class="weather-cloud weather-cloud-2" aria-hidden="true">⛅</div>
+      <div class="weather-cloud weather-cloud-3" aria-hidden="true">☁️</div>
+      <div class="section-head">
+        <div class="section-title-wrap">
+          <h2>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z"/>
+            </svg>
+            Weather for Your Farm
+          </h2>
+          <p>Easy 4-day forecast and simple answers for your daily farm work | आपके खेत का मौसम</p>
+        </div>
+        <span class="section-tag">Updated Now</span>
+      </div>
+
+      <div class="grid-12">
+        <!-- Weather Main Card with Farm Landscape Backdrop -->
+        <div class="col-7">
+          <div class="weather-main-card card-tilt">
+            <div class="weather-photo-bg"></div>
+            <div class="weather-content-wrap">
+              <div class="wx-top-row">
+                <div>
+                  <div class="wx-temp" id="wTemp">28°C</div>
+                  <div class="wx-desc" id="wDesc">⛅ Partly Cloudy • Good for Crop Growth</div>
+                  <div class="wx-loc">📍 Solan, Himachal Pradesh</div>
+                </div>
+                <div class="wx-details-grid">
+                  <div>💧 Humidity: <strong>62%</strong></div>
+                  <div>🌬 Wind: <strong>12 km/h</strong></div>
+                  <div>🌡 Feels Like: <strong>26°C</strong></div>
+                </div>
+              </div>
+
+              <!-- "How does this affect my farm?" -->
+              <div class="wx-answers-row">
+                <div class="wx-ans-card">
+                  <div class="wx-ans-q">Good time to spray?</div>
+                  <div class="wx-ans-a">✅ Yes, this morning</div>
+                </div>
+                <div class="wx-ans-card">
+                  <div class="wx-ans-q">Good time to water?</div>
+                  <div class="wx-ans-a">⏳ Hold for 2 days</div>
+                </div>
+                <div class="wx-ans-card">
+                  <div class="wx-ans-q">Rain warning?</div>
+                  <div class="wx-ans-a">🌧 Rain on Wed</div>
+                </div>
+              </div>
+
+              <!-- 4-Day Forecast -->
+              <div class="forecast-days-grid reveal-stagger">
+                <div class="forecast-day-card">
+                  <div class="fd-name">Mon</div>
+                  <div class="fd-icon">☀️</div>
+                  <div class="fd-temp">30°C</div>
+                </div>
+                <div class="forecast-day-card">
+                  <div class="fd-name">Tue</div>
+                  <div class="fd-icon">⛅</div>
+                  <div class="fd-temp">26°C</div>
+                </div>
+                <div class="forecast-day-card">
+                  <div class="fd-name">Wed</div>
+                  <div class="fd-icon">🌧</div>
+                  <div class="fd-temp">22°C</div>
+                </div>
+                <div class="forecast-day-card">
+                  <div class="fd-name">Thu</div>
+                  <div class="fd-icon">🌩</div>
+                  <div class="fd-temp">20°C</div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <button class="btn-primary" style="margin-top:14px;width:100%;justify-content:center;" onclick="refreshWeather()">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/>
+            </svg>
+            <span>Check Weather Again</span>
+          </button>
+        </div>
+
+        <!-- Weather Warnings Card -->
+        <div class="col-5">
+          <div class="card-ui card-glass">
+            <div class="card-ui-header">
+              <div class="card-ui-title">
+                <div class="card-icon ci-sky">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    <line x1="12" x2="12" y1="9" y2="13"/>
+                    <line x1="12" x2="12.01" y1="17" y2="17"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3>Simple Weather Advice</h3>
+                  <p>What to do for your field this week</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="agri-alert-item al-warn">
+              <div class="al-icon-box">❄️</div>
+              <div>
+                <div class="al-title">Cold Frost Warning on Wednesday Night</div>
+                <div class="al-desc">Night temperature will drop to 6°C. Cover delicate young vegetables or nursery plants.</div>
+              </div>
+            </div>
+
+            <div class="agri-alert-item al-info">
+              <div class="al-icon-box">🌧</div>
+              <div>
+                <div class="al-title">Rain Expected Wednesday (20–30mm)</div>
+                <div class="al-desc">Hold spraying and fertilizer until rain stops. Clean field drainage paths.</div>
+              </div>
+            </div>
+
+            <div class="agri-alert-item al-ok">
+              <div class="al-icon-box">🌱</div>
+              <div>
+                <div class="al-title">Great Time to Sow Wheat &amp; Mustard</div>
+                <div class="al-desc">Soil temperature (18°C) and moisture are perfect for fast seed germination.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         5. "CROP MARKET" ("Should I sell now?")
+         ========================================================================== -->
+    <section class="section-anchor section-bg-warm" id="prices">
+      <div class="section-head">
+        <div class="section-title-wrap">
+          <h2>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="12" x2="12" y1="1" y2="23"/>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+            Crop Market — Where Prices Are Going
+          </h2>
+          <p>Mandi price trends and AI advice on when to sell for best profit | फसल का सही भाव</p>
+        </div>
+        <span class="section-tag">Mandi Price Tracker</span>
+      </div>
+
+      <div class="card-ui">
+        <!-- Crop Selector Chips -->
+        <div class="crop-selector-chips" id="cropChips">
+          <button class="crop-chip-btn active" onclick="selCrop(this,'Wheat')">🌾 Wheat (गेहूं)</button>
+          <button class="crop-chip-btn" onclick="selCrop(this,'Rice')">🍚 Rice (धान)</button>
+          <button class="crop-chip-btn" onclick="selCrop(this,'Maize')">🌽 Maize (मक्का)</button>
+          <button class="crop-chip-btn" onclick="selCrop(this,'Tomato')">🍅 Tomato (टमाटर)</button>
+          <button class="crop-chip-btn" onclick="selCrop(this,'Onion')">🧅 Onion (प्याज)</button>
+          <button class="crop-chip-btn" onclick="selCrop(this,'Potato')">🥔 Potato (आलू)</button>
+        </div>
+
+        <!-- Market Line Chart -->
+        <div class="chart-container-wrap">
+          <canvas id="priceChart"></canvas>
+        </div>
+
+        <!-- Market KPI Row -->
+        <div class="market-kpi-row">
+          <div class="market-kpi-card">
+            <div class="m-val" id="pCur">₹2,180</div>
+            <div class="m-label">Today's Mandi Price (₹ / Quintal)</div>
+            <div class="m-delta up" id="pChg">▲ Prices Rising (+3.2%)</div>
+          </div>
+          <div class="market-kpi-card">
+            <div class="m-val" id="pPred">₹2,340</div>
+            <div class="m-label">Expected Price Next Month</div>
+            <div class="m-delta up">▲ Best Time to Sell</div>
+          </div>
+          <div class="market-kpi-card">
+            <div class="m-val" id="pMSP">₹2,015</div>
+            <div class="m-label">Govt. MSP Floor Price</div>
+            <div class="m-delta" style="color:var(--text-muted)">Minimum guaranteed rate</div>
+          </div>
+        </div>
+
+        <!-- Should I sell now? Advice Box -->
+        <div class="mkt-advice-box">
+          <span style="font-size:1.4rem">💡</span>
+          <div>
+            <strong>Should I sell now?</strong>
+            <div id="pAdvice" style="margin-top:2px;font-size:0.88rem;line-height:1.5">
+              Wheat prices are rising nicely. Waiting may give a better price in the 3rd week of April (+7%).
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         6. "WHAT SHOULD I DO TODAY?" (PRIORITY TIMELINE)
+         ========================================================================== -->
+    <section class="section-anchor" id="action-plan">
+      <div class="card-ui card-dark-green card-today-plan">
+        <div class="card-ui-header">
+          <div class="card-ui-title">
+            <div class="card-icon ci-green">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 11 12 14 22 4"/>
+                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+              </svg>
+            </div>
+            <div>
+              <span class="panel-eyebrow">What should I do today?</span>
+              <h3>Your 4 jobs for today</h3>
+              <p>Do the red ones first, then the rest | आज खेत में क्या करें?</p>
+            </div>
+          </div>
+          <span class="section-tag">Tap to tick off</span>
+        </div>
+
+        <div class="action-plan-list reveal-stagger">
+          <!-- Task 1 -->
+          <div class="action-plan-item">
+            <div class="action-check-box" onclick="toggleAction(this)"></div>
+            <span class="action-priority-badge ap-now">🔴 01 CHECK CROP</span>
+            <div class="action-content">
+              <div class="action-title">Check tomato leaves for brown or yellow spots</div>
+              <div class="action-desc">Look closely at the lower leaves near the soil. If spots have rings like a target, remove them immediately.</div>
+            </div>
+          </div>
+
+          <!-- Task 2 -->
+          <div class="action-plan-item">
+            <div class="action-check-box" onclick="toggleAction(this)"></div>
+            <span class="action-priority-badge ap-now">🔴 02 WEATHER</span>
+            <div class="action-content">
+              <div class="action-title">Avoid spraying medicine before Wednesday rain</div>
+              <div class="action-desc">Rain will wash the spray away. Save your money and wait for clear weather on Friday morning.</div>
+            </div>
+          </div>
+
+          <!-- Task 3 -->
+          <div class="action-plan-item">
+            <div class="action-check-box" onclick="toggleAction(this)"></div>
+            <span class="action-priority-badge ap-today">🟠 03 SOIL</span>
+            <div class="action-content">
+              <div class="action-title">Check soil moisture in lower fields</div>
+              <div class="action-desc">Soil is moist today (42%). No irrigation needed. Clean field drainage corners before rain arrives.</div>
+            </div>
+          </div>
+
+          <!-- Task 4 -->
+          <div class="action-plan-item">
+            <div class="action-check-box" onclick="toggleAction(this)"></div>
+            <span class="action-priority-badge ap-later">🟢 04 MARKET</span>
+            <div class="action-content">
+              <div class="action-title">Review wheat market prices before weekend selling</div>
+              <div class="action-desc">Wheat prices are rising (+3.2%). Holding for 2 more weeks can give you ₹160 more per quintal.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         7. "KRISHI COPILOT" (FARMING VOICE ASSISTANT)
+         ========================================================================== -->
+    <section class="section-anchor section-bg-deep" id="voice">
+      <div class="section-head">
+        <div class="section-title-wrap">
+          <h2>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+              <line x1="12" x2="12" y1="19" y2="22"/>
+            </svg>
+            Ask Krishi Copilot (Voice Assistant)
+          </h2>
+          <p>Ask questions in your own language — tap and speak | बोलकर पूछें</p>
+        </div>
+        <span class="section-tag">Multilingual Voice</span>
+      </div>
+
+      <div class="grid-12">
+        <!-- Voice Assistant Interface Panel -->
+        <div class="col-6">
+          <div class="copilot-panel card-tilt">
+            <div class="copilot-brand-title">Krishi Copilot</div>
+            <div class="copilot-brand-sub">कृषि सहायक • आपकी आवाज में मदद</div>
+
+            <!-- Regional Language Buttons -->
+            <div class="copilot-lang-selector">
+              <button class="copilot-lbtn active" onclick="setLang(this,'hi-IN')">हिंदी</button>
+              <button class="copilot-lbtn" onclick="setLang(this,'pa-IN')">ਪੰਜਾਬੀ</button>
+              <button class="copilot-lbtn" onclick="setLang(this,'ta-IN')">தமிழ்</button>
+              <button class="copilot-lbtn" onclick="setLang(this,'te-IN')">తెలుగు</button>
+              <button class="copilot-lbtn" onclick="setLang(this,'mr-IN')">मराठी</button>
+              <button class="copilot-lbtn" onclick="setLang(this,'en-IN')">English</button>
+            </div>
+
+            <!-- Animated Voice Waveform -->
+            <div class="copilot-waveform">
+              <div class="c-wave-bar"></div>
+              <div class="c-wave-bar"></div>
+              <div class="c-wave-bar"></div>
+              <div class="c-wave-bar"></div>
+              <div class="c-wave-bar"></div>
+              <div class="c-wave-bar"></div>
+              <div class="c-wave-bar"></div>
+            </div>
+
+            <!-- Big Microphone Button -->
+            <button class="copilot-mic-btn" id="vBtn" onclick="startVoice()" aria-label="Start Voice Recording">
+              🎙
+            </button>
+            <div class="copilot-status-line" id="vStat">Tap microphone to speak | बोलने के लिए माइक पर टैप करें</div>
+
+            <!-- Live Speech Transcription -->
+            <div class="copilot-transcription" id="vTrans">
+              Your question will appear here…<br>
+              <span style="font-size:0.8rem;opacity:0.7">आपकी आवाज यहाँ दिखेगी…</span>
+            </div>
+
+            <!-- Voice Synthesized Response Output -->
+            <div class="copilot-response" id="vResp"></div>
+          </div>
+        </div>
+
+        <!-- Sample Voice Queries Card -->
+        <div class="col-6">
+          <div class="card-ui">
+            <div class="card-ui-header">
+              <div class="card-ui-title">
+                <div class="card-icon ci-green">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3>Common Farmer Questions</h3>
+                  <p>Tap any question to hear the answer instantly</p>
+                </div>
+              </div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:10px;">
+              <button class="sample-query-btn" onclick="simV('मेरी गेहूं की फसल पर पीले धब्बे हैं, क्या करूं?')">
+                🌾 <strong>मेरी गेहूं की फसल पर पीले धब्बे हैं, क्या करूं?</strong>
+                <div style="font-size:0.76rem;color:var(--text-muted);margin-top:2px">Wheat yellow rust treatment advice</div>
+              </button>
+
+              <button class="sample-query-btn" onclick="simV('आज मौसम कैसा रहेगा और क्या स्प्रे कर सकते हैं?')">
+                ⛅ <strong>आज मौसम कैसा रहेगा और क्या स्प्रे कर सकते हैं?</strong>
+                <div style="font-size:0.76rem;color:var(--text-muted);margin-top:2px">Daily weather &amp; spray advice</div>
+              </button>
+
+              <button class="sample-query-btn" onclick="simV('टमाटर का आज मंडी भाव क्या है और कब बेचें?')">
+                💰 <strong>टमाटर का आज मंडी भाव क्या है और कब बेचें?</strong>
+                <div style="font-size:0.76rem;color:var(--text-muted);margin-top:2px">Tomato price and best time to sell</div>
+              </button>
+
+              <button class="sample-query-btn" onclick="simV('घर पर प्राकृतिक कीटनाशक कैसे बनाएं?')">
+                🌿 <strong>घर पर प्राकृतिक कीटनाशक कैसे बनाएं?</strong>
+                <div style="font-size:0.76rem;color:var(--text-muted);margin-top:2px">Homemade organic pest spray recipe</div>
+              </button>
+
+              <button class="sample-query-btn" onclick="simV('When should I sow wheat this season?')">
+                📅 <strong>When should I sow wheat this season?</strong>
+                <div style="font-size:0.76rem;color:var(--text-muted);margin-top:2px">Best sowing dates and seed selection</div>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         8. "UNDERSTAND YOUR FARM" (FARM INSIGHTS) & SOIL & CROP CALENDAR
+         ========================================================================== -->
+    <section class="section-anchor" id="analytics">
+      <div class="section-head">
+        <div class="section-title-wrap">
+          <h2>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 3v18h18"/>
+              <path d="m19 9-5 5-4-4-3 3"/>
+            </svg>
+            Understand Your Farm — Clear &amp; Simple
+          </h2>
+          <p>Simple answers to common questions about your crops, prices, and weather | खेत का हिसाब</p>
+        </div>
+        <span class="section-tag">Simple Charts</span>
+      </div>
+
+      <!-- 4 Visual Analytics Charts -->
+      <div class="grid-12" style="margin-bottom:22px">
+        <div class="col-6">
+          <div class="card-ui card-chart">
+            <div class="chart-card-title">
+              🌾 Are crops growing well? (Yield in Quintals / Acre)
+            </div>
+            <div style="position:relative;height:200px">
+              <canvas id="yieldChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="card-ui card-chart">
+            <div class="chart-card-title">
+              💰 Are prices going up? (Local Mandi vs. Direct Online)
+            </div>
+            <div style="position:relative;height:200px">
+              <canvas id="mktChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="card-ui card-chart">
+            <div class="chart-card-title">
+              🌡 When does it rain most? (12-Month Rain &amp; Heat)
+            </div>
+            <div style="position:relative;height:200px">
+              <canvas id="wxChart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="card-ui card-chart">
+            <div class="chart-card-title">
+              🦠 Is disease risk increasing? (Seasonal Pathogen Risk)
+            </div>
+            <div style="position:relative;height:200px">
+              <canvas id="diseaseChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Soil Quality & Visual Crop Calendar Grid -->
+      <div class="grid-12">
+        <!-- Soil Quality Card -->
+        <div class="col-6">
+          <div class="card-ui">
+            <div class="card-ui-header">
+              <div class="card-ui-title">
+                <div class="card-icon ci-green">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3>Your Soil Today</h3>
+                  <p>What your soil has enough of, and what it needs</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="soil-gauge-item">
+              <div class="soil-gauge-head">
+                <span>Soil Sweetness (pH Level)</span>
+                <span style="font-weight:800;color:var(--leaf-700)">6.8 (Healthy Neutral)</span>
+              </div>
+              <div class="soil-gauge-track">
+                <div class="soil-gauge-fill" style="width:72%;background:#2e7d32"></div>
+              </div>
+            </div>
+
+            <div class="soil-gauge-item">
+              <div class="soil-gauge-head">
+                <span>Nitrogen (Leaf Growth)</span>
+                <span style="font-weight:700">Medium</span>
+              </div>
+              <div class="soil-gauge-track">
+                <div class="soil-gauge-fill" style="width:58%;background:#0284c7"></div>
+              </div>
+            </div>
+
+            <div class="soil-gauge-item">
+              <div class="soil-gauge-head">
+                <span>Phosphorus (Root Strength)</span>
+                <span style="font-weight:800;color:var(--harvest-600)">A bit low — Consider adding compost</span>
+              </div>
+              <div class="soil-gauge-track">
+                <div class="soil-gauge-fill" style="width:28%;background:#d97706"></div>
+              </div>
+            </div>
+
+            <div class="soil-gauge-item">
+              <div class="soil-gauge-head">
+                <span>Potassium (Fruit &amp; Grain)</span>
+                <span style="font-weight:700">Good / High</span>
+              </div>
+              <div class="soil-gauge-track">
+                <div class="soil-gauge-fill" style="width:82%;background:#7c3aed"></div>
+              </div>
+            </div>
+
+            <div class="soil-gauge-item">
+              <div class="soil-gauge-head">
+                <span>Organic Matter</span>
+                <span style="font-weight:700">3.2% (Healthy)</span>
+              </div>
+              <div class="soil-gauge-track">
+                <div class="soil-gauge-fill" style="width:64%;background:#795548"></div>
+              </div>
+            </div>
+
+            <div class="soil-gauge-item" style="margin-bottom:0">
+              <div class="soil-gauge-head">
+                <span>Soil Moisture</span>
+                <span style="font-weight:800;color:var(--sky-600)">42% (Moisture is slightly low)</span>
+              </div>
+              <div class="soil-gauge-track">
+                <div class="soil-gauge-fill" style="width:42%;background:#0ea5e9"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Visual Crop Calendar Card -->
+        <div class="col-6">
+          <div class="card-ui">
+            <div class="card-ui-header">
+              <div class="card-ui-title">
+                <div class="card-icon ci-amber">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect width="18" height="18" x="3" y="4" rx="2" ry="2"/>
+                    <line x1="16" x2="16" y1="2" y2="6"/>
+                    <line x1="8" x2="8" y1="2" y2="6"/>
+                    <line x1="3" x2="21" y1="10" y2="10"/>
+                  </svg>
+                </div>
+                <div>
+                  <h3>Crop Calendar — Where are you now?</h3>
+                  <p>Simple 4-stage visual timeline for your wheat crop</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Visual 4-Stage Nodes -->
+            <div class="stage-calendar-row reveal-stagger">
+              <div class="stage-node">
+                <div class="stage-icon">🌱</div>
+                <div class="stage-title">1. Plant</div>
+                <div class="stage-desc">Oct–Nov</div>
+              </div>
+
+              <div class="stage-node current">
+                <span class="stage-pill-tag spt-here">YOU ARE HERE</span>
+                <div class="stage-icon">🌿</div>
+                <div class="stage-title">2. Grow</div>
+                <div class="stage-desc">Dec–Feb</div>
+              </div>
+
+              <div class="stage-node">
+                <span class="stage-pill-tag spt-next">NEXT STEP</span>
+                <div class="stage-icon">🌼</div>
+                <div class="stage-title">3. Flower</div>
+                <div class="stage-desc">Mar</div>
+              </div>
+
+              <div class="stage-node">
+                <div class="stage-icon">🌾</div>
+                <div class="stage-title">4. Harvest</div>
+                <div class="stage-desc">Apr–May</div>
+              </div>
+            </div>
+
+            <div class="crop-cal-item">
+              <div style="font-size:1.3rem">🌾</div>
+              <div style="flex:1">
+                <div style="font-weight:800;font-size:0.9rem;color:var(--forest-900)">Wheat (HD-2967)</div>
+                <div style="font-size:0.76rem;color:var(--text-muted)">Stage: Day 68 (Heading) • Harvest in April</div>
+              </div>
+              <span class="cal-status-badge csb-active">GROWING</span>
+            </div>
+
+            <div class="crop-cal-item">
+              <div style="font-size:1.3rem">🧅</div>
+              <div style="flex:1">
+                <div style="font-weight:800;font-size:0.9rem;color:var(--forest-900)">Onion &amp; Garlic</div>
+                <div style="font-size:0.76rem;color:var(--text-muted)">Bulbs are ready • Harvest now</div>
+              </div>
+              <span class="cal-status-badge csb-harvest">HARVEST NOW</span>
+            </div>
+
+            <div class="crop-cal-item" style="margin-bottom:0">
+              <div style="font-size:1.3rem">🍚</div>
+              <div style="flex:1">
+                <div style="font-weight:800;font-size:0.9rem;color:var(--forest-900)">Paddy / Rice</div>
+                <div style="font-size:0.76rem;color:var(--text-muted)">Prepare nursery bed in May</div>
+              </div>
+              <span class="cal-status-badge csb-prepare">PREPARE</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         9. "NATURAL & ORGANIC REMEDIES" (DESI ILAAJ)
+         ========================================================================== -->
+    <section class="section-anchor" id="remedies">
+      <div class="section-head">
+        <div class="section-title-wrap">
+          <h2>
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+            </svg>
+            Natural &amp; Home Solutions (Desi Ilaaj)
+          </h2>
+          <p>Zero-chemical organic remedies you can make at home | घर पर बनने वाले प्राकृतिक उपाय</p>
+        </div>
+        <span class="section-tag">Zero-Chemical</span>
+      </div>
+
+      <!-- Tab Navigation -->
+      <div class="remedy-nav-tabs">
+        <button class="remedy-tab-btn active" onclick="swTab(this,'t-pest')">🐛 Pest Control</button>
+        <button class="remedy-tab-btn" onclick="swTab(this,'t-fungal')">🍄 Fungal Disease</button>
+        <button class="remedy-tab-btn" onclick="swTab(this,'t-soil')">🌱 Soil Health</button>
+        <button class="remedy-tab-btn" onclick="swTab(this,'t-grow')">🌾 Growth Boosters</button>
+      </div>
+
+      <!-- Pane 1: Pest Control -->
+      <div class="remedy-tab-pane active" id="t-pest">
+        <div class="remedy-card-grid reveal-stagger">
+          <div class="organic-remedy-card">
+            <div>
+              <div class="orc-title">🧄 Garlic &amp; Chilli Spray</div>
+              <div class="orc-desc">
+                <strong>Problem:</strong> Sucking insects &amp; aphids.<br>
+                <strong>Recipe:</strong> Grind 100g garlic + 5 hot chillies in 1L water with 5ml soap.<br>
+                <strong>How to use:</strong> Spray every 5 days on leaf undersides.
+              </div>
+            </div>
+            <span class="orc-crop-tag">Suitable: Tomato, Chilli, Wheat</span>
+          </div>
+
+          <div class="organic-remedy-card">
+            <div>
+              <div class="orc-title">🌿 Neem Oil Solution</div>
+              <div class="orc-desc">
+                <strong>Problem:</strong> Caterpillars &amp; whiteflies.<br>
+                <strong>Recipe:</strong> Mix 5ml neem oil + 2ml liquid soap in 1L water.<br>
+                <strong>How to use:</strong> Spray in the evening after 4 PM.
+              </div>
+            </div>
+            <span class="orc-crop-tag">Universal for All Crops</span>
+          </div>
+
+          <div class="organic-remedy-card">
+            <div>
+              <div class="orc-title">🪵 Wood Ash Barrier</div>
+              <div class="orc-desc">
+                <strong>Problem:</strong> Snails, caterpillars, cutworms.<br>
+                <strong>Recipe:</strong> Clean dry wood ash from chulha.<br>
+                <strong>How to use:</strong> Sprinkle a 2-inch ring around plant stems.
+              </div>
+            </div>
+            <span class="orc-crop-tag">Vegetable Beds &amp; Nurseries</span>
+          </div>
+
+          <div class="organic-remedy-card">
+            <div>
+              <div class="orc-title">🍊 Citrus Peel Spray</div>
+              <div class="orc-desc">
+                <strong>Problem:</strong> Ants &amp; soft aphids.<br>
+                <strong>Recipe:</strong> Soak orange/lemon peels in warm water overnight.<br>
+                <strong>How to use:</strong> Strain and spray directly on affected leaves.
+              </div>
+            </div>
+            <span class="orc-crop-tag">All Vegetable Crops</span>
+          </div>
+
+          <div class="organic-remedy-card">
+            <div>
+              <div class="orc-title">🪴 Tobacco Leaf Water</div>
+              <div class="orc-desc">
+                <strong>Problem:</strong> Sucking insects.<br>
+                <strong>Recipe:</strong> Boil 50g tobacco leaves in 2L water for 20 mins.<br>
+                <strong>How to use:</strong> Dilute 1:10 with water before spraying.
+              </div>
+            </div>
+            <span class="orc-crop-tag">Cotton &amp; Vegetables</span>
+          </div>
+
+          <div class="organic-remedy-card">
+            <div>
+              <div class="orc-title">🫚 Mustard Oil Emulsion</div>
+              <div class="orc-desc">
+                <strong>Problem:</strong> Scale bugs and mites.<br>
+                <strong>Recipe:</strong> 2 spoons soap + 1 cup mustard oil in 1L water.<br>
+                <strong>How to use:</strong> Shake well and spray on stems.
+              </div>
+            </div>
+            <span class="orc-crop-tag">Fruit Trees &amp; Pulses</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pane 2: Fungal Disease -->
+      <div class="remedy-tab-pane" id="t-fungal">
+        <div class="remedy-card-grid reveal-stagger">
+          <div class="organic-remedy-card">
+            <div>
+              <div class="orc-title">🥛 Raw Milk Spray</div>
+              <div class="orc-desc">
+                <strong>Problem:</strong> Powdery white mold on leaves.<br>
+                <strong>Recipe:</strong> 1 cup raw milk in 9 cups water.<br>
+                <strong>How to use:</strong> Spray in bright morning sunlight once a week.
+              </div>
+            </div>
+            <span class="orc-crop-tag">Squash, Cucumber, Tomato</span>
+          </div>
+
+          <div class="organic-remedy-card">
+            <div>
+              <div class="orc-title">🧂 Baking Soda Spray</div>
+              <div class="orc-desc">
+                <strong>Problem:</strong> Leaf spots &amp; black rot.<br>
+                <strong>Recipe:</strong> 1 spoon baking soda + 3 drops soap in 1L water.<br>
+                <strong>How to use:</strong> Changes leaf pH so fungus cannot grow.
+              </div>
+            </div>
+            <span class="orc-crop-tag">Tomato &amp; Rose</span>
+          </div>
+
+          <div class="organic-remedy-card">
+            <div>
+              <div class="orc-title">🍵 Turmeric-Lime Paste</div>
+              <div class="orc-desc">
+                <strong>Problem:</strong> Stem rot and wound infection.<br>
+                <strong>Recipe:</strong> Turmeric powder + slaked lime (choona) + water paste.<br>
+                <strong>How to use:</strong> Paint onto cut branches and wounds.
+              </div>
+            </div>
+            <span class="orc-crop-tag">Apple &amp; Fruit Orchards</span>
+          </div>
+
+          <div class="organic-remedy-card">
+            <div>
+              <div class="orc-title">🍶 Fermented Buttermilk (Chhachh)</div>
+              <div class="orc-desc">
+                <strong>Problem:</strong> Rust and leaf blight.<br>
+                <strong>Recipe:</strong> Keep sour buttermilk in a copper vessel for 4 days.<br>
+                <strong>How to use:</strong> Dilute 1:5 in water and spray on crop.
+              </div>
+            </div>
+            <span class="orc-crop-tag">Wheat, Mustard, Paddy</span>
+          </div>
+
+          <div class="organic-remedy-card">
+            <div>
+              <div class="orc-title">🌾 Fermented Cow Urine (Gomutra)</div>
+              <div class="orc-desc">
+                <strong>Problem:</strong> Fungal spore spread.<br>
+                <strong>Recipe:</strong> Mix 1 part cow urine in 10 parts clean water.<br>
+                <strong>How to use:</strong> Traditional antifungal barrier spray.
+              </div>
+            </div>
+            <span class="orc-crop-tag">Traditional Natural Farming</span>
+          </div>
+
+          <div class="organic-remedy-card">
+            <div>
+              <div class="orc-title">🌿 Aloe Vera Gel Coat</div>
+              <div class="orc-desc">
+                <strong>Problem:</strong> Seedling damping-off.<br>
+                <strong>Recipe:</strong> Blend fresh aloe pulp in water.<br>
+                <strong>How to use:</strong> Dip young roots before transplanting.
+              </div>
+            </div>
+            <span class="orc-crop-tag">Nursery Seedlings</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pane 3: Soil Health -->
+      <div class="remedy-tab-pane" id="t-soil">
+        <div class="remedy-card-grid reveal-stagger">
+          <div class="organic-remedy-card">
+            <div>
+              <div class="orc-title">🐛 Vermicompost Liquid Tea</div>
+              <div class="orc-desc">
+                <strong>Problem:</strong> Low soil life and poor roots.<br>
+                <strong>Recipe:</strong> Soak 2kg vermicompost in 10L water for 24 hours.<br>
+                <strong>How to use:</strong> Strain and pour around plant roots.
+              </div>
+            </div>
+            <span class="orc-crop-tag">All Crops</span>
+          </div>
+
+          <div class="organic-remedy-card">
+            <div>
+              <div class="orc-title">🌊 Jeevamrit Bio-Fertilizer</div>
+              <div class="orc-desc">
+                <strong>Problem:</strong> Chemical-damaged soil.<br>
+                <strong>Recipe:</strong> 10kg dung + 10L urine + 2kg jaggery + 2kg besan in 200L water.<br>
+                <strong>How to use:</strong> Ferment 7 days. Water 200L per acre.
+              </div>
+            </div>
+            <span class="orc-crop-tag">Natural Zero-Budget Farming</span>
+          </div>
+
+          <div class="organic-remedy-card">
+            <div>
+              <div class="orc-title">🍂 Dry Leaf Mulch</div>
+              <div class="orc-desc">
+                <strong>Problem:</strong> Soil drying too fast.<br>
+                <strong>Recipe:</strong> 3-inch layer of fallen dry leaves.<br>
+                <strong>How to use:</strong> Spread over soil to keep roots cool and wet.
+              </div>
+            </div>
+            <span class="orc-crop-tag">Year-Round Soil Care</span>
+          </div>
+
+          <div class="organic-remedy-card">
+            <div>
+              <div class="orc-title">🌳 Dhaincha Green Manure</div>
+              <div class="orc-desc">
+                <strong>Problem:</strong> Low nitrogen in soil.<br>
+                <strong>Recipe:</strong> Sow Dhaincha seeds; plough into soil after 45 days.<br>
+                <strong>How to use:</strong> Adds natural organic nitrogen.
+              </div>
+            </div>
+            <span class="orc-crop-tag">Wheat &amp; Paddy Fields</span>
+          </div>
+
+          <div class="organic-remedy-card">
+            <div>
+              <div class="orc-title">🫙 Steamed Bone Meal</div>
+              <div class="orc-desc">
+                <strong>Problem:</strong> Low phosphorus in soil.<br>
+                <strong>Recipe:</strong> Natural bone powder mixed with compost.<br>
+                <strong>How to use:</strong> Mix 50 kg per acre before sowing.
+              </div>
+            </div>
+            <span class="orc-crop-tag">Root Vegetables &amp; Pulses</span>
+          </div>
+
+          <div class="organic-remedy-card">
+            <div>
+              <div class="orc-title">🪨 Rock Phosphate</div>
+              <div class="orc-desc">
+                <strong>Problem:</strong> Acidic hill soil.<br>
+                <strong>Recipe:</strong> Natural mineral rock powder.<br>
+                <strong>How to use:</strong> Gives slow-release phosphorus for 3 years.
+              </div>
+            </div>
+            <span class="orc-crop-tag">Hill Agriculture</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pane 4: Growth Boosters -->
+      <div class="remedy-tab-pane" id="t-grow">
+        <div class="remedy-card-grid reveal-stagger">
+          <div class="organic-remedy-card">
+            <div>
+              <div class="orc-title">🌊 Seaweed Extract</div>
+              <div class="orc-desc">
+                <strong>Problem:</strong> Slow plant growth.<br>
+                <strong>Recipe:</strong> 2ml natural seaweed liquid in 1L water.<br>
+                <strong>How to use:</strong> Spray on leaves to boost growth by 15–20%.
+              </div>
+            </div>
+            <span class="orc-crop-tag">All Commercial Crops</span>
+          </div>
+
+          <div class="organic-remedy-card">
+            <div>
+              <div class="orc-title">🍌 Banana Peel Tonic</div>
+              <div class="orc-desc">
+                <strong>Problem:</strong> Poor flowering or weak fruit.<br>
+                <strong>Recipe:</strong> Soak 5 banana peels in water for 10 days.<br>
+                <strong>How to use:</strong> Ultra-rich in natural potassium.
+              </div>
+            </div>
+            <span class="orc-crop-tag">Tomato, Chilli, Fruit Plants</span>
+          </div>
+
+          <div class="organic-remedy-card">
+            <div>
+              <div class="orc-title">🌸 Epsom Salt Spray</div>
+              <div class="orc-desc">
+                <strong>Problem:</strong> Yellowing between leaf veins.<br>
+                <strong>Recipe:</strong> 1 spoon Epsom salt in 4L water.<br>
+                <strong>How to use:</strong> Restores deep green chlorophyll color.
+              </div>
+            </div>
+            <span class="orc-crop-tag">Yellowing Crop Leaves</span>
+          </div>
+
+          <div class="organic-remedy-card">
+            <div>
+              <div class="orc-title">☕ Used Coffee Grounds</div>
+              <div class="orc-desc">
+                <strong>Problem:</strong> Heavy or tight soil.<br>
+                <strong>Recipe:</strong> Mix used coffee powder into topsoil.<br>
+                <strong>How to use:</strong> Adds nitrogen and attracts earthworms.
+              </div>
+            </div>
+            <span class="orc-crop-tag">Vegetable Beds</span>
+          </div>
+
+          <div class="organic-remedy-card">
+            <div>
+              <div class="orc-title">🥚 Crushed Eggshell Powder</div>
+              <div class="orc-desc">
+                <strong>Problem:</strong> Black bottom rot on tomatoes.<br>
+                <strong>Recipe:</strong> Grind dry eggshells into fine powder.<br>
+                <strong>How to use:</strong> Adds natural calcium to plant roots.
+              </div>
+            </div>
+            <span class="orc-crop-tag">Tomato &amp; Bell Pepper</span>
+          </div>
+
+          <div class="organic-remedy-card">
+            <div>
+              <div class="orc-title">🍵 Aerated Compost Tea</div>
+              <div class="orc-desc">
+                <strong>Problem:</strong> Weak overall crop vigor.<br>
+                <strong>Recipe:</strong> Bubble compost in water for 24 hours.<br>
+                <strong>How to use:</strong> Water directly to roots for fast growth.
+              </div>
+            </div>
+            <span class="orc-crop-tag">Universal Crop Booster</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================================================
+         10. FINAL CTA SECTION (BEAUTIFUL INDIAN FARM PHOTOGRAPHY)
+         ========================================================================== -->
+    <section class="final-cta-section" id="final-cta">
+      <div class="final-cta-photo-bg"></div>
+      <div class="final-cta-overlay"></div>
+      <div class="final-cta-content">
+        <h2 class="final-cta-title">Start Farming Smarter Today</h2>
+        <p class="final-cta-sub">
+          Join thousands of smart farmers using AI to detect diseases early, time market sales, and save money on chemicals.
+        </p>
+        <div style="display:flex;gap:14px;flex-wrap:wrap">
+          <button class="btn-primary" onclick="scrollTo('disease')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/>
+              <circle cx="12" cy="13" r="3"/>
+            </svg>
+            <span>Scan Your Crop Now</span>
+          </button>
+          <button class="btn-secondary" onclick="scrollTo('voice')">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z"/>
+              <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+              <line x1="12" x2="12" y1="19" y2="22"/>
+            </svg>
+            <span>Talk to Krishi Copilot</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==========================================================================
+       FOOTER
+       ========================================================================== -->
+  <footer class="footer-section">
+    <div class="footer-wrap">
+      <div class="footer-top">
+        <div>
+          <div class="footer-logo">🌱 AI <span>Agri</span> Platform</div>
+          <p style="margin-top:8px;max-width:440px;line-height:1.6;font-size:0.86rem;">
+            Simple, trustworthy farming intelligence for Indian farmers. Checking crop health, forecasting weather risks, and tracking mandi prices.
+          </p>
+          <p style="margin-top:6px;font-size:0.8rem;color:rgba(255,255,255,0.72);font-family:var(--font-indic)">
+            किसानों के लिए समर्पित • स्मार्ट इंडिया हैकाथॉन 2024
+          </p>
+        </div>
+
+        <div>
+          <div style="font-weight:800;color:#fff;font-size:0.92rem;margin-bottom:10px;">Available in 6 Indian Languages</div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;max-width:380px;">
+            <span class="wx-chip" style="background:rgba(255,255,255,0.1)">हिंदी (Hindi)</span>
+            <span class="wx-chip" style="background:rgba(255,255,255,0.1)">ਪੰਜਾਬੀ (Punjabi)</span>
+            <span class="wx-chip" style="background:rgba(255,255,255,0.1)">தமிழ் (Tamil)</span>
+            <span class="wx-chip" style="background:rgba(255,255,255,0.1)">తెలుగు (Telugu)</span>
+            <span class="wx-chip" style="background:rgba(255,255,255,0.1)">मराठी (Marathi)</span>
+            <span class="wx-chip" style="background:rgba(255,255,255,0.1)">English</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bot">
+        <div>
+          © 2024–2026 AI Agri™ Systems. All rights reserved. • Smart India Hackathon.
+        </div>
+        <div>
+          Note: AI advice is for decision support. Check with your local Krishi Vigyan Kendra (KVK) for critical field treatments.
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Link External JavaScript Logic -->
+  <script src="script.js"></script>
+</body>
+</html>
+
+<!-- Agri-Saarthi 2026 Sync -->

@@ -1,0 +1,1144 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport">
+<title>Krishi-Saarthi OS — Kisan Mobile Assistant</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;family=Noto+Sans:wght@400;500;600;700&amp;family=JetBrains+Mono:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#0D2418",
+          "primary-forest": "#153324",
+          "primary-deep": "#081810",
+          "surface": "#FAF8F5",
+          "surface-canvas": "#F4EFEA",
+          "surface-card": "#FFFFFF",
+          "parchment": "#F3EFEA",
+          "bronze": "#A3824C",
+          "bronze-light": "#C2A268",
+          "bronze-muted": "#EADBCE",
+          "on-surface": "#121A15",
+          "on-surface-variant": "#58645B",
+          "outline": "#D8D4CC",
+          "outline-hairline": "#E7E3DC",
+          "earth-alert": "#9B4522"
+        },
+        fontFamily: {
+          "editorial": ["Cormorant Garamond", "Georgia", "serif"],
+          "sans": ["Plus Jakarta Sans", "Noto Sans", "sans-serif"],
+          "mono": ["JetBrains Mono", "monospace"]
+        }
+      }
+    }
+  };
+</script>
+<style>
+  @layer base {
+    html, body {
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      background-color: #FAF8F5;
+      color: #121A15;
+      font-family: 'Plus Jakarta Sans', 'Noto Sans', sans-serif;
+    }
+    body {
+      -webkit-font-smoothing: antialiased;
+      overscroll-behavior-y: none;
+    }
+    .pb-safe { padding-bottom: env(safe-area-inset-bottom, 16px); }
+    .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
+  }
+  ::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+  
+  .font-editorial {
+    font-family: 'Cormorant Garamond', Georgia, serif;
+  }
+  
+  .telemetry-hairline {
+    border-color: rgba(216, 212, 204, 0.55);
+  }
+
+  @keyframes pulse-subtle {
+    0%, 100% { opacity: 0.9; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.97); }
+  }
+  .pulse-subtle {
+    animation: pulse-subtle 3.2s infinite ease-in-out;
+  }
+</style>
+</head>
+<body class="bg-[#FAF8F5] text-on-surface flex flex-col min-h-screen selection:bg-primary-forest selection:text-[#FAF8F5]">
+<!-- Top Fixed Minimal Editorial Header -->
+<header class="fixed top-0 inset-x-0 z-30 pt-safe bg-[#FAF8F5]/90 backdrop-blur-md border-b border-outline/50">
+<div class="h-14 px-4 max-w-md mx-auto flex items-center justify-between w-full">
+<!-- Brand Title & Telemetry Coordinates -->
+<div class="flex items-center gap-2.5">
+
+<div>
+<div class="flex items-center gap-1.5 leading-none">
+<h1 class="font-editorial text-[17px] font-semibold tracking-tight text-primary-deep">
+            Krishi—Saarthi
+          </h1>
+<span class="w-1 h-1 rounded-full bg-bronze"></span>
+
+</div>
+
+</div>
+</div>
+<!-- Header Actions -->
+<div class="flex items-center gap-1.5 relative">
+<!-- Language Pill -->
+<button aria-label="Change Language" class="h-7 px-2.5 rounded-full border border-outline/70 bg-white/70 text-on-surface text-[10px] font-mono font-medium tracking-wider uppercase flex items-center gap-1 hover:border-bronze transition-all cursor-pointer" id="lang-btn" type="button">
+<span class="text-primary-forest font-semibold" id="lang-label">Hinglish</span>
+<span class="material-symbols-outlined text-[12px] text-on-surface-variant">keyboard_arrow_down</span>
+</button>
+<!-- 13 Features Menu Button -->
+<button aria-label="Open Features Menu" class="w-7 h-7 rounded-full border border-outline/70 bg-white/70 flex items-center justify-center text-primary-deep hover:border-bronze active:scale-95 transition-transform cursor-pointer" id="menu-btn" type="button">
+<span class="material-symbols-outlined text-[15px]">menu</span>
+</button>
+<!-- Google Profile Avatar -->
+<button aria-label="Profile" class="w-7 h-7 rounded-full border border-bronze/40 p-0.5 bg-gradient-to-tr from-primary-forest to-bronze active:scale-95 transition-transform cursor-pointer flex-shrink-0" id="profile-btn" type="button">
+<div class="w-full h-full rounded-full bg-[#FAF8F5] flex items-center justify-center overflow-hidden">
+
+</div>
+</button>
+<!-- Language Selector Dropdown -->
+<div class="absolute top-10 right-10 z-50 w-64 rounded-xl bg-white/95 backdrop-blur-md border border-outline/80 shadow-lg p-2.5 hidden" id="lang-dropdown">
+<div class="flex items-center justify-between px-2 py-1 pb-1.5 border-b border-outline/40">
+<span class="font-mono text-[9px] uppercase tracking-wider text-on-surface-variant" data-i18n="select_lang">भाषा चुनें / SELECT LANGUAGE</span>
+<button class="text-on-surface-variant hover:text-on-surface p-0.5" id="lang-close" type="button">
+<span class="material-symbols-outlined text-[13px]">close</span>
+</button>
+</div>
+<div class="pt-1.5 space-y-1">
+<button class="w-full text-left p-2 rounded-lg border border-bronze/30 bg-parchment/60 flex items-center justify-between lang-opt" data-lang="Hinglish" type="button">
+<div>
+<span class="text-xs font-semibold text-primary-deep block">Hinglish</span>
+<span class="font-mono text-[9px] text-on-surface-variant">Hindi + English Vernacular</span>
+</div>
+<span class="material-symbols-outlined text-[14px] text-bronze" id="chk-Hinglish">check</span>
+</button>
+<button class="w-full text-left p-2 rounded-lg border border-transparent hover:bg-parchment/60 flex items-center justify-between lang-opt" data-lang="हिन्दी" type="button">
+<div>
+<span class="text-xs font-semibold text-primary-deep block">हिन्दी (Hindi)</span>
+<span class="font-mono text-[9px] text-on-surface-variant">शुद्ध देवनागरी लिपि</span>
+</div>
+<span class="material-symbols-outlined text-[14px] text-bronze hidden" id="chk-हिन्दी">check</span>
+</button>
+<button class="w-full text-left p-2 rounded-lg border border-transparent hover:bg-parchment/60 flex items-center justify-between lang-opt" data-lang="English" type="button">
+<div>
+<span class="text-xs font-semibold text-primary-deep block">English</span>
+<span class="font-mono text-[9px] text-on-surface-variant">Technical Agronomy Tone</span>
+</div>
+<span class="material-symbols-outlined text-[14px] text-bronze hidden" id="chk-English">check</span>
+</button>
+</div>
+</div>
+<!-- Profile Dropdown -->
+<div class="absolute top-10 right-0 z-50 w-64 rounded-xl bg-white/95 backdrop-blur-md border border-outline/80 shadow-lg p-3" id="profile-dropdown">
+<div class="flex items-center gap-2.5 pb-2.5 border-b border-outline/40">
+<div class="w-8 h-8 rounded-full bg-primary-forest text-[#FAF8F5] font-mono text-[10px] font-bold flex items-center justify-center flex-shrink-0">RS</div>
+<div class="min-w-0 flex-1">
+<h4 class="text-xs font-bold text-primary-deep truncate">Rameshwar Singh</h4>
+<p class="font-mono text-[9px] text-on-surface-variant truncate">Sector Murthal, Sonipat</p>
+<span class="inline-block mt-0.5 px-1.5 py-0.2 rounded font-mono text-[8px] tracking-wider uppercase text-bronze font-medium bg-bronze-muted/40">Kisan ID #7842</span>
+</div>
+</div>
+<div class="pt-2 space-y-1 text-xs">
+<div class="p-2 rounded-lg bg-parchment/50 font-mono text-[10px] text-on-surface-variant space-y-1">
+<div class="flex justify-between">
+<span class="">HOLDING:</span>
+<span class="font-semibold text-primary-deep">4.2 ACRES GEHU</span>
+</div>
+<div class="flex justify-between">
+<span class="">CROWN CANOPY:</span>
+<span class="font-semibold text-primary-deep">HEALTHY (0.78 NDVI)</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- Main Mobile Editorial View -->
+<main class="w-full max-w-md mx-auto pt-16 pb-28 px-3.5 space-y-4">
+<!-- 1. Atmospheric Hero Vignette (White Desert & The Nest Inspired) -->
+<section class="relative rounded-2xl overflow-hidden border border-outline/70 bg-primary-deep shadow-xs">
+<div class="relative h-64 w-full">
+<img alt="Farmer Rameshwar in wheat field" class="w-full h-full object-cover object-top opacity-90 filter contrast-[1.05]" src="https://lh3.googleusercontent.com/aida/AEtjO1WYcoQNGHoFRLDscuKY3iCLESkUWdPip4Nxaw3WAVcE31lVwXSmkxYvOubgX8z6TzGRZ4WA_gYAbOGpX64cTjsebSwb_ZBkqZMGsVZfdFMkUbQXZqfWCJY3gbvdbjy1UB2Y6-OqrQhUd-IQB1qmaS4TMLfhv1eZLUKNJCCkIiEfSD61NhUIZLgYvb6mrEhAh_NIJ3SGPcDpCuNpqWuoGIk4xNRKDRR4wRVkfua2-axcpQBQxCQYchHYGJ0">
+<div class="absolute inset-0 bg-gradient-to-t from-[#081810] via-[#0D2418]/60 to-transparent"></div>
+<!-- Top Telemetry Badges -->
+<div class="absolute top-3 inset-x-3 flex items-center justify-between">
+<span class="px-2.5 py-1 rounded-full bg-black/40 backdrop-blur-md text-[9px] font-mono tracking-widest text-[#EADBCE] border border-white/10 uppercase flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-bronze-light animate-pulse"></span>
+
+</span>
+
+</div>
+<!-- Hero Editorial Greeting & Micro-Metrics -->
+<div class="absolute bottom-3 inset-x-3 space-y-2">
+<div>
+
+<h2 class="font-editorial text-2xl sm:text-[26px] font-normal tracking-wide text-[#FAF8F5] leading-tight drop-shadow-xs" data-i18n="greeting_title">
+            Ram-Ram Rameshwar Ji — Khet surakshit hai
+          </h2>
+<p class="text-[11px] text-[#FAF8F5]/80 font-light leading-relaxed mt-0.5" data-i18n="greeting_subtitle">
+            Khet mein nami 42% hai. Agle 4 ghante mein barish ki sambhavna hai.
+          </p>
+</div>
+<!-- Refined Tri-Metric Glass Bar -->
+<div class="grid grid-cols-3 gap-1.5 pt-1 border-t border-white/15">
+<div class="bg-black/30 backdrop-blur-sm rounded-lg p-1.5 text-center border border-white/10">
+
+
+</div>
+<div class="bg-black/30 backdrop-blur-sm rounded-lg p-1.5 text-center border border-white/10">
+
+
+</div>
+<div class="bg-black/30 backdrop-blur-sm rounded-lg p-1.5 text-center border border-white/10">
+
+
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- 2. Section 01 / VECTOR INTELLIGENCE (White Desert Styled Risk Alert) -->
+<section class="space-y-1.5">
+<div class="flex items-baseline justify-between px-1">
+<div class="flex items-center gap-1.5">
+<span class="font-mono text-[9px] text-bronze font-semibold tracking-widest">01 /</span>
+<h3 class="font-mono text-[9px] uppercase tracking-[0.2em] font-bold text-primary-deep" data-i18n="sec1_title">
+          Vector Intelligence &amp; Telemetry
+        </h3>
+</div>
+<span class="font-mono text-[8px] text-on-surface-variant tracking-wider uppercase">Spatiotemporal Drift</span>
+</div>
+<div class="rounded-xl bg-white border border-outline/70 p-3.5 shadow-2xs relative overflow-hidden">
+<div class="absolute top-0 left-0 bottom-0 w-1 bg-earth-alert"></div>
+<div class="pl-1 space-y-1.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-earth-alert"></span>
+<span class="font-mono text-[8.5px] uppercase tracking-wider font-semibold text-earth-alert" data-i18n="alert_tag">
+              PATHOGEN VECTOR ALERT · 12KM RADIUS
+            </span>
+</div>
+
+</div>
+<h4 class="font-editorial text-base font-semibold text-primary-deep leading-snug" data-i18n="alert_title">
+          Hawa mein Peela Ratua (Yellow Rust) ka risk mila hai
+        </h4>
+<p class="text-[11px] text-on-surface-variant font-light leading-relaxed" data-i18n="alert_desc">
+          Pass ke 12km khet mein fafund ka asar hai. Dophar barish se pehle neem-tail ya bio-spray protocol check karein.
+        </p>
+<!-- Calibrated Action Line -->
+<div class="pt-1 flex items-center justify-between border-t border-outline/40">
+<span class="font-mono text-[8.5px] uppercase text-bronze tracking-wider">Recommended: 5% Neem Bio-Emulsion</span>
+<button class="font-mono text-[9px] uppercase tracking-wider font-semibold text-primary-forest hover:text-bronze flex items-center gap-1 quick-action" data-action="doctor" type="button">
+<span class="">Protocol View</span>
+<span class="text-xs">→</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+<!-- 3. Section 02 / THE ESSENTIAL PROTOCOLS (Editorial 2x2 Grid) -->
+<section class="space-y-2">
+<div class="flex items-baseline justify-between px-1">
+<div class="flex items-center gap-1.5">
+<span class="font-mono text-[9px] text-bronze font-semibold tracking-widest">02 /</span>
+<h3 class="font-mono text-[9px] uppercase tracking-[0.2em] font-bold text-primary-deep" data-i18n="tools_header">
+          The Essential Protocols
+        </h3>
+</div>
+
+</div>
+<div class="grid grid-cols-2 gap-2.5">
+<!-- Tool 1: Leaf Doctor -->
+<button class="text-left p-3 rounded-xl bg-white border border-outline/70 shadow-2xs hover:border-bronze transition-all flex flex-col justify-between h-40 cursor-pointer quick-action group" data-action="doctor" type="button">
+<div>
+<div class="flex items-center justify-between mb-1.5">
+<span class="font-mono text-[9px] font-semibold text-bronze">01</span>
+
+</div>
+<h4 class="font-editorial text-base font-semibold text-primary-deep leading-tight group-hover:text-bronze transition-colors" data-i18n="tool1_title">
+            AI Fasal Doctor
+          </h4>
+<p class="font-mono text-[8px] uppercase tracking-wider text-on-surface-variant/80 mt-0.5">MobileNetV4 Inference</p>
+<p class="text-[10.5px] text-on-surface-variant font-light leading-snug mt-1.5 line-clamp-2" data-i18n="tool1_desc">
+            Patti ka photo lein aur bimaari ka upchar payein.
+          </p>
+</div>
+<div class="flex items-center justify-between text-[9px] font-mono tracking-wider uppercase font-semibold text-primary-forest pt-1.5 border-t border-outline/40">
+<span data-i18n="scan_now" class="">Photo Scan</span>
+<span class="group-hover:translate-x-0.5 transition-transform">→</span>
+</div>
+</button>
+<!-- Tool 2: Voice Saarthi -->
+<button class="text-left p-3 rounded-xl bg-white border border-outline/70 shadow-2xs hover:border-bronze transition-all flex flex-col justify-between h-40 cursor-pointer quick-action group" data-action="voice" type="button">
+<div>
+<div class="flex items-center justify-between mb-1.5">
+<span class="font-mono text-[9px] font-semibold text-bronze">02</span>
+
+</div>
+<h4 class="font-editorial text-base font-semibold text-primary-deep leading-tight group-hover:text-bronze transition-colors" data-i18n="tool2_title">
+            Voice Saarthi
+          </h4>
+<p class="font-mono text-[8px] uppercase tracking-wider text-on-surface-variant/80 mt-0.5">Dialect Agronomy</p>
+<p class="text-[10.5px] text-on-surface-variant font-light leading-snug mt-1.5 line-clamp-2" data-i18n="tool2_desc">
+            Apni boli mein bolkar kheti ki koi bhi salah lein.
+          </p>
+</div>
+<div class="flex items-center justify-between text-[9px] font-mono tracking-wider uppercase font-semibold text-primary-forest pt-1.5 border-t border-outline/40">
+<span data-i18n="talk_now" class="">Bolkar Poochhein</span>
+<span class="group-hover:translate-x-0.5 transition-transform">→</span>
+</div>
+</button>
+<!-- Tool 3: Mandi Bhav Radar -->
+<button class="text-left p-3 rounded-xl bg-white border border-outline/70 shadow-2xs hover:border-bronze transition-all flex flex-col justify-between h-40 cursor-pointer quick-action group" data-action="mandi" type="button">
+<div>
+<div class="flex items-center justify-between mb-1.5">
+<span class="font-mono text-[9px] font-semibold text-bronze">03</span>
+
+</div>
+<h4 class="font-editorial text-base font-semibold text-primary-deep leading-tight group-hover:text-bronze transition-colors" data-i18n="tool3_title">
+            Mandi Bhav Radar
+          </h4>
+<p class="font-mono text-[8px] uppercase tracking-wider text-on-surface-variant/80 mt-0.5">MSP &amp; Spot Indices</p>
+<p class="text-[10.5px] text-on-surface-variant font-light leading-snug mt-1.5 line-clamp-2" data-i18n="tool3_desc">
+            Gehu ₹2,325/qtl · Sonipat mandi bina internet.
+          </p>
+</div>
+<div class="flex items-center justify-between text-[9px] font-mono tracking-wider uppercase font-semibold text-primary-forest pt-1.5 border-t border-outline/40">
+<span data-i18n="view_rate" class="">Bhav Dekhein</span>
+<span class="group-hover:translate-x-0.5 transition-transform">→</span>
+</div>
+</button>
+<!-- Tool 4: Khaad Parakh -->
+<button class="text-left p-3 rounded-xl bg-white border border-outline/70 shadow-2xs hover:border-bronze transition-all flex flex-col justify-between h-40 cursor-pointer quick-action group" data-action="fertilizer" type="button">
+<div>
+<div class="flex items-center justify-between mb-1.5">
+<span class="font-mono text-[9px] font-semibold text-bronze">04</span>
+
+</div>
+<h4 class="font-editorial text-base font-semibold text-primary-deep leading-tight group-hover:text-bronze transition-colors" data-i18n="tool4_title">
+            Khaad Parakh
+          </h4>
+<p class="font-mono text-[8px] uppercase tracking-wider text-on-surface-variant/80 mt-0.5">Batch Hologram Scan</p>
+<p class="text-[10.5px] text-on-surface-variant font-light leading-snug mt-1.5 line-clamp-2" data-i18n="tool4_desc">
+            Asli ya nakli? Khad bori barcode check karein.
+          </p>
+</div>
+<div class="flex items-center justify-between text-[9px] font-mono tracking-wider uppercase font-semibold text-primary-forest pt-1.5 border-t border-outline/40">
+<span data-i18n="verify_bag" class="">Bori Jaanch</span>
+<span class="group-hover:translate-x-0.5 transition-transform">→</span>
+</div>
+</button>
+</div>
+</section>
+<!-- 4. Section 03 / LIVE SPEECH AMBIENCE (Gemini Deep Monolith Card) -->
+<section class="space-y-1.5">
+<div class="flex items-baseline justify-between px-1">
+<div class="flex items-center gap-1.5">
+<span class="font-mono text-[9px] text-bronze font-semibold tracking-widest">03 /</span>
+<h3 class="font-mono text-[9px] uppercase tracking-[0.2em] font-bold text-primary-deep" data-i18n="voice_banner_tag">
+          Natural Dialect Synthesis
+        </h3>
+</div>
+
+</div>
+<div class="p-4 rounded-2xl bg-gradient-to-b from-[#0D2418] to-[#153324] text-[#FAF8F5] border border-bronze/30 shadow-sm space-y-3 relative overflow-hidden">
+<div class="flex items-center justify-between border-b border-white/10 pb-2">
+<div class="flex items-center gap-2">
+<span class="w-1.5 h-1.5 rounded-full bg-bronze-light animate-ping"></span>
+<span class="font-mono text-[8px] uppercase tracking-[0.2em] text-[#EADBCE]">
+            VOICE SAARTHI • CONTINUOUS LISTENING
+          </span>
+</div>
+
+</div>
+<div class="space-y-1">
+<h3 class="font-editorial text-lg italic font-normal text-[#FAF8F5] leading-snug tracking-wide" data-i18n="voice_prompt_quote">
+          “Gehu me doosra paani kab lagayein aur urea kitna daalein?”
+        </h3>
+<p class="text-[10.5px] text-[#FAF8F5]/70 font-light" data-i18n="voice_prompt_sub">
+          Bina internet phone par boli mein baat karein. Tap Live Talk.
+        </p>
+</div>
+<div class="flex items-center justify-between pt-1">
+<!-- Delicate Sound Bar Visualizer -->
+<div class="flex items-center gap-1 h-5">
+<span class="w-0.5 h-2 bg-bronze-light/80 rounded-full animate-pulse"></span>
+<span class="w-0.5 h-4 bg-bronze-light rounded-full animate-pulse"></span>
+<span class="w-0.5 h-2.5 bg-white/90 rounded-full animate-pulse"></span>
+<span class="w-0.5 h-5 bg-bronze-light rounded-full animate-pulse"></span>
+<span class="w-0.5 h-3 bg-white/60 rounded-full animate-pulse"></span>
+<span class="w-0.5 h-1.5 bg-bronze-light/60 rounded-full animate-pulse"></span>
+</div>
+<button class="h-8 px-4 rounded-full bg-white text-primary-deep font-mono text-[10px] font-bold tracking-[0.15em] uppercase flex items-center gap-1.5 shadow-sm hover:bg-parchment active:scale-95 transition-transform cursor-pointer" id="banner-live-talk-btn" type="button">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-ping"></span>
+<span data-i18n="live_talk_btn" class="">LIVE TALK</span>
+</button>
+</div>
+</div>
+</section>
+<!-- 5. Section 04 / GAON MESH DISPATCHES (Editorial White Desert / The Nest Dispatch Style) -->
+<section class="space-y-2">
+<div class="flex items-baseline justify-between px-1">
+<div class="flex items-center gap-1.5">
+<span class="font-mono text-[9px] text-bronze font-semibold tracking-widest">04 /</span>
+<h3 class="font-mono text-[9px] uppercase tracking-[0.2em] font-bold text-primary-deep" data-i18n="diary_header">
+          Gaon Mesh Telemetry &amp; Notes
+        </h3>
+</div>
+
+</div>
+<div class="bg-white rounded-xl border border-outline/70 shadow-2xs divide-y divide-outline/50 overflow-hidden">
+<!-- Dispatch 1 -->
+<article class="p-3.5 space-y-1.5 hover:bg-parchment/30 transition-colors">
+<div class="flex items-center justify-between text-[9px] font-mono">
+<div class="flex items-center gap-1.5">
+<span class="font-semibold text-primary-forest uppercase">Jagbir Singh</span>
+<span class="text-outline">/</span>
+<span class="text-on-surface-variant uppercase">Murthal Sector</span>
+</div>
+<span class="text-on-surface-variant/70">15 MIN AGO</span>
+</div>
+<p class="text-[11.5px] text-on-surface font-light leading-relaxed" data-i18n="community_post1">
+          Mera gehu 45 din ka ho gaya hai. Kal sham ko halki sinchai ki thi, nami badhiya ban gayi hai.
+        </p>
+<div class="flex items-center gap-3 font-mono text-[8.5px] text-on-surface-variant/80 pt-0.5">
+<span class="">PLOT: 3.8 ACRES</span>
+<span class="">•</span>
+
+</div>
+</article>
+<!-- Dispatch 2 -->
+<article class="p-3.5 space-y-1.5 hover:bg-parchment/30 transition-colors">
+<div class="flex items-center justify-between text-[9px] font-mono">
+<div class="flex items-center gap-1.5">
+<span class="font-semibold text-primary-forest uppercase">Mukesh Sharma</span>
+<span class="text-outline">/</span>
+<span class="text-on-surface-variant uppercase">Rai Mandi Zone</span>
+</div>
+<span class="text-on-surface-variant/70">1 HR AGO</span>
+</div>
+<p class="text-[11.5px] text-on-surface font-light leading-relaxed" data-i18n="community_post2">
+          Rai mandi mein sarson ka bhav ₹5,450/qtl mila aaj. Kisaan bhai dhyan dein.
+        </p>
+<div class="flex items-center gap-3 font-mono text-[8.5px] text-on-surface-variant/80 pt-0.5">
+<span class="">COMMODITY: MUSTARD</span>
+<span class="">•</span>
+<span class="text-bronze font-semibold">₹5,450 / QTL SPOT</span>
+</div>
+</article>
+</div>
+</section>
+</main>
+<!-- Floating Kisan AI Minimal Pill Button -->
+<div class="fixed bottom-20 right-4 z-40 pointer-events-auto">
+<button aria-label="Open Kisan AI Chatbot" class="group relative flex items-center gap-2 px-3.5 py-2 rounded-full bg-primary-deep text-[#FAF8F5] shadow-lg border border-bronze/40 hover:border-bronze active:scale-95 transition-all cursor-pointer" id="floating-ai-btn" type="button">
+<span class="w-1.5 h-1.5 rounded-full bg-bronze-light animate-ping"></span>
+<span class="font-mono text-[10px] font-semibold tracking-wider uppercase text-white" data-i18n="fab_text">
+      Kisan AI • Co-Pilot
+    </span>
+<span class="font-editorial text-xs italic text-bronze-light">✦</span>
+</button>
+</div>
+<!-- Bottom Navigation Dock (Editorial & Tactile) -->
+<nav class="fixed bottom-0 inset-x-0 z-40 bg-[#FAF8F5]/90 backdrop-blur-md border-t border-outline/70 pb-safe">
+<div class="max-w-md mx-auto h-16 px-3 grid grid-cols-5 items-center">
+<button class="flex flex-col items-center justify-center py-1 text-primary-forest cursor-pointer active:scale-95 transition-transform" id="nav-home" type="button">
+<div class="w-8 h-5 rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-[19px] text-primary-deep font-semibold">spa</span>
+</div>
+<span class="font-mono text-[8px] uppercase tracking-wider font-bold mt-0.5 text-primary-deep" data-i18n="nav_khet">Khet</span>
+</button>
+<button class="flex flex-col items-center justify-center py-1 text-on-surface-variant hover:text-primary-forest cursor-pointer active:scale-95 transition-transform quick-action" data-action="mandi" type="button">
+<div class="w-8 h-5 rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-[19px]">storefront</span>
+</div>
+<span class="font-mono text-[8px] uppercase tracking-wider mt-0.5" data-i18n="nav_mandi">Mandi</span>
+</button>
+<!-- Elevated Editorial Center Lens -->
+<button class="flex flex-col items-center justify-center cursor-pointer active:scale-95 transition-transform" id="nav-scan" type="button">
+<div class="w-11 h-11 -mt-4 rounded-full bg-primary-deep text-[#FAF8F5] flex items-center justify-center shadow-md border-2 border-[#FAF8F5] hover:border-bronze transition-colors">
+<span class="material-symbols-outlined text-[20px] text-bronze-light">center_focus_strong</span>
+</div>
+<span class="font-mono text-[8px] font-bold uppercase tracking-wider text-primary-deep mt-0.5" data-i18n="nav_scan">Scan</span>
+</button>
+<button class="flex flex-col items-center justify-center py-1 text-on-surface-variant hover:text-primary-forest cursor-pointer active:scale-95 transition-transform quick-action" data-action="mesh" type="button">
+<div class="w-8 h-5 rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-[19px]">sensors</span>
+</div>
+<span class="font-mono text-[8px] uppercase tracking-wider mt-0.5" data-i18n="nav_mesh">Mesh</span>
+</button>
+<button class="flex flex-col items-center justify-center py-1 text-on-surface-variant hover:text-primary-forest cursor-pointer active:scale-95 transition-transform" id="nav-more" type="button">
+<div class="w-8 h-5 rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-[19px]">view_agenda</span>
+</div>
+<span class="font-mono text-[8px] uppercase tracking-wider mt-0.5" data-i18n="nav_tools">Index</span>
+</button>
+</div>
+</nav>
+<!-- 13 Features Off-Canvas Drawer (Editorial Monograph Layout) -->
+<div class="fixed inset-0 z-50 bg-black/40 backdrop-blur-xs transition-opacity duration-300 hidden" id="drawer-backdrop"></div>
+<aside class="fixed top-0 right-0 z-50 h-full w-5/6 max-w-sm bg-[#FAF8F5] shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out border-l border-outline/70 translate-x-full" id="features-drawer">
+<div class="pt-safe px-4 pb-3 border-b border-outline/50 bg-white flex items-center justify-between">
+<div class="flex items-center gap-2 pt-2">
+<span class="w-6 h-6 rounded border border-primary-forest/30 bg-primary-forest text-bronze-light flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px]">view_agenda</span>
+</span>
+<div>
+<h3 class="font-editorial text-base font-semibold text-primary-deep leading-tight">Modular Subsystems</h3>
+
+</div>
+</div>
+<button aria-label="Close" class="w-7 h-7 rounded-full bg-parchment border border-outline/60 flex items-center justify-center text-on-surface-variant hover:text-primary-deep mt-2 cursor-pointer" id="drawer-close" type="button">
+<span class="material-symbols-outlined text-[14px]">close</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto p-3.5 space-y-2">
+<!-- Subsystem 01 -->
+<div class="p-3 rounded-xl bg-white border border-outline/70 flex items-start gap-3 cursor-pointer hover:border-bronze transition-colors drawer-item" data-action="doctor">
+<span class="font-mono text-[9px] font-bold text-bronze bg-parchment px-1.5 py-0.5 rounded mt-0.5">F—01</span>
+<div>
+<h5 class="font-editorial text-sm font-semibold text-primary-deep" data-i18n="f1_title">AI Leaf Disease Scanner</h5>
+<p class="text-[10px] text-on-surface-variant font-light leading-snug mt-0.5" data-i18n="f1_desc">Zero-network ONNX leaf disease inference.</p>
+</div>
+</div>
+<!-- Subsystem 02 -->
+<div class="p-3 rounded-xl bg-white border border-outline/70 flex items-start gap-3 cursor-pointer hover:border-bronze transition-colors drawer-item" data-action="voice">
+<span class="font-mono text-[9px] font-bold text-bronze bg-parchment px-1.5 py-0.5 rounded mt-0.5">F—02</span>
+<div>
+<h5 class="font-editorial text-sm font-semibold text-primary-deep" data-i18n="f2_title">Offline Treatment Advisor</h5>
+<p class="text-[10px] text-on-surface-variant font-light leading-snug mt-0.5" data-i18n="f2_desc">Bio-chemical &amp; organic spray prescriptions.</p>
+</div>
+</div>
+<!-- Subsystem 03 -->
+<div class="p-3 rounded-xl bg-white border border-outline/70 flex items-start gap-3 cursor-pointer hover:border-bronze transition-colors drawer-item" data-action="voice">
+<span class="font-mono text-[9px] font-bold text-bronze bg-parchment px-1.5 py-0.5 rounded mt-0.5">F—03</span>
+<div>
+<h5 class="font-editorial text-sm font-semibold text-primary-deep" data-i18n="f3_title">Bilingual Voice Saarthi</h5>
+<p class="text-[10px] text-on-surface-variant font-light leading-snug mt-0.5" data-i18n="f3_desc">Acoustic dialect voice assistant.</p>
+</div>
+</div>
+<!-- Subsystem 04 -->
+<div class="p-3 rounded-xl bg-white border border-outline/70 flex items-start gap-3 cursor-pointer hover:border-bronze transition-colors drawer-item" data-action="mesh">
+<span class="font-mono text-[9px] font-bold text-bronze bg-parchment px-1.5 py-0.5 rounded mt-0.5">F—04</span>
+<div>
+<h5 class="font-editorial text-sm font-semibold text-primary-deep" data-i18n="f4_title">P2P Nearby Mesh Ferry</h5>
+<p class="text-[10px] text-on-surface-variant font-light leading-snug mt-0.5" data-i18n="f4_desc">Sync pest alerts village-to-village offline.</p>
+</div>
+</div>
+<!-- Subsystem 05 -->
+<div class="p-3 rounded-xl bg-white border border-outline/70 flex items-start gap-3 cursor-pointer hover:border-bronze transition-colors drawer-item" data-action="doctor">
+<span class="font-mono text-[9px] font-bold text-bronze bg-parchment px-1.5 py-0.5 rounded mt-0.5">F—05</span>
+<div>
+<h5 class="font-editorial text-sm font-semibold text-primary-deep" data-i18n="f5_title">Farm Geofencing &amp; Canopy</h5>
+<p class="text-[10px] text-on-surface-variant font-light leading-snug mt-0.5" data-i18n="f5_desc">Sub-meter boundary mapping and microclimate.</p>
+</div>
+</div>
+<!-- Subsystem 06 -->
+<div class="p-3 rounded-xl bg-white border border-outline/70 flex items-start gap-3 cursor-pointer hover:border-bronze transition-colors drawer-item" data-action="mandi">
+<span class="font-mono text-[9px] font-bold text-bronze bg-parchment px-1.5 py-0.5 rounded mt-0.5">F—06</span>
+<div>
+<h5 class="font-editorial text-sm font-semibold text-primary-deep" data-i18n="f6_title">APMC Mandi Bhav Radar</h5>
+<p class="text-[10px] text-on-surface-variant font-light leading-snug mt-0.5" data-i18n="f6_desc">Nearest grain prices &amp; MSP comparisons.</p>
+</div>
+</div>
+</div>
+<div class="p-3 bg-white border-t border-outline/50 pb-safe">
+<button class="w-full py-2.5 rounded-xl bg-primary-deep text-[#FAF8F5] font-mono text-[10px] uppercase tracking-widest font-semibold cursor-pointer hover:bg-primary-forest transition-colors" data-i18n="close_panel" id="drawer-btn-close" type="button">
+      Band Karein (Close Index)
+    </button>
+</div>
+</aside>
+<!-- Kisan AI Chatbot Modal (Minimalist Architectural Sheet) -->
+<div class="fixed inset-0 z-50 bg-black/50 backdrop-blur-xs transition-opacity duration-300 flex flex-col justify-end hidden" id="ai-chat-modal">
+<div class="w-full max-w-md mx-auto h-[84vh] bg-[#FAF8F5] rounded-t-3xl shadow-2xl flex flex-col overflow-hidden border-t border-outline" id="ai-chat-card">
+<!-- Chatbot Header -->
+<header class="pt-3.5 px-4 pb-3 bg-white border-b border-outline/60 flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-7 h-7 rounded border border-bronze/40 bg-primary-deep text-bronze-light flex items-center justify-center">
+<span class="material-symbols-outlined text-[14px]">psychology</span>
+</div>
+<div>
+<h3 class="font-editorial text-sm font-semibold text-primary-deep leading-none" data-i18n="chatbot_title">Kisan AI Assistant</h3>
+
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button class="px-2.5 py-1 rounded-full bg-parchment border border-outline/70 text-primary-deep font-mono text-[9px] uppercase tracking-wider font-semibold flex items-center gap-1 cursor-pointer hover:border-bronze" id="chat-to-live-btn" type="button">
+<span class="w-1 h-1 rounded-full bg-bronze animate-ping"></span>
+          Live Voice
+        </button>
+<button class="w-7 h-7 rounded-full bg-parchment border border-outline/60 flex items-center justify-center text-on-surface-variant hover:text-primary-deep cursor-pointer" id="chat-close-btn" type="button">
+<span class="material-symbols-outlined text-[14px]">close</span>
+</button>
+</div>
+</header>
+<!-- Message Stream -->
+<div class="flex-1 overflow-y-auto p-3.5 space-y-3" id="chat-messages-container">
+<div class="p-3 rounded-xl bg-white border border-outline/60 space-y-1">
+<div class="flex items-center gap-1.5 font-mono text-[9px] uppercase tracking-wider font-bold text-bronze">
+<span class="material-symbols-outlined text-[14px]">token</span>
+<span data-i18n="chat_welcome_title" class="">Kisan AI Co-Pilot (Edge Mode)</span>
+</div>
+<p class="text-[11px] text-on-surface font-light leading-relaxed" data-i18n="chat_welcome_desc">
+          नमस्ते रामेश्वर जी! मैं आपका कृषि-सारथी AI सहायक हूँ। बिना इंटरनेट फसल, खाद, कीट नियंत्रण या मंडी भाव के बारे में पूछें।
+        </p>
+</div>
+<!-- Suggestion chips -->
+<div class="flex flex-wrap gap-1.5">
+<button class="chat-chip px-2.5 py-1 rounded-full bg-white border border-outline/70 font-mono text-[9px] tracking-wider text-on-surface-variant hover:border-bronze cursor-pointer" data-msg="पीला रतुआ (Yellow Rust) के शुरुआती लक्षण क्या हैं?" type="button">
+          🌾 Yellow Rust लक्षण
+        </button>
+<button class="chat-chip px-2.5 py-1 rounded-full bg-white border border-outline/70 font-mono text-[9px] tracking-wider text-on-surface-variant hover:border-bronze cursor-pointer" data-msg="गेहूं में दूसरा पानी और यूरिया कब डालें?" type="button">
+          💧 2nd Irrigation Time
+        </button>
+</div>
+<!-- Thread -->
+<div class="space-y-2.5 pt-1" id="chat-thread">
+<div class="flex justify-end">
+<div class="max-w-[85%] rounded-2xl rounded-tr-xs bg-primary-deep text-[#FAF8F5] p-3 text-[11px] font-light leading-relaxed">
+            गेहूं में पीला रतुआ (Yellow Rust) दिखे तो बिना इंटरनेट क्या तुरंत उपाय करें?
+          </div>
+</div>
+<div class="flex items-start gap-2">
+<div class="w-6 h-6 rounded border border-bronze/30 bg-primary-deep text-bronze-light flex items-center justify-center flex-shrink-0 mt-0.5 text-[10px]">
+<span class="material-symbols-outlined text-[13px]">filter_vintage</span>
+</div>
+<div class="max-w-[85%] rounded-2xl rounded-tl-xs bg-white border border-outline/70 p-3 space-y-1">
+<div class="flex items-center justify-between border-b border-outline/40 pb-1">
+<span class="font-mono text-[9px] uppercase tracking-wider font-bold text-primary-forest">Kisan AI Saarthi</span>
+<span class="font-mono text-[8px] text-bronze">⚡ INT4 Edge</span>
+</div>
+<p class="text-[11px] text-on-surface font-light leading-relaxed" data-i18n="sample_ai_resp">
+              रामेश्वर जी, मुरथल में नमी 42% है। पीला रतुआ के लिए प्रोपिकोनाज़ोल 25% EC (200 मिली प्रति 200 ली पानी) या 5% नीम तेल का छिड़काव दोपहर 3 बजे से पहले करें।
+            </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Chat Composer -->
+<div class="p-3 bg-white border-t border-outline/60 pb-safe">
+<form class="flex items-center gap-1.5 bg-parchment rounded-xl border border-outline/80 p-1" id="chat-form">
+<button aria-label="Photo scan" class="w-8 h-8 rounded-lg bg-white hover:bg-parchment text-on-surface-variant flex items-center justify-center cursor-pointer border border-outline/50" id="chat-cam-btn" type="button">
+<span class="material-symbols-outlined text-[16px]">photo_camera</span>
+</button>
+<button aria-label="Mic input" class="w-8 h-8 rounded-lg bg-white hover:bg-parchment text-on-surface-variant flex items-center justify-center cursor-pointer border border-outline/50" id="chat-mic-btn" type="button">
+<span class="material-symbols-outlined text-[16px]">mic</span>
+</button>
+<input class="flex-1 min-w-0 bg-transparent border-0 focus:ring-0 text-xs text-primary-deep placeholder:text-on-surface-variant/60 px-1 py-1" id="chat-input" placeholder="अपनी बोली में पूछें / Ask telemetry..." type="text">
+<button aria-label="Send" class="w-8 h-8 rounded-lg bg-primary-deep hover:bg-primary-forest text-[#FAF8F5] flex items-center justify-center cursor-pointer flex-shrink-0" type="submit">
+<span class="material-symbols-outlined text-[15px]">arrow_upward</span>
+</button>
+</form>
+</div>
+</div>
+</div>
+<!-- Full-screen Live Talk Overlay (Sky Clinics / White Desert Atmospheric Clean Tone) -->
+<div class="fixed inset-0 z-[100] bg-[#081810]/98 backdrop-blur-xl text-[#FAF8F5] flex flex-col justify-between p-6 hidden" id="live-talk-modal">
+
+<!-- Central Editorial Resonant Orb -->
+<div class="flex flex-col items-center justify-center my-auto text-center w-full max-w-md mx-auto">
+<div class="relative flex items-center justify-center mb-8">
+<div class="absolute w-44 h-44 rounded-full bg-bronze/20 blur-2xl animate-pulse"></div>
+<div class="relative w-28 h-28 rounded-full bg-gradient-to-b from-[#153324] to-[#081810] border border-bronze/50 shadow-2xl flex items-center justify-center">
+<div class="flex items-center gap-1 h-8">
+<span class="w-1 bg-bronze-light rounded-full animate-pulse h-3"></span>
+<span class="w-1 bg-[#FAF8F5] rounded-full animate-pulse h-7"></span>
+<span class="w-1 bg-bronze rounded-full animate-pulse h-9"></span>
+<span class="w-1 bg-white rounded-full animate-pulse h-5"></span>
+<span class="w-1 bg-bronze-light rounded-full animate-pulse h-2.5"></span>
+</div>
+</div>
+</div>
+<p class="font-editorial text-lg italic text-[#FAF8F5]/90 leading-relaxed px-4 max-w-xs" data-i18n="live_quote" id="live-speech-prompt">
+      “रामेश्वर जी, बोलिए... गेहूं में दूसरा पानी या यूरिया देने के बारे में आप क्या पूछना चाहते हैं?”
+    </p>
+<span class="font-mono text-[8px] uppercase tracking-[0.25em] text-[#EADBCE] mt-3">
+      LISTENING IN HARYANVI &amp; DESI HINDI
+    </span>
+</div>
+<!-- Bottom Call Controls -->
+<div class="pb-safe flex flex-col items-center gap-3 w-full max-w-md mx-auto">
+<div class="flex items-center justify-center gap-6">
+<button aria-label="Mute" class="w-11 h-11 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white cursor-pointer hover:bg-white/20 transition-colors" id="live-mute-btn" type="button">
+<span class="material-symbols-outlined text-[19px]" id="live-mute-icon">mic</span>
+</button>
+<button aria-label="End Call" class="w-14 h-14 rounded-full bg-[#9B4522] hover:bg-[#863819] border-2 border-white/20 shadow-xl flex items-center justify-center text-white active:scale-95 transition-all cursor-pointer" id="live-end-btn" type="button">
+<span class="material-symbols-outlined text-[24px]">call_end</span>
+</button>
+<button aria-label="Pause" class="w-11 h-11 rounded-full bg-white/10 border border-white/20 flex items-center justify-center text-white cursor-pointer hover:bg-white/20 transition-colors" id="live-pause-btn" type="button">
+<span class="material-symbols-outlined text-[19px]">pause</span>
+</button>
+</div>
+<span class="font-mono text-[9px] uppercase tracking-wider text-white/50" data-i18n="cut_call_label">
+      End Live Talk (बातचीत समाप्त करें / Cut)
+    </span>
+</div>
+</div>
+<!-- Complete Client-Side Localization & Interactive Script -->
+<script>
+  (function() {
+    const i18nDict = {
+      Hinglish: {
+        tagline: "28° 59′ N · 77° 01′ E • SONIPAT",
+        select_lang: "भाषा चुनें / SELECT LANGUAGE",
+        season_badge: "RABI CYCLE 24—25",
+        sync_status: "LAT: 28.99° N • CANOPY SAT-SYNC ACTIVE",
+        hero_status_tag: "TELEMETRY STATUS • FIELD COHERENT",
+        greeting_title: "Ram-Ram Rameshwar Ji — Khet surakshit hai",
+        greeting_subtitle: "Khet mein nami 42% hai. Agle 4 ghante mein barish ki sambhavna hai.",
+        metric_moisture: "Soil Moisture",
+        metric_biomass: "Biomass Index",
+        metric_rain: "Rain Horizon",
+        sec1_title: "Vector Intelligence & Telemetry",
+        alert_tag: "PATHOGEN VECTOR ALERT · 12KM RADIUS",
+        alert_title: "Hawa mein Peela Ratua (Yellow Rust) ka risk mila hai",
+        alert_desc: "Pass ke 12km khet mein fafund ka asar hai. Dophar barish se pehle neem-tail ya bio-spray protocol check karein.",
+        tools_header: "The Essential Protocols",
+        tools_badge: "Daily Field Suite",
+        tool1_title: "AI Fasal Doctor",
+        tool1_desc: "Patti ka photo lein aur bimaari ka upchar payein.",
+        scan_now: "Photo Scan",
+        tool2_title: "Voice Saarthi",
+        tool2_desc: "Apni boli mein bolkar kheti ki koi bhi salah lein.",
+        talk_now: "Bolkar Poochhein",
+        tool3_title: "Mandi Bhav Radar",
+        tool3_desc: "Gehu ₹2,325/qtl · Sonipat mandi bina internet.",
+        view_rate: "Bhav Dekhein",
+        tool4_title: "Khaad Parakh",
+        tool4_desc: "Asli ya nakli? Khad bori barcode check karein.",
+        verify_bag: "Bori Jaanch",
+        voice_banner_tag: "Natural Dialect Synthesis",
+        voice_prompt_quote: "“Gehu me doosra paani kab lagayein aur urea kitna daalein?”",
+        voice_prompt_sub: "Bina internet phone par boli mein baat karein. Tap Live Talk.",
+        live_talk_btn: "LIVE TALK",
+        diary_header: "Gaon Mesh Telemetry & Notes",
+        diary_badge: "Peer Sync",
+        community_post1: "Mera gehu 45 din ka ho gaya hai. Kal sham ko halki sinchai ki thi, nami badhiya ban gayi hai.",
+        community_post2: "Rai mandi mein sarson ka bhav ₹5,450/qtl mila aaj. Kisaan bhai dhyan dein.",
+        fab_text: "Kisan AI • Co-Pilot",
+        nav_khet: "Khet",
+        nav_mandi: "Mandi",
+        nav_scan: "Scan",
+        nav_mesh: "Mesh",
+        nav_tools: "Index",
+        drawer_subtitle: "13 Offline Field Modules",
+        f1_title: "AI Leaf Disease Scanner",
+        f1_desc: "Zero-network ONNX leaf disease inference.",
+        f2_title: "Offline Treatment Advisor",
+        f2_desc: "Bio-chemical & organic spray prescriptions.",
+        f3_title: "Bilingual Voice Saarthi",
+        f3_desc: "Acoustic dialect voice assistant.",
+        f4_title: "P2P Nearby Mesh Ferry",
+        f4_desc: "Sync pest alerts village-to-village offline.",
+        f5_title: "Farm Geofencing & Canopy",
+        f5_desc: "Sub-meter boundary mapping and microclimate.",
+        f6_title: "APMC Mandi Bhav Radar",
+        f6_desc: "Nearest grain prices & MSP comparisons.",
+        close_panel: "Band Karein (Close Index)",
+        chatbot_title: "Kisan AI Assistant",
+        chat_welcome_title: "Kisan AI Co-Pilot (Edge Mode)",
+        chat_welcome_desc: "नमस्ते रामेश्वर जी! मैं आपका कृषि-सारथी AI सहायक हूँ। बिना इंटरनेट फसल, खाद, कीट नियंत्रण या मंडी भाव के बारे में पूछें।",
+        sample_ai_resp: "रामेश्वर जी, मुरथल में नमी 42% है। पीला रतुआ के लिए प्रोपिकोनाज़ोल 25% EC (200 मिली प्रति 200 ली पानी) या 5% नीम तेल का छिड़काव दोपहर 3 बजे से पहले करें।",
+        live_quote: "“रामेश्वर जी, बोलिए... गेहूं में दूसरा पानी या यूरिया देने के बारे में आप क्या पूछना चाहते हैं?”",
+        cut_call_label: "End Live Talk (बातचीत समाप्त करें / Cut)"
+      },
+      "हिन्दी": {
+        tagline: "28° 59′ उ · 77° 01′ पू • सोनीपत खेत 04",
+        select_lang: "भाषा चुनें",
+        season_badge: "रबी चक्र 2024-25",
+        sync_status: "उपग्रह कैनोपी सिंक सक्रिय",
+        hero_status_tag: "खेत टेलीमेट्री स्थिति • सुरक्षित",
+        greeting_title: "राम-राम रामेश्वर जी — फसल सुरक्षित है",
+        greeting_subtitle: "खेत में नमी 42% है। अगले 4 घंटे में वर्षा की संभावना है।",
+        metric_moisture: "मिट्टी नमी",
+        metric_biomass: "बायोमास सूचकांक",
+        metric_rain: "वर्षा पूर्वानुमान",
+        sec1_title: "रोग वेक्टर खुफिया व चेतावनी",
+        alert_tag: "वेक्टर चेतावनी · 12 किमी परिधि",
+        alert_title: "हवा में पीला रतुआ (Yellow Rust) का जोखिम मिला है",
+        alert_desc: "पास के 12 किमी क्षेत्र में फफूंद का असर है। दोपहर की बारिश से पहले नीम-तेल या बायो-स्प्रे प्रोटोकॉल जांचें।",
+        tools_header: "दैनिक आवश्यक प्रोटोकॉल",
+        tools_badge: "कृषि उपकरण संकलन",
+        tool1_title: "एआई फसल डॉक्टर",
+        tool1_desc: "पत्ती का फोटो लें और तुरंत रोग का उपचार पाएं।",
+        scan_now: "फोटो स्कैन",
+        tool2_title: "वॉइस सारथी",
+        tool2_desc: "अपनी बोली में बोलकर खेती की कोई भी सलाह लें।",
+        talk_now: "बोलकर पूछें",
+        tool3_title: "मंडी भाव रडार",
+        tool3_desc: "गेहूं ₹2,325/क्विंटल · सोनीपत मंडी बिना इंटरनेट।",
+        view_rate: "भाव देखें",
+        tool4_title: "खाद परख",
+        tool4_desc: "असली या नकली? खाद की बोरी का बारकोड जांचें।",
+        verify_bag: "बोरी जांच",
+        voice_banner_tag: "प्राकृतिक देशज बोली वार्तालाप",
+        voice_prompt_quote: "“गेहूं में दूसरा पानी कब लगाएं और यूरिया कितना डालें?”",
+        voice_prompt_sub: "बिना इंटरनेट फोन पर अपनी देसी बोली में बात करें।",
+        live_talk_btn: "लाइव बातचीत",
+        diary_header: "गाँव चौपाल एवं टेलीमेट्री नोट्स",
+        diary_badge: "पीयर सिंक",
+        community_post1: "मेरा गेहूं 45 दिन का हो गया है। कल शाम हल्की सिंचाई की थी, नमी बहुत अच्छी बनी है।",
+        community_post2: "राई मंडी में सरसों का भाव आज ₹5,450 प्रति क्विंटल मिला। किसान भाई ध्यान दें।",
+        fab_text: "किसान AI • को-पायलट",
+        nav_khet: "खेत",
+        nav_mandi: "मंडी",
+        nav_scan: "स्कैन",
+        nav_mesh: "मेश",
+        nav_tools: "सूची",
+        drawer_subtitle: "13 ऑफलाइन फील्ड मॉडयूल",
+        f1_title: "एआई पत्ती रोग स्कैनर",
+        f1_desc: "बिना इंटरनेट ऑन-डिवाइस रोग पहचान।",
+        f2_title: "ऑफलाइन उपचार सलाहकार",
+        f2_desc: "जैविक और सुरक्षित कीटनाशक छिड़काव पर्ची।",
+        f3_title: "द्विभाषी वॉइस सारथी",
+        f3_desc: "हरियाणवी व हिन्दी में तुरंत आवाज से जवाब।",
+        f4_title: "पी2पी लोकल मेश फेरी",
+        f4_desc: "बिना टावर गाँव-गाँव अलर्ट का आदान-प्रदान।",
+        f5_title: "खेत जियोफेंसिंग व कैनोपी",
+        f5_desc: "सटीक खेत सीमा और मौसम का इतिहास।",
+        f6_title: "मंडी भाव रडार",
+        f6_desc: "नजदीकी मंडियों के ताजा भाव व एमएसपी।",
+        close_panel: "बंद करें (Close Index)",
+        chatbot_title: "किसान एआई सहायक",
+        chat_welcome_title: "किसान एआई सहायक (ऑफलाइन)",
+        chat_welcome_desc: "नमस्ते रामेश्वर जी! मैं आपका कृषि-सारथी AI सहायक हूँ। बिना इंटरनेट फसल, खाद या मंडी के बारे में पूछें।",
+        sample_ai_resp: "रामेश्वर जी, मुरथल में नमी 42% है। पीला रतुआ के लिए प्रोपिकोनाज़ोल 25% EC या 5% नीम तेल का छिड़काव दोपहर 3 बजे से पहले करें।",
+        live_quote: "“रामेश्वर जी, बोलिए... गेहूं में दूसरा पानी या यूरिया देने के बारे में आप क्या पूछना चाहते हैं?”",
+        cut_call_label: "बातचीत समाप्त करें (Cut)"
+      },
+      English: {
+        tagline: "28° 59′ N · 77° 01′ E • SONIPAT PLOT 04",
+        select_lang: "Select Language",
+        season_badge: "RABI CYCLE 2024—25",
+        sync_status: "LAT: 28.99° N • SATELLITE CANOPY ACTIVE",
+        hero_status_tag: "TELEMETRY STATUS • FIELD OPTIMAL",
+        greeting_title: "Greetings Rameshwar Ji — Field Secured",
+        greeting_subtitle: "Soil moisture is at 42%. Rain precipitation expected within 4 hours.",
+        metric_moisture: "Soil Moisture",
+        metric_biomass: "Biomass Index",
+        metric_rain: "Rain Horizon",
+        sec1_title: "Vector Intelligence & Telemetry",
+        alert_tag: "SPATIOTEMPORAL RISK · 12KM RADIUS",
+        alert_title: "Airborne Yellow Rust risk detected in zone",
+        alert_desc: "Fungal spore movement detected nearby. Apply organic bio-spray protocol before afternoon precipitation.",
+        tools_header: "The Essential Protocols",
+        tools_badge: "Agronomy Suite",
+        tool1_title: "AI Crop Doctor",
+        tool1_desc: "Scan leaf photo for instant zero-latency diagnosis.",
+        scan_now: "Scan Leaf",
+        tool2_title: "Voice Saarthi",
+        tool2_desc: "Speak naturally in dialect for agronomy advice.",
+        talk_now: "Speak Now",
+        tool3_title: "Mandi Price Radar",
+        tool3_desc: "Wheat ₹2,325/qtl · Sonipat APMC offline rate.",
+        view_rate: "View Prices",
+        tool4_title: "Fertilizer Authenticator",
+        tool4_desc: "Verify authentic batch holograms & barcodes.",
+        verify_bag: "Verify Bag",
+        voice_banner_tag: "Natural Dialect Synthesis",
+        voice_prompt_quote: "“When should I start 2nd irrigation & apply urea?”",
+        voice_prompt_sub: "Talk offline directly on your phone in dialect.",
+        live_talk_btn: "LIVE TALK",
+        diary_header: "Gaon Mesh Telemetry & Notes",
+        diary_badge: "Peer Network",
+        community_post1: "My wheat is 45 days old. Irrigated lightly yesterday, canopy moisture is optimal.",
+        community_post2: "Mustard sold at ₹5,450/qtl in Rai Mandi today. Neighbor farmers please note.",
+        fab_text: "Kisan AI • Co-Pilot",
+        nav_khet: "Field",
+        nav_mandi: "Mandi",
+        nav_scan: "Scan",
+        nav_mesh: "Mesh",
+        nav_tools: "Index",
+        drawer_subtitle: "13 Offline Field Modules",
+        f1_title: "AI Leaf Disease Scanner",
+        f1_desc: "Zero-network ONNX leaf disease inference.",
+        f2_title: "Offline Treatment Advisor",
+        f2_desc: "Bio-chemical & organic spray prescriptions.",
+        f3_title: "Bilingual Voice Saarthi",
+        f3_desc: "Acoustic dialect voice assistant.",
+        f4_title: "P2P Nearby Mesh Ferry",
+        f4_desc: "Sync pest alerts village-to-village offline.",
+        f5_title: "Farm Geofencing & Canopy",
+        f5_desc: "Sub-meter boundary mapping and microclimate.",
+        f6_title: "APMC Mandi Bhav Radar",
+        f6_desc: "Nearest grain prices & MSP comparisons.",
+        close_panel: "Close Index",
+        chatbot_title: "Kisan AI Assistant",
+        chat_welcome_title: "Kisan AI Co-Pilot (Edge Mode)",
+        chat_welcome_desc: "Greetings Rameshwar Ji! I am your Krishi-Saarthi assistant. Ask me anything about crops, fertilizer, or mandi offline.",
+        sample_ai_resp: "Rameshwar Ji, humidity in Murthal is 42%. For Yellow Rust, spray Propiconazole 25% EC or 5% Neem Oil before 3 PM.",
+        live_quote: "“Rameshwar Ji, speak now... What would you like to know about wheat irrigation or urea dosage?”",
+        cut_call_label: "End Live Talk (Cut Call)"
+      }
+    };
+
+    let currentLang = "Hinglish";
+
+    function setLanguage(lang) {
+      if (!i18nDict[lang]) return;
+      currentLang = lang;
+      
+      const label = document.getElementById("lang-label");
+      if (label) label.textContent = lang;
+
+      ["Hinglish", "हिन्दी", "English"].forEach(l => {
+        const chk = document.getElementById("chk-" + l);
+        if (chk) {
+          if (l === lang) chk.classList.remove("hidden");
+          else chk.classList.add("hidden");
+        }
+      });
+
+      document.querySelectorAll("[data-i18n]").forEach(el => {
+        const key = el.getAttribute("data-i18n");
+        if (i18nDict[lang][key]) {
+          el.textContent = i18nDict[lang][key];
+        }
+      });
+    }
+
+    function init() {
+      // 1. Language Dropdown
+      const langBtn = document.getElementById("lang-btn");
+      const langDropdown = document.getElementById("lang-dropdown");
+      const langClose = document.getElementById("lang-close");
+      const profileBtn = document.getElementById("profile-btn");
+      const profileDropdown = document.getElementById("profile-dropdown");
+
+      if (langBtn && langDropdown) {
+        langBtn.onclick = function(e) {
+          e.stopPropagation();
+          if (profileDropdown) profileDropdown.classList.add("hidden");
+          langDropdown.classList.toggle("hidden");
+        };
+      }
+      if (langClose && langDropdown) {
+        langClose.onclick = function(e) {
+          e.stopPropagation();
+          langDropdown.classList.add("hidden");
+        };
+      }
+      document.querySelectorAll(".lang-opt").forEach(btn => {
+        btn.onclick = function(e) {
+          e.stopPropagation();
+          const targetLang = this.getAttribute("data-lang");
+          setLanguage(targetLang);
+          langDropdown.classList.add("hidden");
+        };
+      });
+
+      // 2. Profile Dropdown
+      if (profileBtn && profileDropdown) {
+        profileBtn.onclick = function(e) {
+          e.stopPropagation();
+          if (langDropdown) langDropdown.classList.add("hidden");
+          profileDropdown.classList.toggle("hidden");
+        };
+      }
+
+      document.addEventListener("click", function(e) {
+        if (langDropdown && !langDropdown.contains(e.target) && langBtn && !langBtn.contains(e.target)) {
+          langDropdown.classList.add("hidden");
+        }
+        if (profileDropdown && !profileDropdown.contains(e.target) && profileBtn && !profileBtn.contains(e.target)) {
+          profileDropdown.classList.add("hidden");
+        }
+      });
+
+      // 3. Features Drawer
+      const menuBtn = document.getElementById("menu-btn");
+      const navMore = document.getElementById("nav-more");
+      const drawer = document.getElementById("features-drawer");
+      const backdrop = document.getElementById("drawer-backdrop");
+      const drawerClose = document.getElementById("drawer-close");
+      const drawerBtnClose = document.getElementById("drawer-btn-close");
+
+      function openDrawer() {
+        if (backdrop) backdrop.classList.remove("hidden");
+        if (drawer) {
+          drawer.classList.remove("translate-x-full");
+          drawer.classList.add("translate-x-0");
+        }
+      }
+      function closeDrawer() {
+        if (backdrop) backdrop.classList.add("hidden");
+        if (drawer) {
+          drawer.classList.add("translate-x-full");
+          drawer.classList.remove("translate-x-0");
+        }
+      }
+
+      if (menuBtn) menuBtn.onclick = openDrawer;
+      if (navMore) navMore.onclick = openDrawer;
+      if (drawerClose) drawerClose.onclick = closeDrawer;
+      if (drawerBtnClose) drawerBtnClose.onclick = closeDrawer;
+      if (backdrop) backdrop.onclick = closeDrawer;
+
+      // 4. Kisan AI Chatbot Modal
+      const floatingAiBtn = document.getElementById("floating-ai-btn");
+      const aiChatModal = document.getElementById("ai-chat-modal");
+      const chatCloseBtn = document.getElementById("chat-close-btn");
+      const navScan = document.getElementById("nav-scan");
+      const chatInput = document.getElementById("chat-input");
+      const chatForm = document.getElementById("chat-form");
+      const chatThread = document.getElementById("chat-thread");
+      const chatMessagesContainer = document.getElementById("chat-messages-container");
+
+      function openChat() {
+        if (aiChatModal) aiChatModal.classList.remove("hidden");
+      }
+      function closeChat() {
+        if (aiChatModal) aiChatModal.classList.add("hidden");
+      }
+
+      if (floatingAiBtn) floatingAiBtn.onclick = openChat;
+      if (chatCloseBtn) chatCloseBtn.onclick = closeChat;
+      if (aiChatModal) {
+        aiChatModal.onclick = function(e) {
+          if (e.target === aiChatModal) closeChat();
+        };
+      }
+
+      if (navScan) {
+        navScan.onclick = function() {
+          openChat();
+          if (chatInput) {
+            chatInput.value = "पत्ती का ऑन-डिवाइस स्कैन विश्लेषण (Disease Diagnostic Scan)";
+          }
+        };
+      }
+
+      // Quick actions
+      document.querySelectorAll(".quick-action").forEach(btn => {
+        btn.onclick = function() {
+          const action = this.getAttribute("data-action");
+          if (action === "voice") {
+            openLiveTalk();
+          } else {
+            openChat();
+            if (chatInput) {
+              if (action === "doctor") chatInput.value = "गेहूं की पत्ती पर पीला धब्बा दिख रहा है, समाधान बताएं";
+              else if (action === "mandi") chatInput.value = "सोनीपत और रोहतक मंडी में गेहूं व सरसों का ताजा भाव";
+              else if (action === "fertilizer") chatInput.value = "DAP खाद की बोरी का बारकोड और गुणवत्ता जांचें";
+              else if (action === "mesh") chatInput.value = "लोकल मेश नेटवर्क में आसपास के किसानों के नए अलर्ट";
+            }
+          }
+        };
+      });
+
+      document.querySelectorAll(".drawer-item").forEach(item => {
+        item.onclick = function() {
+          closeDrawer();
+          const action = this.getAttribute("data-action");
+          if (action === "voice") {
+            openLiveTalk();
+          } else {
+            openChat();
+          }
+        };
+      });
+
+      document.querySelectorAll(".chat-chip").forEach(chip => {
+        chip.onclick = function() {
+          const msg = this.getAttribute("data-msg");
+          if (chatInput) {
+            chatInput.value = msg;
+            if (chatForm) chatForm.dispatchEvent(new Event("submit"));
+          }
+        };
+      });
+
+      if (chatForm && chatInput && chatThread) {
+        chatForm.onsubmit = function(e) {
+          e.preventDefault();
+          const text = chatInput.value.trim();
+          if (!text) return;
+          chatInput.value = "";
+
+          const userBubble = document.createElement("div");
+          userBubble.className = "flex justify-end";
+          userBubble.innerHTML = '<div class="max-w-[85%] rounded-2xl rounded-tr-xs bg-primary-deep text-[#FAF8F5] p-3 text-[11px] font-light leading-relaxed">' + text + '</div>';
+          chatThread.appendChild(userBubble);
+          if (chatMessagesContainer) chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+
+          setTimeout(function() {
+            const aiBubble = document.createElement("div");
+            aiBubble.className = "flex items-start gap-2";
+            aiBubble.innerHTML = '<div class="w-6 h-6 rounded border border-bronze/30 bg-primary-deep text-bronze-light flex items-center justify-center flex-shrink-0 mt-0.5 text-[10px]"><span class="material-symbols-outlined text-[13px]">filter_vintage</span></div><div class="max-w-[85%] rounded-2xl rounded-tl-xs bg-white border border-outline/70 p-3 space-y-1"><div class="flex items-center justify-between border-b border-outline/40 pb-1"><span class="font-mono text-[9px] uppercase tracking-wider font-bold text-primary-forest">Kisan AI Saarthi</span><span class="font-mono text-[8px] text-bronze">⚡ INT4 Edge</span></div><p class="text-[11px] text-on-surface font-light leading-relaxed">रामेश्वर जी, आपके खेत में अभी नमी 42% है। वर्षा की संभावना को देखते हुए जैविक नीम तेल का छिड़काव तुरंत उपयोगी रहेगा।</p></div>';
+            chatThread.appendChild(aiBubble);
+            if (chatMessagesContainer) chatMessagesContainer.scrollTop = chatMessagesContainer.scrollHeight;
+          }, 450);
+        };
+      }
+
+      // 5. Live Talk Modal
+      const liveTalkBtn = document.getElementById("banner-live-talk-btn");
+      const chatToLiveBtn = document.getElementById("chat-to-live-btn");
+      const liveTalkModal = document.getElementById("live-talk-modal");
+      const liveEndBtn = document.getElementById("live-end-btn");
+      const liveMinimizeBtn = document.getElementById("live-minimize-btn");
+      const liveMuteBtn = document.getElementById("live-mute-btn");
+      const liveMuteIcon = document.getElementById("live-mute-icon");
+
+      function openLiveTalk() {
+        closeChat();
+        if (liveTalkModal) liveTalkModal.classList.remove("hidden");
+      }
+      function closeLiveTalk() {
+        if (liveTalkModal) liveTalkModal.classList.add("hidden");
+      }
+
+      if (liveTalkBtn) liveTalkBtn.onclick = openLiveTalk;
+      if (chatToLiveBtn) chatToLiveBtn.onclick = openLiveTalk;
+      if (liveEndBtn) liveEndBtn.onclick = closeLiveTalk;
+      if (liveMinimizeBtn) liveMinimizeBtn.onclick = closeLiveTalk;
+
+      if (liveMuteBtn && liveMuteIcon) {
+        liveMuteBtn.onclick = function() {
+          if (liveMuteIcon.textContent === "mic") {
+            liveMuteIcon.textContent = "mic_off";
+            liveMuteBtn.classList.add("bg-[#9B4522]/40");
+          } else {
+            liveMuteIcon.textContent = "mic";
+            liveMuteBtn.classList.remove("bg-[#9B4522]/40");
+          }
+        };
+      }
+
+      document.addEventListener("keydown", function(e) {
+        if (e.key === "Escape") {
+          closeDrawer();
+          closeChat();
+          closeLiveTalk();
+          if (langDropdown) langDropdown.classList.add("hidden");
+          if (profileDropdown) profileDropdown.classList.add("hidden");
+        }
+      });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", init);
+    } else {
+      init();
+    }
+  })();
+</script>
+
+
+</body></html>

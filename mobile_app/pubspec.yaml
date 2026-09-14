@@ -1,0 +1,96 @@
+name: krishi_saarthi
+description: "कृषि-सारथी: Offline-First Agricultural Intelligence OS for Indian Farmers"
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  # UI
+  cupertino_icons: ^1.0.8
+  google_fonts: ^6.2.1
+  flutter_svg: ^2.0.10
+  shimmer: ^3.0.0
+  fl_chart: ^0.70.0
+  percent_indicator: ^4.2.3
+  lottie: ^3.1.2
+  
+  # Camera & Media
+  camera: ^0.11.0
+  image_picker: ^1.1.2
+  video_player: ^2.9.2
+  
+  # ML & AI
+  # tflite_flutter: ^0.11.0  # Uncomment when ready
+  # onnxruntime: ^1.0.0      # Uncomment when ready
+  
+  # Location & Maps
+  geolocator: ^13.0.1
+  geocoding: ^3.0.0
+  google_maps_flutter: ^2.9.0
+  
+  # Nearby Connections (Mesh)
+  # nearby_connections: ^4.1.0  # Uncomment when ready
+  
+  # QR Code
+  mobile_scanner: ^5.2.3
+  qr_flutter: ^4.1.0
+  
+  # Storage
+  sqflite: ^2.3.3
+  path_provider: ^2.1.4
+  shared_preferences: ^2.3.2
+  flutter_secure_storage: ^9.2.2
+  hive_flutter: ^1.1.0
+  
+  # Networking
+  dio: ^5.6.0
+  connectivity_plus: ^6.0.5
+  
+  # State Management
+  provider: ^6.1.2
+  
+  # Sensors
+  sensors_plus: ^6.0.1
+  
+  # AR & ARCore
+  # ar_flutter_plugin: ^0.7.4  # Uncomment when ready
+  
+  # Crypto
+  encrypt: ^5.0.3
+  crypto: ^3.0.5
+  
+  # Utils
+  intl: ^0.20.3
+  uuid: ^4.5.0
+  path: ^1.9.0
+  permission_handler: ^11.3.1
+  share_plus: ^10.0.3
+  url_launcher: ^6.3.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^4.0.0
+  mockito: ^5.4.4
+  build_runner: ^2.4.12
+
+flutter:
+  uses-material-design: true
+  
+  assets:
+    - assets/models/
+    - assets/images/
+    - assets/audio/
+  
+  # fonts:
+  #   - family: NotoSansDevanagari
+  #     fonts:
+  #       - asset: assets/fonts/NotoSansDevanagari-Regular.ttf
+  #       - asset: assets/fonts/NotoSansDevanagari-Bold.ttf
+  #         weight: 700

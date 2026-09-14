@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>$(DEVELOPMENT_LANGUAGE)</string>
+	<key>CFBundleDisplayName</key>
+	<string>कृषि-सारथी</string>
+	<key>CFBundleExecutable</key>
+	<string>$(EXECUTABLE_NAME)</string>
+	<key>CFBundleIdentifier</key>
+	<string>com.krishisaarthi.app</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleName</key>
+	<string>krishi_saarthi</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>1.0.0</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>1</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
+	<key>UILaunchStoryboardName</key>
+	<string>LaunchScreen</string>
+	<key>UIMainStoryboardFile</key>
+	<string>Main</string>
+	<key>UISupportedInterfaceOrientations</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+	</array>
+	<key>UISupportedInterfaceOrientations~ipad</key>
+	<array>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
+		<string>UIInterfaceOrientationLandscapeLeft</string>
+		<string>UIInterfaceOrientationLandscapeRight</string>
+	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
+	<key>CADisableMinimumFrameDurationOnPhone</key>
+	<true/>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
+
+	<!-- App Store Review Mandated Privacy Usage Descriptions -->
+	<key>NSCameraUsageDescription</key>
+	<string>Krishi-Saarthi requires camera access to scan crop leaves for real-time disease diagnosis, spot dosage analysis, and fertilizer QR authenticity verification.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Krishi-Saarthi allows selecting leaf photos for AI crop disease analysis.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>Krishi-Saarthi requires microphone access for voice-based agricultural queries and voice copilot in Hindi and regional Indian languages.</string>
+	<key>NSSpeechRecognitionUsageDescription</key>
+	<string>Krishi-Saarthi uses speech recognition to convert voice commands into agricultural queries for offline farmer advisory.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Krishi-Saarthi uses your location to fetch hyper-local weather alerts, nearest APMC mandi commodity prices, and geospatial disease risk maps.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Krishi-Saarthi uses location for real-time crop disease hotspot telemetry and localized emergency weather broadcasts.</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Krishi-Saarthi uses Bluetooth Low Energy to form peer-to-peer offline mesh networks between neighboring farmers to sync telemetry without internet.</string>
+	<key>NSBluetoothPeripheralUsageDescription</key>
+	<string>Krishi-Saarthi broadcasts and syncs offline disease telemetry across rural mesh nodes.</string>
+
+	<!-- App Transport Security for local development and backend sync -->
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
+</dict>
+</plist>

@@ -1,0 +1,852 @@
+<!DOCTYPE html><html lang="en" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" name="viewport">
+<title>Krishi-Saarthi OS — Editorial Field Sanctuary</title>
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;family=JetBrains+Mono:wght@400;500;600&amp;family=Noto+Sans+Devanagari:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&amp;family=Rozha+One&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            background: "#F8F7F4",
+            surface: "#FDFBF7",
+            "surface-dim": "#F0EDE6",
+            "surface-card": "#FFFFFF",
+            primary: "#1B4332",
+            "primary-light": "#2D6A4F",
+            "primary-soft": "#E8F0EC",
+            secondary: "#8B5A2B",
+            "secondary-tint": "#FBF5EE",
+            ochre: "#C87D32",
+            "ochre-light": "#FAF3E8",
+            "stone-text": "#1E2420",
+            "stone-muted": "#6E756F",
+            hairline: "#E7E4DC"
+          },
+          fontFamily: {
+            "serif-display": ["Cormorant Garamond", "serif"],
+            "sans-clean": ["Plus Jakarta Sans", "Noto Sans Devanagari", "sans-serif"],
+            "mono-quiet": ["JetBrains Mono", "monospace"]
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    @layer base {
+      html, body {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        background-color: #F8F7F4;
+      }
+      body {
+        overscroll-behavior: none;
+        -webkit-font-smoothing: antialiased;
+        min-height: 100vh;
+      }
+      .pb-safe { padding-bottom: env(safe-area-inset-bottom, 0px); }
+      .pt-safe { padding-top: env(safe-area-inset-top, 0px); }
+    }
+    ::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    @keyframes pulse-glow {
+      0%, 100% { box-shadow: 0 4px 20px rgba(27, 67, 50, 0.35), 0 0 10px rgba(200, 125, 50, 0.2); }
+      50% { box-shadow: 0 6px 28px rgba(27, 67, 50, 0.55), 0 0 18px rgba(200, 125, 50, 0.35); }
+    }
+    .fab-glow {
+      animation: pulse-glow 3s infinite ease-in-out;
+    }
+  </style>
+</head>
+<body class="bg-background font-sans-clean text-stone-text flex flex-col min-h-screen selection:bg-primary selection:text-white">
+<!-- Header -->
+<header class="fixed top-0 w-full z-40 pt-safe bg-[#F8F7F4]/95 backdrop-blur-md border-b border-hairline/70">
+<div class="h-16 px-5 md:px-8 max-w-7xl mx-auto flex items-center justify-between w-full">
+<div class="flex items-center gap-2">
+<span class="font-serif-display text-xl md:text-2xl font-semibold tracking-wide text-primary" data-i18n="app_brand">Krishi-Saarthi</span>
+<span class="material-symbols-outlined text-[17px] md:text-[20px] text-primary/70">spa</span>
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse ml-0.5"></span>
+</div>
+<div class="flex items-center gap-2 md:gap-3 relative">
+<!-- Language button -->
+<button aria-expanded="false" aria-label="Change Language" class="h-8 px-2.5 md:px-3.5 rounded-full border border-hairline bg-surface text-stone-text font-serif-display text-xs tracking-wider uppercase hover:bg-surface-dim transition-all flex items-center gap-1.5 active:scale-95 shadow-2xs cursor-pointer" id="lang-menu-btn" type="button">
+<span class="text-[11px] md:text-xs font-semibold text-primary" id="current-lang-label">English</span>
+<span class="material-symbols-outlined text-[14px] text-stone-muted" id="lang-chevron">expand_more</span>
+</button>
+<!-- 13 Features hamburger -->
+<button aria-label="Open 13 Features Menu" class="w-8 h-8 md:w-9 md:h-9 rounded-full border border-hairline bg-surface/80 flex items-center justify-center text-stone-text hover:text-primary hover:border-primary/50 transition-colors cursor-pointer" id="menu-btn" type="button">
+<span class="material-symbols-outlined text-[19px] md:text-[20px]">menu</span>
+</button>
+<!-- Google Profile -->
+<button aria-expanded="false" aria-label="Google Account Profile" class="relative p-0.5 rounded-full bg-gradient-to-tr from-amber-500 via-rose-500 to-blue-500 cursor-pointer active:scale-95 transition-transform" id="google-profile-btn" type="button">
+<div class="w-7 h-7 md:w-8 md:h-8 rounded-full bg-white flex items-center justify-center overflow-hidden border border-white">
+<span class="font-serif-display text-[12px] md:text-[13px] font-bold text-primary">RS</span>
+</div>
+</button>
+<!-- Language Dropdown -->
+<div class="absolute top-12 right-12 z-50 w-72 max-w-[calc(100vw-2rem)] rounded-2xl bg-[#FDFBF7] border border-hairline shadow-[0_18px_45px_rgba(27,67,50,0.18)] p-3.5 transition-all duration-200 hidden" id="lang-picker-dropdown">
+<div class="flex items-center justify-between px-1 pb-2 border-b border-hairline">
+<div class="flex items-center gap-2">
+<span class="w-6 h-6 rounded-md bg-primary-soft text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[15px]">language</span>
+</span>
+<span class="font-serif-display text-sm font-semibold text-stone-text">Bhasha Chunein</span>
+</div>
+<button class="text-stone-muted hover:text-stone-text p-1 rounded-full cursor-pointer" id="lang-picker-close" type="button">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+<div class="py-2 space-y-1.5">
+<button class="w-full text-left p-2.5 rounded-xl border border-primary/40 bg-primary-soft/50 flex items-start gap-2.5 cursor-pointer lang-option-btn" data-lang-val="Hinglish" type="button">
+<div class="w-7 h-7 rounded-lg bg-white border border-hairline text-primary font-serif-display font-bold text-xs flex items-center justify-center flex-shrink-0">Hn</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="text-[13px] font-semibold text-stone-text font-serif-display">Hinglish</span>
+<span class="material-symbols-outlined text-[15px] text-primary check-icon hidden">check_circle</span>
+</div>
+<p class="text-[10px] text-stone-muted leading-tight mt-0.5">Hindi &amp; English bolchal · Kisan youth</p>
+</div>
+</button>
+<button class="w-full text-left p-2.5 rounded-xl border border-hairline bg-surface flex items-start gap-2.5 cursor-pointer lang-option-btn" data-lang-val="हिन्दी" type="button">
+<div class="w-7 h-7 rounded-lg bg-white border border-hairline text-primary font-serif-display font-bold text-xs flex items-center justify-center flex-shrink-0">हिं</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="text-[13px] font-semibold text-stone-text font-serif-display">हिन्दी (Hindi)</span>
+<span class="material-symbols-outlined text-[15px] text-primary check-icon hidden">check_circle</span>
+</div>
+<p class="text-[10px] text-stone-muted leading-tight mt-0.5">शुद्ध देवनागरी हिन्दी · पारम्परिक सलाह</p>
+</div>
+</button>
+<button class="w-full text-left p-2.5 rounded-xl border border-hairline bg-surface flex items-start gap-2.5 cursor-pointer lang-option-btn" data-lang-val="English" type="button">
+<div class="w-7 h-7 rounded-lg bg-white border border-hairline text-primary font-serif-display font-bold text-xs flex items-center justify-center flex-shrink-0">EN</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<span class="text-[13px] font-semibold text-stone-text font-serif-display">English</span>
+<span class="material-symbols-outlined text-[15px] text-primary check-icon">check_circle</span>
+</div>
+<p class="text-[10px] text-stone-muted leading-tight mt-0.5">Standard English · Agronomy guide</p>
+</div>
+</button>
+</div>
+</div>
+<!-- Google Profile Dropdown -->
+<div class="absolute top-12 right-0 z-50 w-72 max-w-[calc(100vw-2rem)] rounded-2xl bg-[#FDFBF7] border border-hairline shadow-[0_16px_40px_rgba(27,67,50,0.14)] p-4 transition-all duration-200 hidden" id="google-profile-dropdown">
+<div class="flex items-start gap-3 pb-3 border-b border-hairline">
+<div class="w-10 h-10 rounded-full bg-primary-soft text-primary font-serif-display font-semibold text-base flex items-center justify-center border border-primary/20 flex-shrink-0">RS</div>
+<div class="flex-1 min-w-0">
+<div class="flex items-center justify-between">
+<h4 class="font-serif-display text-sm font-semibold text-stone-text truncate">Rameshwar Singh</h4>
+<button class="text-stone-muted hover:text-stone-text p-0.5 cursor-pointer" id="google-profile-close" type="button">
+<span class="material-symbols-outlined text-[16px]">close</span>
+</button>
+</div>
+<p class="font-mono-quiet text-[10px] text-stone-muted truncate">rameshwar.kisan@gmail.com</p>
+<span class="inline-block mt-1 px-1.5 py-0.5 rounded-full bg-white border border-hairline text-[9px] text-stone-text font-medium">Google Account</span>
+</div>
+</div>
+<div class="pt-2 divide-y divide-hairline/60">
+<div class="flex items-center gap-2.5 px-2 py-2 rounded-xl hover:bg-surface-dim transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-[17px] text-primary">account_circle</span>
+<div class="flex-1 min-w-0">
+<span class="text-[12px] text-stone-text font-medium">Kisan Profile</span>
+<p class="text-[10px] text-stone-muted font-mono-quiet">Murthal · 4.2 Acres Gehu</p>
+</div>
+</div>
+<div class="flex items-center gap-2.5 px-2 py-2 rounded-xl hover:bg-surface-dim transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-[17px] text-secondary">history_edu</span>
+<div class="flex-1 min-w-0">
+<span class="text-[12px] text-stone-text font-medium">Activity History</span>
+<p class="text-[10px] text-stone-muted font-mono-quiet">18 Leaf Scans · 6 Mandi alerts</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</header>
+<!-- 13 Features Off-Canvas Drawer Backdrop & Panel -->
+<div class="fixed inset-0 z-50 bg-stone-900/40 backdrop-blur-xs transition-opacity duration-300 hidden" id="features-backdrop"></div>
+<aside class="fixed top-0 right-0 z-50 h-full w-full max-w-md bg-[#F8F7F4] shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out border-l border-hairline translate-x-full" id="features-drawer">
+<div class="pt-safe px-5 pb-3.5 border-b border-hairline bg-[#FDFBF7] flex items-center justify-between">
+<div class="flex items-center gap-2.5 pt-2">
+<div class="w-8 h-8 rounded-lg bg-primary-soft text-primary flex items-center justify-center">
+<span class="material-symbols-outlined text-[19px]">grid_view</span>
+</div>
+<div>
+<h3 class="font-serif-display text-lg font-semibold text-primary leading-tight">Krishi-Saarthi OS</h3>
+
+</div>
+</div>
+<button aria-label="Close Drawer" class="w-8 h-8 rounded-full border border-hairline bg-surface hover:bg-surface-dim flex items-center justify-center text-stone-muted hover:text-stone-text transition-colors mt-2 cursor-pointer" id="features-drawer-close" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<!-- 13 Features List -->
+<div class="flex-1 overflow-y-auto p-4 space-y-2.5 pb-24">
+<div class="flex items-center justify-between px-1">
+
+
+</div>
+<div class="p-3 rounded-xl bg-[#FFFFFF] border border-hairline flex items-start gap-3 cursor-pointer hover:border-primary/40 transition-colors">
+<span class="font-mono-quiet text-[10px] text-primary font-semibold bg-primary-soft px-1.5 py-0.5 rounded mt-0.5">F-01</span>
+<div class="flex-1 min-w-0">
+<div class="flex items-baseline justify-between"><h5 class="text-[13px] font-semibold text-stone-text">AI Leaf Disease Scanner</h5></div>
+<p class="text-[11px] text-stone-muted mt-0.5 leading-snug">Zero-network leaf disease inference using on-device ONNX runtime.</p>
+</div>
+</div>
+<div class="p-3 rounded-xl bg-[#FFFFFF] border border-hairline flex items-start gap-3 cursor-pointer hover:border-primary/40 transition-colors">
+<span class="font-mono-quiet text-[10px] text-primary font-semibold bg-primary-soft px-1.5 py-0.5 rounded mt-0.5">F-02</span>
+<div class="flex-1 min-w-0">
+<div class="flex items-baseline justify-between"><h5 class="text-[13px] font-semibold text-stone-text">Offline Llama Treatment Advisor</h5></div>
+<p class="text-[11px] text-stone-muted mt-0.5 leading-snug">Autonomous organic &amp; bio-chemical spray prescriptions tailored to crop stage.</p>
+</div>
+</div>
+<div class="p-3 rounded-xl bg-[#FFFFFF] border border-hairline flex items-start gap-3 cursor-pointer hover:border-primary/40 transition-colors">
+<span class="font-mono-quiet text-[10px] text-primary font-semibold bg-primary-soft px-1.5 py-0.5 rounded mt-0.5">F-03</span>
+<div class="flex-1 min-w-0">
+<div class="flex items-baseline justify-between"><h5 class="text-[13px] font-semibold text-stone-text">Bilingual Voice Saarthi</h5></div>
+<p class="text-[11px] text-stone-muted mt-0.5 leading-snug">Low-latency acoustic speech recognition and voice back in Hinglish &amp; dialect.</p>
+</div>
+</div>
+<div class="p-3 rounded-xl bg-[#FFFFFF] border border-hairline flex items-start gap-3 cursor-pointer hover:border-primary/40 transition-colors">
+<span class="font-mono-quiet text-[10px] text-primary font-semibold bg-primary-soft px-1.5 py-0.5 rounded mt-0.5">F-04</span>
+<div class="flex-1 min-w-0">
+<div class="flex items-baseline justify-between"><h5 class="text-[13px] font-semibold text-stone-text">P2P Nearby Mesh Ferry</h5></div>
+<p class="text-[11px] text-stone-muted mt-0.5 leading-snug">Syncs pest alerts and village advisories peer-to-peer with no cell tower.</p>
+</div>
+</div>
+<div class="p-3 rounded-xl bg-[#FFFFFF] border border-hairline flex items-start gap-3 cursor-pointer hover:border-primary/40 transition-colors">
+<span class="font-mono-quiet text-[10px] text-primary font-semibold bg-primary-soft px-1.5 py-0.5 rounded mt-0.5">F-05</span>
+<div class="flex-1 min-w-0">
+<div class="flex items-baseline justify-between"><h5 class="text-[13px] font-semibold text-stone-text">Farm Plot Geofencing &amp; Canopy</h5></div>
+<p class="text-[11px] text-stone-muted mt-0.5 leading-snug">Sub-meter boundary mapping and multi-season microclimate history.</p>
+</div>
+</div>
+<div class="p-3 rounded-xl bg-[#FFFFFF] border border-hairline flex items-start gap-3 cursor-pointer hover:border-primary/40 transition-colors">
+<span class="font-mono-quiet text-[10px] text-primary font-semibold bg-primary-soft px-1.5 py-0.5 rounded mt-0.5">F-06</span>
+<div class="flex-1 min-w-0">
+<div class="flex items-baseline justify-between"><h5 class="text-[13px] font-semibold text-stone-text">APMC Mandi Bhav Radar</h5></div>
+<p class="text-[11px] text-stone-muted mt-0.5 leading-snug">Nearest grain markets, historical crop prices, and MSP comparison graphs.</p>
+</div>
+</div>
+</div>
+<div class="p-4 bg-[#FDFBF7] border-t border-hairline">
+<button class="w-full py-2.5 rounded-xl bg-primary text-white text-xs font-mono-quiet uppercase tracking-wider font-semibold hover:bg-primary/90 transition-colors cursor-pointer" id="features-drawer-close-btn" type="button">
+        Band Karein (Close Panel)
+      </button>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex flex-col relative w-full pt-20 pb-36 md:pb-40">
+<div class="flex flex-col w-full space-y-8 md:space-y-10 px-5 md:px-8 max-w-7xl mx-auto">
+<!-- Hero Card -->
+<section class="relative rounded-3xl overflow-hidden shadow-[0_12px_40px_rgba(27,67,50,0.06)] border border-hairline/80 group">
+<div class="relative h-96 md:h-[420px] lg:h-[460px] w-full">
+<img alt="Farmer in wheat field" class="w-full h-full object-cover object-center transform group-hover:scale-105 transition-transform duration-1000 ease-out" src="https://lh3.googleusercontent.com/aida/AEtjO1WYcoQNGHoFRLDscuKY3iCLESkUWdPip4Nxaw3WAVcE31lVwXSmkxYvOubgX8z6TzGRZ4WA_gYAbOGpX64cTjsebSwb_ZBkqZMGsVZfdFMkUbQXZqfWCJY3gbvdbjy1UB2Y6-OqrQhUd-IQB1qmaS4TMLfhv1eZLUKNJCCkIiEfSD61NhUIZLgYvb6mrEhAh_NIJ3SGPcDpCuNpqWuoGIk4xNRKDRR4wRVkfua2-axcpQBQxCQYchHYGJ0">
+<div class="absolute inset-0 bg-gradient-to-t from-[#152E22] via-[#1B4332]/45 to-transparent"></div>
+<div class="absolute top-4 left-4 md:top-6 md:left-6 flex items-center gap-2">
+<span class="px-3 py-1 rounded-full bg-white/20 backdrop-blur-md font-mono-quiet text-[11px] uppercase tracking-wider text-emerald-200 border border-white/20 flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+
+</span>
+</div>
+<div class="absolute bottom-5 left-5 right-5 md:bottom-8 md:left-8 md:right-8 text-white space-y-1 md:space-y-2 max-w-2xl">
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-0.5 rounded-full bg-white/20 backdrop-blur-xs font-mono-quiet text-[10px] md:text-xs uppercase tracking-wider text-amber-200">Rabi Season 2024-25</span>
+
+</div>
+<h2 class="font-serif-display text-2xl md:text-3xl lg:text-4xl font-semibold leading-tight text-white">Ram-Ram Rameshwar Ji, fasal surakshit hai</h2>
+<p class="text-xs md:text-sm text-white/80 font-sans-clean leading-relaxed">Khet mein nami 42% hai. Agle 4 ghante mein barish ki sambhavna hai.</p>
+</div>
+</div>
+</section>
+<!-- Alert + Weather Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-4 md:gap-5 items-stretch">
+<section class="lg:col-span-2 rounded-2xl bg-ochre-light/90 border border-ochre/20 p-4 md:p-5 flex items-start gap-3.5 md:gap-4">
+<div class="w-9 h-9 md:w-10 md:h-10 rounded-full bg-ochre/15 text-ochre flex items-center justify-center flex-shrink-0 mt-0.5">
+<span class="material-symbols-outlined text-[18px] md:text-[22px]">wb_twilight</span>
+</div>
+<div class="flex-1 min-w-0 space-y-1">
+<div class="flex items-center justify-between">
+<span class="font-mono-quiet text-[10px] md:text-[11px] uppercase tracking-wider text-ochre font-medium">VECTOR ALERT · 12KM RADIUS</span>
+<span class="font-mono-quiet text-[10px] md:text-[11px] text-stone-muted">Spatiotemporal Risk</span>
+</div>
+<p class="font-serif-display text-base md:text-lg text-stone-text leading-snug font-medium">Hawa mein Peela Ratua (Yellow Rust) ka risk mila hai</p>
+<p class="text-[12px] md:text-[13px] text-stone-muted leading-relaxed font-sans-clean">Pass ke 12km area mein hawa aur nami ke karan gehu ki fasal mein fafund ka jokhim hai. Dophar ki barish se pehle bio-spray protocol tap karke check karein.</p>
+</div>
+</section>
+<section class="lg:col-span-1 rounded-2xl bg-surface-card border border-hairline p-4 md:p-5 flex flex-col justify-between space-y-3">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">routine</span>
+<span class="font-mono-quiet text-[11px] md:text-xs uppercase tracking-wider text-stone-text font-semibold">Sonipat, Haryana · 31°C</span>
+</div>
+<span class="text-[10px] font-mono-quiet px-2 py-0.5 rounded-full bg-primary-soft text-primary font-medium">Live Synced</span>
+</div>
+<p class="text-[12px] md:text-[12.5px] text-stone-muted leading-relaxed">Halki Nami (Soft Humidity) · 4 ghante mein barish expected</p>
+<div class="pt-2 border-t border-hairline flex items-center justify-between text-stone-muted text-[11px] md:text-xs">
+<span class="">Mitti Nami (Moisture):</span>
+<span class="font-bold font-mono-quiet text-primary text-sm">42%</span>
+</div>
+</section>
+</div>
+<!-- Daily Essential Tools -->
+<section class="space-y-4">
+<div class="flex items-baseline justify-between px-1">
+<h2 class="font-serif-display text-2xl md:text-3xl font-normal tracking-wide text-primary">Roz ke Zaroori Kaam</h2>
+<span class="font-mono-quiet text-[11px] tracking-widest uppercase text-stone-muted">Daily Essential Tools</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 items-stretch">
+<!-- Card 1: AI Crop Doctor -->
+<div class="flex flex-col justify-between p-5 rounded-2xl bg-surface-card border border-hairline shadow-xs hover:border-primary/40 hover:shadow-md transition-all text-left cursor-pointer group quick-tool-card h-full min-h-[190px]" data-prompt="AI Fasal Doctor: गेहूं की पत्ती पर पीले धब्बे दिख रहे हैं, इसका तुरंत ऑर्गेनिक और सुरक्षित समाधान बताएं">
+<div>
+<div class="w-10 h-10 rounded-xl bg-primary-soft text-primary flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[20px]">psychiatry</span>
+</div>
+<span class="font-mono-quiet text-[9px] md:text-[10px] uppercase tracking-widest text-stone-muted block mb-1">ONNX · Vision</span>
+<h3 class="font-serif-display text-lg font-medium text-stone-text leading-snug group-hover:text-primary transition-colors">AI Fasal Doctor (Crop Doctor)</h3>
+</div>
+<p class="text-[11px] md:text-[12px] font-sans-clean text-stone-muted mt-3 leading-relaxed">Patti ka photo scan karein aur turant upchar payein.</p>
+</div>
+<!-- Card 2: Voice Saarthi -->
+<div class="flex flex-col justify-between p-5 rounded-2xl bg-surface-card border border-hairline shadow-xs hover:border-primary/40 hover:shadow-md transition-all text-left cursor-pointer group quick-voice-trigger h-full min-h-[190px]">
+<div>
+<div class="w-10 h-10 rounded-xl bg-secondary-tint text-secondary flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[20px]">record_voice_over</span>
+</div>
+<span class="font-mono-quiet text-[9px] md:text-[10px] uppercase tracking-widest text-stone-muted block mb-1">Sherpa-STT</span>
+<h3 class="font-serif-display text-lg font-medium text-stone-text leading-snug group-hover:text-primary transition-colors">Voice Saarthi (बोलकर पूछें)</h3>
+</div>
+<p class="text-[11px] md:text-[12px] font-sans-clean text-stone-muted mt-3 leading-relaxed">Apni boli mein bolkar kheti ki koi bhi salah lein.</p>
+</div>
+<!-- Card 3: Mandi Bhav Radar -->
+<div class="flex flex-col justify-between p-5 rounded-2xl bg-surface-card border border-hairline shadow-xs hover:border-primary/40 hover:shadow-md transition-all text-left cursor-pointer group quick-tool-card h-full min-h-[190px]" data-prompt="सोनीपत और आसपास की मंडियों में आज गेहूं और सरसों का ताजा भाव क्या है?">
+<div>
+<div class="w-10 h-10 rounded-xl bg-[#F4F6F4] text-primary flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[20px]">candlestick_chart</span>
+</div>
+<span class="font-mono-quiet text-[9px] md:text-[10px] uppercase tracking-widest text-stone-muted block mb-1">USSD Fallback</span>
+<h3 class="font-serif-display text-lg font-medium text-stone-text leading-snug group-hover:text-primary transition-colors">Mandi Bhav Radar</h3>
+</div>
+<p class="text-[11px] md:text-[12px] font-sans-clean text-stone-muted mt-3 leading-relaxed">Gehu ₹2,325/qtl · Sonipat mandi rate bina internet.</p>
+</div>
+<!-- Card 4: Khaad Parakh -->
+<div class="flex flex-col justify-between p-5 rounded-2xl bg-surface-card border border-hairline shadow-xs hover:border-primary/40 hover:shadow-md transition-all text-left cursor-pointer group quick-tool-card h-full min-h-[190px]" data-prompt="खाद की बोरी का बैच नंबर और बारकोड कैसे चेक करें? असली IFFCO DAP की क्या पहचान है?">
+<div>
+<div class="w-10 h-10 rounded-xl bg-ochre-light text-ochre flex items-center justify-center mb-4 group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[20px]">verified</span>
+</div>
+<span class="font-mono-quiet text-[9px] md:text-[10px] uppercase tracking-widest text-stone-muted block mb-1">Bloom Filter</span>
+<h3 class="font-serif-display text-lg font-medium text-stone-text leading-snug group-hover:text-primary transition-colors">Khaad Parakh (Fertilizer)</h3>
+</div>
+<p class="text-[11px] md:text-[12px] font-sans-clean text-stone-muted mt-3 leading-relaxed">Asli ya nakli? Khad ki bori ka hologram check karein.</p>
+</div>
+</div>
+</section>
+<!-- Voice Saarthi Live Banner -->
+<section class="p-6 md:p-8 rounded-2xl md:rounded-3xl bg-[#1B4332] text-white space-y-4 shadow-sm relative overflow-hidden">
+<div class="flex items-center justify-between">
+<span class="font-mono-quiet text-[10px] md:text-xs tracking-widest uppercase text-white/60">Voice Saarthi · Natural Speech</span>
+<span class="px-2 py-0.5 rounded-full bg-emerald-700/60 text-emerald-200 text-[10px] font-mono-quiet border border-emerald-500/30">Zero Latency NPU</span>
+</div>
+<div class="space-y-1 max-w-2xl">
+<h3 class="font-serif-display text-2xl md:text-3xl font-normal text-white leading-snug">“Gehu me doosra paani kab lagayein aur urea kitna daalein?”</h3>
+<p class="text-xs md:text-sm text-white/70 font-sans-clean">Bina internet phone par hi baat karein. Tap Speak.</p>
+</div>
+<div class="flex items-center justify-between pt-2">
+<div class="flex items-center gap-1.5 h-6">
+<span class="w-0.5 h-3 bg-amber-200/80 rounded-full animate-pulse"></span>
+<span class="w-0.5 h-5 bg-amber-200/80 rounded-full animate-pulse"></span>
+<span class="w-0.5 h-2 bg-amber-200/80 rounded-full"></span>
+<span class="w-0.5 h-6 bg-amber-200/80 rounded-full animate-pulse"></span>
+<span class="w-0.5 h-4 bg-amber-200/80 rounded-full animate-pulse"></span>
+</div>
+<button class="h-9 md:h-10 px-4 md:px-5 rounded-full bg-white text-primary font-mono-quiet text-xs tracking-wider uppercase font-medium hover:bg-white/90 active:scale-95 transition-all flex items-center gap-2 shadow-sm cursor-pointer" id="voice-trigger-btn" type="button">
+<span class="w-2 h-2 rounded-full bg-emerald-500 animate-ping"></span>
+<span class="font-bold">LIVE TALK (लाइव बात करें)</span>
+</button>
+</div>
+</section>
+</div>
+</main>
+<!-- Bottom Nav Dock -->
+<nav class="fixed bottom-0 left-0 right-0 md:bottom-6 md:left-1/2 md:-translate-x-1/2 z-30 w-full md:max-w-xl bg-white/95 md:bg-white/90 backdrop-blur-md border-t md:border border-hairline shadow-[0_-4px_20px_rgba(27,67,50,0.06)] md:shadow-xl md:rounded-full pb-safe md:pb-0 transition-all">
+<div class="h-16 px-4 md:px-6 grid grid-cols-5 items-center">
+<button class="bottom-nav-item flex flex-col items-center justify-center py-1 text-primary cursor-pointer active-nav" type="button">
+<div class="w-9 h-7 rounded-full bg-primary-soft flex items-center justify-center">
+<span class="material-symbols-outlined text-[19px] text-primary">yard</span>
+</div>
+<span class="text-[10px] font-semibold mt-0.5">Khet / Home</span>
+</button>
+<button class="bottom-nav-item flex flex-col items-center justify-center py-1 text-stone-muted hover:text-primary cursor-pointer quick-tool-card" data-prompt="आज का निकटतम मंडी भाव और समर्थन मूल्य (MSP) चेक करें" type="button">
+<div class="w-9 h-7 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[19px]">storefront</span>
+</div>
+<span class="text-[10px] font-medium mt-0.5">Mandi Bhav</span>
+</button>
+<button class="bottom-nav-item flex flex-col items-center justify-center py-1 cursor-pointer" id="bottom-scan-btn" type="button">
+<div class="w-11 h-11 -mt-4 rounded-full bg-gradient-to-tr from-[#1B4332] to-[#2D6A4F] text-white flex items-center justify-center shadow-md border-2 border-white hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[20px] text-amber-200">document_scanner</span>
+</div>
+<span class="text-[10px] font-bold mt-0.5 text-primary">AI Scan</span>
+</button>
+<button class="bottom-nav-item flex flex-col items-center justify-center py-1 text-stone-muted hover:text-primary cursor-pointer quick-tool-card" data-prompt="मेश नेटवर्क में कितने स्थानीय किसान जुड़े हैं और निकटतम मौसम अलर्ट क्या है?" type="button">
+<div class="w-9 h-7 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[19px]">hub</span>
+</div>
+<span class="text-[10px] font-medium mt-0.5">Mesh</span>
+</button>
+<button class="bottom-nav-item flex flex-col items-center justify-center py-1 text-stone-muted hover:text-primary cursor-pointer" id="bottom-more-btn" type="button">
+<div class="w-9 h-7 rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-[19px]">more_horiz</span>
+</div>
+<span class="text-[10px] font-medium mt-0.5">More Tools</span>
+</button>
+</div>
+</nav>
+<!-- Kisan AI Floating Button -->
+<div class="fixed bottom-20 md:bottom-24 right-5 md:right-8 z-30 pointer-events-auto">
+<button aria-label="Open Kisan AI Chatbot" class="group relative flex items-center gap-2 px-3.5 py-2 md:px-4 md:py-2.5 rounded-full bg-gradient-to-r from-[#1B4332] via-[#1e5e3a] to-[#2D6A4F] text-white shadow-lg border border-amber-300/40 fab-glow active:scale-95 hover:scale-105 transition-all cursor-pointer" id="ai-fab-btn" type="button">
+<div class="relative flex items-center justify-center w-6 h-6 md:w-7 md:h-7 rounded-full bg-white/15 border border-white/25 flex-shrink-0">
+<span class="material-symbols-outlined text-[16px] md:text-[18px] text-amber-200 group-hover:rotate-12 transition-transform">auto_awesome</span>
+<span class="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+</div>
+<span class="font-serif-display text-xs md:text-sm font-bold tracking-wide text-white flex items-center gap-1">Kisan AI <span class="text-amber-200 text-[11px]">✨</span></span>
+</button>
+</div>
+<!-- Kisan AI Chatbot Modal -->
+<div class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm transition-all duration-300 flex flex-col justify-end sm:justify-center items-center" id="ai-chatbot-modal">
+<div class="relative w-full max-w-lg h-[92vh] sm:h-[82vh] sm:rounded-3xl bg-[#F8F7F4] flex flex-col overflow-hidden shadow-2xl border border-hairline/80" id="chatbot-container">
+<header class="pt-safe px-4 pb-3.5 bg-[#FDFBF7] border-b border-hairline flex items-center justify-between z-10">
+<div class="flex items-center gap-2.5">
+<button aria-label="Open Chat History" class="w-8 h-8 rounded-full border border-hairline bg-surface hover:bg-surface-dim flex items-center justify-center text-stone-muted hover:text-primary transition-colors cursor-pointer" id="chatbot-history-menu-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">history</span>
+</button>
+<div class="flex items-center gap-1.5">
+<h3 class="font-serif-display text-base font-semibold text-primary leading-tight">Kisan AI Assistant</h3>
+
+</div>
+</div>
+<div class="flex items-center gap-2">
+<button aria-label="Start Live Talk" class="px-2.5 py-1 rounded-full bg-amber-100 hover:bg-amber-200 text-amber-900 border border-amber-300 text-[11px] font-mono-quiet font-semibold flex items-center gap-1 transition-all cursor-pointer" id="chatbot-live-talk-btn" type="button">
+
+<span class="">Live</span>
+</button>
+<button aria-label="Close Chatbot" class="w-8 h-8 rounded-full border border-hairline bg-surface hover:bg-surface-dim flex items-center justify-center text-stone-muted hover:text-stone-text transition-colors cursor-pointer" id="chatbot-close-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+</header>
+<!-- Messages Stream -->
+<div class="flex-1 overflow-y-auto px-4 py-4 space-y-4" id="chatbot-messages">
+<div class="p-4 rounded-2xl bg-white border border-hairline shadow-2xs space-y-2">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[16px] text-amber-800">psychology</span>
+<span class="font-serif-display text-sm font-semibold text-stone-text">Kisan AI Sahayak (Offline)</span>
+</div>
+<p class="text-[12px] font-sans-clean text-stone-muted leading-relaxed">नमस्ते रामेश्वर जी! मैं आपका कृषि-सारथी AI सहायक हूँ। बिना इंटरनेट अपनी फसल, खाद, कीट नियंत्रण या मंडी भाव के बारे में पूछें।</p>
+</div>
+<div class="space-y-1.5">
+<span class="font-mono-quiet text-[10px] tracking-widest uppercase text-stone-muted block px-1">Sujhav / Starters:</span>
+<div class="flex flex-wrap gap-1.5">
+<button class="suggestion-chip px-3 py-1.5 rounded-full bg-[#FDFBF7] border border-hairline hover:border-primary/40 hover:bg-primary-soft text-[11px] text-stone-text font-sans-clean transition-all text-left flex items-center gap-1.5 shadow-2xs cursor-pointer" data-prompt="पीला रतुआ (Yellow Rust) के शुरुआती लक्षण क्या हैं?" type="button">
+<span class="">🌾</span> <span class="">पीला रतुआ (Yellow Rust) लक्षण</span>
+</button>
+<button class="suggestion-chip px-3 py-1.5 rounded-full bg-[#FDFBF7] border border-hairline hover:border-primary/40 hover:bg-primary-soft text-[11px] text-stone-text font-sans-clean transition-all text-left flex items-center gap-1.5 shadow-2xs cursor-pointer" data-prompt="गेहूं में दूसरी सिंचाई कब करनी चाहिए?" type="button">
+<span class="">💧</span> <span class="">गेहूं में दूसरी सिंचाई</span>
+</button>
+</div>
+</div>
+<div class="space-y-3 pt-2" id="chat-thread">
+<div class="flex justify-end">
+<div class="max-w-[82%] rounded-2xl rounded-tr-xs bg-primary text-white p-3.5 shadow-2xs text-[12px] font-sans-clean leading-relaxed">
+              गेहूं में पीला रतुआ (Yellow Rust) के लक्षण दिखे तो बिना इंटरनेट क्या तुरंत उपाय करें?
+            </div>
+</div>
+<div class="flex items-start gap-2.5">
+<div class="w-7 h-7 rounded-full bg-gradient-to-tr from-[#1B4332] to-[#2D6A4F] text-amber-200 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-2xs">
+<span class="material-symbols-outlined text-[15px]">auto_awesome</span>
+</div>
+<div class="max-w-[85%] rounded-2xl rounded-tl-xs bg-white border border-hairline p-3.5 shadow-2xs space-y-2">
+<div class="flex items-center justify-between border-b border-hairline/60 pb-1.5">
+<span class="font-serif-display text-xs font-semibold text-primary">Kisan AI Saarthi</span>
+<span class="font-mono-quiet text-[9px] text-stone-muted bg-primary-soft/60 px-1.5 py-0.5 rounded">⚡ Local AI INT4</span>
+</div>
+<p class="text-[12px] font-sans-clean text-stone-text leading-relaxed">
+                रामेश्वर जी, मुरथल क्षेत्र में आर्द्रता 42% है। पीला रतुआ के लिए प्रोपिकोनाज़ोल 25% EC (200 मिली प्रति 200 ली पानी) या 5% नीम तेल का छिड़काव दोपहर 3 बजे से पहले करें।
+              </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Composer -->
+<div class="p-3 bg-[#FDFBF7] border-t border-hairline">
+<form class="flex items-center gap-1.5 bg-white rounded-2xl border border-hairline/90 p-1.5 shadow-sm" id="chat-input-form">
+<button aria-label="Camera Scan" class="w-9 h-9 rounded-xl bg-surface-dim hover:bg-primary-soft text-stone-muted hover:text-primary flex items-center justify-center cursor-pointer" id="chat-cam-btn" type="button">
+<span class="material-symbols-outlined text-[19px]">photo_camera</span>
+</button>
+<button aria-label="Voice Input" class="w-9 h-9 rounded-xl bg-surface-dim hover:bg-primary-soft text-stone-muted hover:text-primary flex items-center justify-center cursor-pointer" id="chat-mic-btn" type="button">
+<span class="material-symbols-outlined text-[19px]">mic</span>
+</button>
+<input class="flex-1 min-w-0 bg-transparent border-0 focus:ring-0 text-[12.5px] font-sans-clean text-stone-text placeholder:text-stone-muted px-2 py-1" id="chat-text-input" placeholder="अपनी बोली में पूछें / Ask anything offline..." type="text">
+<button aria-label="Send message" class="w-9 h-9 rounded-xl bg-primary hover:bg-primary/90 text-white flex items-center justify-center cursor-pointer shadow-xs" type="submit">
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</form>
+</div>
+<!-- History Drawer inside Chatbot -->
+<div class="absolute inset-0 z-20 bg-stone-900/40 backdrop-blur-xs transition-opacity duration-300 hidden" id="chat-history-backdrop"></div>
+<aside class="absolute top-0 left-0 bottom-0 z-30 w-5/6 max-w-sm bg-[#F8F7F4] shadow-2xl flex flex-col transform transition-transform duration-300 ease-in-out border-r border-hairline -translate-x-full" id="chat-history-drawer">
+<div class="pt-safe px-4 pb-3 border-b border-hairline bg-[#FDFBF7] flex items-center justify-between">
+<div class="flex items-center gap-2 pt-2">
+<span class="material-symbols-outlined text-primary text-[19px]">history_edu</span>
+<h4 class="font-serif-display text-base font-semibold text-primary">Chat History</h4>
+</div>
+<button class="w-8 h-8 rounded-full border border-hairline bg-surface hover:bg-surface-dim flex items-center justify-center text-stone-muted cursor-pointer" id="chat-history-close-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">close</span>
+</button>
+</div>
+<div class="flex-1 overflow-y-auto p-4 space-y-4">
+<button class="w-full py-2.5 px-3.5 rounded-xl bg-primary text-white font-sans-clean text-xs font-semibold hover:bg-primary/90 flex items-center justify-center gap-2 cursor-pointer" id="btn-new-talk" type="button">
+<span class="material-symbols-outlined text-[18px]">add</span>
+<span class="">+ New Talk / नई बातचीत</span>
+</button>
+<div class="space-y-1.5">
+<div class="p-2.5 rounded-xl bg-white border border-hairline cursor-pointer flex items-center justify-between hover:border-primary/40">
+<span class="text-[12px] font-sans-clean text-stone-text truncate">गेहूं की सिंचाई और यूरिया की मात्रा</span>
+<span class="font-mono-quiet text-[9px] text-stone-muted">10:42 AM</span>
+</div>
+<div class="p-2.5 rounded-xl bg-white border border-hairline cursor-pointer flex items-center justify-between hover:border-primary/40">
+<span class="text-[12px] font-sans-clean text-stone-text truncate">पीला रतुआ रोकथाम सलाह</span>
+<span class="font-mono-quiet text-[9px] text-stone-muted">08:15 AM</span>
+</div>
+</div>
+</div>
+</aside>
+</div>
+</div>
+<!-- Full-screen Live Talk Modal -->
+<div class="fixed inset-0 z-[110] bg-[#0d1f17]/95 backdrop-blur-md text-white flex flex-col justify-between p-6 md:p-10" id="live-talk-modal">
+<div class="flex items-center justify-between pt-safe max-w-2xl mx-auto w-full">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center border border-white/20">
+<span class="material-symbols-outlined text-[18px] text-amber-300">auto_awesome</span>
+</div>
+<div>
+<div class="flex items-center gap-1.5">
+<span class="font-serif-display text-base md:text-lg font-semibold text-white">Krishi Live Voice</span>
+
+</div>
+
+</div>
+</div>
+<button aria-label="Minimize Live Talk" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white/80 cursor-pointer" id="live-talk-minimize-btn" type="button">
+<span class="material-symbols-outlined text-[18px]">keyboard_arrow_down</span>
+</button>
+</div>
+<!-- Glowing Audio Orb -->
+<div class="flex flex-col items-center justify-center flex-1 my-6 text-center max-w-2xl mx-auto w-full">
+<div class="relative flex items-center justify-center mb-8">
+<div class="absolute w-64 h-64 md:w-80 md:h-80 rounded-full bg-gradient-to-tr from-emerald-500/30 via-amber-400/20 to-teal-400/30 blur-2xl animate-pulse"></div>
+<div class="relative w-32 h-32 md:w-40 md:h-40 rounded-full bg-gradient-to-tr from-[#1B4332] via-[#2D6A4F] to-emerald-500 border border-amber-300/40 shadow-2xl flex items-center justify-center">
+<div class="flex items-center gap-1.5 md:gap-2 h-10 md:h-12">
+<span class="w-1 md:w-1.5 bg-amber-200 rounded-full animate-pulse h-4 md:h-6"></span>
+<span class="w-1 md:w-1.5 bg-amber-300 rounded-full animate-pulse h-8 md:h-10"></span>
+<span class="w-1 md:w-1.5 bg-white rounded-full animate-pulse h-10 md:h-12"></span>
+<span class="w-1 md:w-1.5 bg-emerald-200 rounded-full animate-pulse h-7 md:h-9"></span>
+<span class="w-1 md:w-1.5 bg-amber-200 rounded-full animate-pulse h-3 md:h-5"></span>
+</div>
+</div>
+</div>
+
+<p class="font-serif-display text-lg md:text-2xl text-white/95 max-w-md italic leading-relaxed px-4">
+        “रामेश्वर जी, बोलिए... गेहूं में दूसरा पानी या यूरिया देने के बारे में आप क्या पूछना चाहते हैं?”
+      </p>
+</div>
+<!-- Controls -->
+<div class="pb-safe flex flex-col items-center gap-4 max-w-2xl mx-auto w-full">
+<div class="flex items-center justify-center gap-6">
+<button aria-label="Mute Microphone" class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/15 hover:bg-white/25 border border-white/20 flex items-center justify-center text-white cursor-pointer transition-colors" id="live-mute-btn" type="button">
+<span class="material-symbols-outlined text-[22px] md:text-[26px]" id="live-mute-icon">mic</span>
+</button>
+<button aria-label="End Live Talk Session" class="w-16 h-16 md:w-18 md:h-18 rounded-full bg-rose-600 hover:bg-rose-500 border-2 border-white/40 shadow-xl flex items-center justify-center text-white active:scale-95 cursor-pointer" id="live-end-call-btn" type="button">
+<span class="material-symbols-outlined text-[30px] md:text-[34px]">call_end</span>
+</button>
+<button aria-label="Interrupt AI Response" class="w-12 h-12 md:w-14 md:h-14 rounded-full bg-white/15 hover:bg-white/25 border border-white/20 flex items-center justify-center text-white cursor-pointer transition-colors" id="live-interrupt-btn" type="button">
+<span class="material-symbols-outlined text-[22px] md:text-[26px]">pause</span>
+</button>
+</div>
+<span class="text-[11px] md:text-xs font-mono-quiet text-white/60">End Live Talk (बातचीत समाप्त करें / Cut)</span>
+</div>
+</div>
+<!-- Interactive JavaScript Logic -->
+<script>
+    (function() {
+      function setupInteractions() {
+        // 1. Language switcher
+        const langBtn = document.getElementById('lang-menu-btn');
+        const langDropdown = document.getElementById('lang-picker-dropdown');
+        const langClose = document.getElementById('lang-picker-close');
+        const langLabel = document.getElementById('current-lang-label');
+
+        if (langBtn && langDropdown) {
+          langBtn.onclick = function(e) {
+            e.stopPropagation();
+            const isHidden = langDropdown.classList.contains('hidden');
+            if (profileDropdown) profileDropdown.classList.add('hidden');
+            if (isHidden) {
+              langDropdown.classList.remove('hidden');
+            } else {
+              langDropdown.classList.add('hidden');
+            }
+          };
+        }
+        if (langClose && langDropdown) {
+          langClose.onclick = function(e) {
+            e.stopPropagation();
+            langDropdown.classList.add('hidden');
+          };
+        }
+        document.querySelectorAll('.lang-option-btn').forEach(function(btn) {
+          btn.onclick = function(e) {
+            e.stopPropagation();
+            const val = this.getAttribute('data-lang-val');
+            if (langLabel && val) langLabel.textContent = val;
+            document.querySelectorAll('.lang-option-btn .check-icon').forEach(function(icon) {
+              icon.classList.add('hidden');
+            });
+            const selfIcon = this.querySelector('.check-icon');
+            if (selfIcon) selfIcon.classList.remove('hidden');
+            if (langDropdown) langDropdown.classList.add('hidden');
+          };
+        });
+
+        // 2. Google Profile Dropdown
+        const profileBtn = document.getElementById('google-profile-btn');
+        const profileDropdown = document.getElementById('google-profile-dropdown');
+        const profileClose = document.getElementById('google-profile-close');
+
+        if (profileBtn && profileDropdown) {
+          profileBtn.onclick = function(e) {
+            e.stopPropagation();
+            const isHidden = profileDropdown.classList.contains('hidden');
+            if (langDropdown) langDropdown.classList.add('hidden');
+            if (isHidden) {
+              profileDropdown.classList.remove('hidden');
+            } else {
+              profileDropdown.classList.add('hidden');
+            }
+          };
+        }
+        if (profileClose && profileDropdown) {
+          profileClose.onclick = function(e) {
+            e.stopPropagation();
+            profileDropdown.classList.add('hidden');
+          };
+        }
+
+        // 3. 13-Feature Drawer
+        const menuBtn = document.getElementById('menu-btn');
+        const bottomMoreBtn = document.getElementById('bottom-more-btn');
+        const drawer = document.getElementById('features-drawer');
+        const backdrop = document.getElementById('features-backdrop');
+        const drawerClose = document.getElementById('features-drawer-close');
+        const drawerCloseBtn = document.getElementById('features-drawer-close-btn');
+
+        function openDrawer() {
+          if (backdrop) backdrop.classList.remove('hidden');
+          if (drawer) {
+            drawer.classList.remove('translate-x-full');
+            drawer.classList.add('translate-x-0');
+          }
+        }
+        function closeDrawer() {
+          if (backdrop) backdrop.classList.add('hidden');
+          if (drawer) {
+            drawer.classList.add('translate-x-full');
+            drawer.classList.remove('translate-x-0');
+          }
+        }
+        if (menuBtn) menuBtn.onclick = openDrawer;
+        if (bottomMoreBtn) bottomMoreBtn.onclick = openDrawer;
+        if (drawerClose) drawerClose.onclick = closeDrawer;
+        if (drawerCloseBtn) drawerCloseBtn.onclick = closeDrawer;
+        if (backdrop) backdrop.onclick = closeDrawer;
+
+        // 4. Kisan AI Chatbot Modal
+        const aiFabBtn = document.getElementById('ai-fab-btn');
+        const chatbotModal = document.getElementById('ai-chatbot-modal');
+        const chatbotCloseBtn = document.getElementById('chatbot-close-btn');
+        const bottomScanBtn = document.getElementById('bottom-scan-btn');
+
+        function openChatbot() {
+          if (chatbotModal) chatbotModal.classList.remove('hidden');
+        }
+        function closeChatbot() {
+          if (chatbotModal) chatbotModal.classList.add('hidden');
+        }
+        if (aiFabBtn) aiFabBtn.onclick = openChatbot;
+        if (chatbotCloseBtn) chatbotCloseBtn.onclick = closeChatbot;
+        if (bottomScanBtn) {
+          bottomScanBtn.onclick = function() {
+            openChatbot();
+            const input = document.getElementById('chat-text-input');
+            if (input) input.value = "पौधे की पत्ती का स्कैन विश्लेषण (Leaf Disease Scan)";
+          };
+        }
+
+        // 5. Live Talk Modal
+        const voiceTriggerBtn = document.getElementById('voice-trigger-btn');
+        const chatbotLiveTalkBtn = document.getElementById('chatbot-live-talk-btn');
+        const liveTalkModal = document.getElementById('live-talk-modal');
+        const liveEndCallBtn = document.getElementById('live-end-call-btn');
+        const liveMinimizeBtn = document.getElementById('live-talk-minimize-btn');
+        const liveMuteBtn = document.getElementById('live-mute-btn');
+        const liveMuteIcon = document.getElementById('live-mute-icon');
+
+        function openLiveTalk() {
+          if (liveTalkModal) liveTalkModal.classList.remove('hidden');
+        }
+        function closeLiveTalk() {
+          if (liveTalkModal) liveTalkModal.classList.add('hidden');
+        }
+        if (voiceTriggerBtn) voiceTriggerBtn.onclick = openLiveTalk;
+        if (chatbotLiveTalkBtn) chatbotLiveTalkBtn.onclick = openLiveTalk;
+        if (liveEndCallBtn) liveEndCallBtn.onclick = closeLiveTalk;
+        if (liveMinimizeBtn) liveMinimizeBtn.onclick = closeLiveTalk;
+
+        if (liveMuteBtn && liveMuteIcon) {
+          liveMuteBtn.onclick = function() {
+            if (liveMuteIcon.textContent === 'mic') {
+              liveMuteIcon.textContent = 'mic_off';
+              liveMuteBtn.classList.add('bg-rose-500/40');
+            } else {
+              liveMuteIcon.textContent = 'mic';
+              liveMuteBtn.classList.remove('bg-rose-500/40');
+            }
+          };
+        }
+
+        // 6. History Drawer inside Chatbot
+        const histBtn = document.getElementById('chatbot-history-menu-btn');
+        const histDrawer = document.getElementById('chat-history-drawer');
+        const histBackdrop = document.getElementById('chat-history-backdrop');
+        const histClose = document.getElementById('chat-history-close-btn');
+        const btnNewTalk = document.getElementById('btn-new-talk');
+
+        function openHist() {
+          if (histBackdrop) histBackdrop.classList.remove('hidden');
+          if (histDrawer) {
+            histDrawer.classList.remove('-translate-x-full');
+            histDrawer.classList.add('translate-x-0');
+          }
+        }
+        function closeHist() {
+          if (histBackdrop) histBackdrop.classList.add('hidden');
+          if (histDrawer) {
+            histDrawer.classList.add('-translate-x-full');
+            histDrawer.classList.remove('translate-x-0');
+          }
+        }
+        if (histBtn) histBtn.onclick = openHist;
+        if (histClose) histClose.onclick = closeHist;
+        if (histBackdrop) histBackdrop.onclick = closeHist;
+        if (btnNewTalk) {
+          btnNewTalk.onclick = function() {
+            closeHist();
+            const thread = document.getElementById('chat-thread');
+            if (thread) {
+              thread.innerHTML = '<div class="p-2.5 rounded-xl bg-primary-soft text-primary text-xs">नई बातचीत शुरू हो गई है। अपनी फसल या मौसम संबंधी कोई भी सवाल पूछें।</div>';
+            }
+          };
+        }
+
+        // 7. Chat composer submit
+        const chatForm = document.getElementById('chat-input-form');
+        const chatInput = document.getElementById('chat-text-input');
+        const chatThread = document.getElementById('chat-thread');
+        const chatMessages = document.getElementById('chatbot-messages');
+
+        if (chatForm && chatInput && chatThread) {
+          chatForm.onsubmit = function(e) {
+            e.preventDefault();
+            const val = chatInput.value.trim();
+            if (!val) return;
+            chatInput.value = '';
+
+            const userBubble = document.createElement('div');
+            userBubble.className = 'flex justify-end';
+            userBubble.innerHTML = '<div class="max-w-[82%] rounded-2xl rounded-tr-xs bg-primary text-white p-3.5 shadow-2xs text-[12px] font-sans-clean leading-relaxed">' + val + '</div>';
+            chatThread.appendChild(userBubble);
+            if (chatMessages) chatMessages.scrollTop = chatMessages.scrollHeight;
+
+            setTimeout(function() {
+              const aiBubble = document.createElement('div');
+              aiBubble.className = 'flex items-start gap-2.5';
+              aiBubble.innerHTML = '<div class="w-7 h-7 rounded-full bg-gradient-to-tr from-[#1B4332] to-[#2D6A4F] text-amber-200 flex items-center justify-center flex-shrink-0 mt-0.5 shadow-2xs"><span class="material-symbols-outlined text-[15px]">auto_awesome</span></div><div class="max-w-[85%] rounded-2xl rounded-tl-xs bg-white border border-hairline p-3.5 shadow-2xs space-y-2"><div class="flex items-center justify-between border-b border-hairline/60 pb-1.5"><span class="font-serif-display text-xs font-semibold text-primary">Kisan AI Saarthi</span><span class="font-mono-quiet text-[9px] text-stone-muted bg-primary-soft/60 px-1.5 py-0.5 rounded">⚡ Local AI</span></div><p class="text-[12px] font-sans-clean text-stone-text leading-relaxed">रामेश्वर जी, आपके प्रश्न पर परामर्श: खेत में नमी 42% है, अगले 4 घंटे में बारिश से पहले जैविक नीम तेल का छिड़काव उपयोगी रहेगा।</p></div>';
+              chatThread.appendChild(aiBubble);
+              if (chatMessages) chatMessages.scrollTop = chatMessages.scrollHeight;
+            }, 400);
+          };
+        }
+
+        // 8. Suggestion Chips & Cards
+        document.querySelectorAll('.suggestion-chip').forEach(function(chip) {
+          chip.onclick = function() {
+            const prompt = this.getAttribute('data-prompt');
+            if (chatInput && prompt) {
+              chatInput.value = prompt;
+              if (chatForm) chatForm.dispatchEvent(new Event('submit'));
+            }
+          };
+        });
+
+        document.querySelectorAll('.quick-tool-card').forEach(function(card) {
+          card.onclick = function() {
+            const prompt = this.getAttribute('data-prompt');
+            openChatbot();
+            if (chatInput && prompt) chatInput.value = prompt;
+          };
+        });
+
+        const quickVoice = document.querySelector('.quick-voice-trigger');
+        if (quickVoice) quickVoice.onclick = openLiveTalk;
+
+        // 9. Document click outside handler & Escape key
+        document.addEventListener('click', function(e) {
+          if (langDropdown && !langDropdown.contains(e.target) && langBtn && !langBtn.contains(e.target)) {
+            langDropdown.classList.add('hidden');
+          }
+          if (profileDropdown && !profileDropdown.contains(e.target) && profileBtn && !profileBtn.contains(e.target)) {
+            profileDropdown.classList.add('hidden');
+          }
+        });
+
+        document.addEventListener('keydown', function(e) {
+          if (e.key === 'Escape') {
+            if (langDropdown) langDropdown.classList.add('hidden');
+            if (profileDropdown) profileDropdown.classList.add('hidden');
+            closeDrawer();
+            closeChatbot();
+            closeLiveTalk();
+            closeHist();
+          }
+        });
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', setupInteractions);
+      } else {
+        setupInteractions();
+      }
+    })();
+  </script>
+
+
+</body></html>

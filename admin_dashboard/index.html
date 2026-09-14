@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>कृषि-सारथी (Krishi-Sarathi) 🌱 डिजिटल किसान मित्र</title>
+  <meta name="description" content="कृषि-सारथी: फसल रोग निदान, सटीक मौसम, मंडी भाव व कृषि विशेषज्ञ सहायता।">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@400;500;600;700;800&family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <!-- Leaflet CSS for GIS Map -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <link rel="stylesheet" href="./index.css">
+</head>
+<body>
+
+  <section class="onboarding-overlay" id="onboarding-overlay" aria-labelledby="onboarding-title">
+    <div class="onboarding-card">
+      <div class="onboarding-brand">🌱 <span>Agri-Saarthi</span></div>
+      <div class="onboarding-progress" id="onboarding-progress" aria-label="Setup progress"></div>
+      
+      <!-- Step 1: Language Selection -->
+      <div class="onboarding-step" data-step="1">
+        <div class="onboarding-kicker" data-i18n="namaste">Namaste! 🌱</div>
+        <h1 id="onboarding-title" data-i18n="welcomeTitle">Welcome to Agri-Saarthi</h1>
+        <p data-i18n="welcomeSub">Your AI agricultural companion, in the language you prefer.</p>
+        <h2 data-i18n="selectLangTitle">Select your preferred language</h2>
+        <div class="language-grid" id="language-grid"></div>
+      </div>
+
+      <!-- Step 2: Terms and Privacy -->
+      <div class="onboarding-step" data-step="2" hidden>
+        <div class="onboarding-kicker" data-i18n="step2Kicker">Step 2</div>
+        <h2 data-i18n="step2Title">Terms and privacy</h2>
+        <p data-i18n="termsDesc">Agri-Saarthi uses your choices to personalize crop advice, weather and market tools. Location is optional and is not continuously tracked.</p>
+        <label class="consent-row"><input type="checkbox" id="terms-consent"> <span data-i18n="termsConsent">I have read and accept the Terms of Use and Privacy Policy.</span></label>
+      </div>
+
+      <!-- Step 3: Location Access & Confirmation -->
+      <div class="onboarding-step" data-step="3" hidden>
+        <div class="onboarding-kicker" data-i18n="step3Kicker">Step 3</div>
+        <h2 data-i18n="step3Title">Allow location access</h2>
+        <p data-i18n="locDesc">Your location helps find nearby agricultural markets and local crop prices.</p>
+        
+        <div class="onboarding-actions onboarding-actions-stack" id="location-choice-buttons">
+          <button class="onboarding-primary" id="allow-location" type="button" data-i18n="allowLocBtn">📍 Allow Location (स्वतः पहचानें)</button>
+          <button class="onboarding-secondary" id="manual-location" type="button" data-i18n="manualLocBtn">Enter Location Manually (मैन्युअल दर्ज करें)</button>
+        </div>
+
+        <!-- Location Detected Confirmation Card -->
+        <div class="location-detected-card" id="location-detected-card" hidden style="background:var(--bg-card-subtle); border:1.5px solid var(--primary); border-radius:14px; padding:14px; margin-top:12px; text-align:left;">
+          <div style="font-size:12px; font-weight:700; color:var(--primary); margin-bottom:4px;" data-i18n="locDetectedTitle">✓ स्थान की पहचान हुई (Location Detected)</div>
+          <div style="font-size:15px; font-weight:700; color:var(--text-primary); margin-bottom:12px;" id="detected-location-text">📍 Solan, Himachal Pradesh</div>
+          <div style="display:flex; gap:8px;">
+            <button class="onboarding-primary" id="btn-use-detected-location" type="button" style="flex:1; font-size:13px; padding:8px 12px;" data-i18n="locUseThis">✓ इस स्थान का उपयोग करें</button>
+            <button class="onboarding-secondary" id="btn-change-detected-location" type="button" style="flex:1; font-size:13px; padding:8px 12px;" data-i18n="locChange">✎ बदलें</button>
+          </div>
+        </div>
+
+        <!-- Manual Location Input Fields -->
+        <div class="manual-location-fields" id="manual-location-fields" hidden style="margin-top:12px;">
+          <input id="manual-city" placeholder="City / Town (शहर / गांव)" autocomplete="address-level2" data-i18n-ph="manualCityPlaceholder">
+          <input id="manual-state" placeholder="State (राज्य)" autocomplete="address-level1" data-i18n-ph="manualStatePlaceholder">
+          <input id="manual-country" placeholder="Country (देश)" value="India" autocomplete="country-name" data-i18n-ph="manualCountryPlaceholder">
+        </div>
+        <p class="onboarding-status" id="location-status" style="margin-top:10px;"></p>
+      </div>
+
+      <!-- Step 4: Crop Selection -->
+      <div class="onboarding-step" data-step="4" hidden>
+        <div class="onboarding-kicker" data-i18n="step4Kicker">Step 4</div>
+        <h2 data-i18n="step4Title">Select your crops</h2>
+        <p data-i18n="cropsDesc">Choose one or more crops. You can change these later.</p>
+        <input class="crop-search" id="onboarding-crop-search" placeholder="Search crops (उदा. गेहूं, सेब)..." data-i18n-ph="searchCropsPlaceholder">
+        <div class="crop-choice-grid" id="crop-choice-grid"></div>
+      </div>
+
+      <!-- Step 5: Setup Complete -->
+      <div class="onboarding-step" data-step="5" hidden>
+        <div class="onboarding-kicker" data-i18n="step5Kicker">Setup complete</div>
+        <h2 data-i18n="step5Title">Your farm view is ready</h2>
+        <p id="onboarding-summary" data-i18n="step5Desc">Your saved preferences will personalize the dashboard.</p>
+        <div class="onboarding-complete-mark">✓</div>
+      </div>
+
+      <div class="onboarding-actions">
+        <button class="onboarding-secondary" id="onboarding-back" type="button" data-i18n="btnBack">Back</button>
+        <button class="onboarding-primary" id="onboarding-next" type="button" disabled data-i18n="btnContinue">Continue</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Centered Mobile Shell -->
+  <div class="mobile-app-shell">
+
+    <!-- Top App Bar -->
+    <header class="top-app-bar">
+      <a href="#" class="brand-group" onclick="switchNavTab('your-crops'); return false;">
+        <div class="brand-leaf-icon">🌱</div>
+        <span class="brand-name">कृषि-सारथी</span>
+      </a>
+      <div class="top-bar-actions">
+        <button class="btn-assistant-pill" id="btn-open-assistant" onclick="openAssistantScreen()">
+          <span>✨</span> Assistant
+        </button>
+        <button class="btn-icon-more" id="btn-more-menu" onclick="openMoreMenuSheet()" aria-label="More Options">
+          ⋮
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Views Container -->
+    <main class="main-view-container">
+
+      <!-- ==================================================================
+           TAB 1: YOUR CROPS (HOME TAB - DEFAULT)
+           ================================================================== -->
+      <section class="tab-pane active" id="pane-your-crops">
+        
+        <!-- Compact Profile/Farm Entry Card (Navigates to Full 'You' Screen) -->
+        <div class="home-profile-entry-card" onclick="switchNavTab('you')">
+          <div class="home-profile-left">
+            <div class="home-profile-avatar">👨‍🌾</div>
+            <div class="home-profile-text">
+              <span class="home-profile-title">My Profile & Farm (मेरा प्रोफ़ाइल व खेत)</span>
+              <span class="home-profile-sub">Manage your crops, plots & account</span>
+            </div>
+          </div>
+          <span class="home-profile-chevron">›</span>
+        </div>
+
+        <!-- Hero Card (Main Diagnosis Flow) -->
+        <div class="hero-card">
+          <!-- White 3-step visual sub-card -->
+          <div class="hero-flow-subcard">
+            <div class="flow-step">
+              <div class="flow-step-icon">📷</div>
+              <span class="flow-step-caption">फोटो लें<br><small style="color:var(--text-secondary);">Take picture</small></span>
+            </div>
+            <div class="flow-step-arrow">›</div>
+            <div class="flow-step">
+              <div class="flow-step-icon">🔬</div>
+              <span class="flow-step-caption">निदान देखें<br><small style="color:var(--text-secondary);">See diagnosis</small></span>
+            </div>
+            <div class="flow-step-arrow">›</div>
+            <div class="flow-step">
+              <div class="flow-step-icon">💊</div>
+              <span class="flow-step-caption">इलाज पाएं<br><small style="color:var(--text-secondary);">Get medicine</small></span>
+            </div>
+          </div>
+
+          <!-- One Primary Action Button (The single most important button) -->
+          <button class="btn-primary-hero" id="btn-hero-take-picture" onclick="triggerCameraCapture()">
+            <span style="font-size: 20px;">📷</span> फोटो लें (Take a picture)
+          </button>
+        </div>
+
+        <!-- D. Tools Section (Horizontally Scrollable Cards) -->
+        <div class="section-container">
+          <div class="section-header-row">
+            <h2 class="section-title">Tools (उपकरण)</h2>
+          </div>
+          <div class="tools-scroll-row">
+            <!-- Tool 1: Fertilizer Check -->
+            <div class="tool-card" onclick="openToolModal('fertilizer')">
+              <span class="badge-new">New</span>
+              <div class="tool-card-icon">🧪</div>
+              <div class="tool-card-title">उर्वरक जाँच<br><small style="color:var(--text-secondary);font-weight:400;">Fertilizer check</small></div>
+            </div>
+            <!-- Tool 2: Pesticide & Dosage Calculator -->
+            <div class="tool-card" onclick="openToolModal('calculator')">
+              <div class="tool-card-icon">📐</div>
+              <div class="tool-card-title">दवा कैलकुलेटर<br><small style="color:var(--text-secondary);font-weight:400;">Dosage calc</small></div>
+            </div>
+            <!-- Tool 3: Crop Health Scanner -->
+            <div class="tool-card" onclick="openToolModal('scanner')">
+              <div class="tool-card-icon">🔬</div>
+              <div class="tool-card-title">रोग स्कैनर<br><small style="color:var(--text-secondary);font-weight:400;">Health scan</small></div>
+            </div>
+            <!-- Tool 4: Weather & Spray Advisory -->
+            <div class="tool-card" onclick="openToolModal('weather')">
+              <div class="tool-card-icon">🌤️</div>
+              <div class="tool-card-title">मौसम सलाह<br><small style="color:var(--text-secondary);font-weight:400;">Weather & rain</small></div>
+            </div>
+            <!-- Tool 5: Emergency SMS -->
+            <div class="tool-card" onclick="openToolModal('telecom')">
+              <div class="tool-card-icon">📟</div>
+              <div class="tool-card-title">SMS व USSD<br><small style="color:var(--text-secondary);font-weight:400;">*123# Gateway</small></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- E. Library Section (2-Column Pastel Grid) -->
+        <div class="section-container">
+          <div class="section-header-row">
+            <h2 class="section-title">Library (कृषि ज्ञान कोष)</h2>
+          </div>
+          <div class="library-grid">
+            <!-- Tile 1: Pests & Disease Alert (Kriging GIS Entry) -->
+            <div class="library-tile pastel-mint" onclick="openToolModal('gis-map')">
+              <div class="library-tile-header">
+                <div class="library-tile-title">रोग फैलाव अलर्ट<br><span style="font-size:12px;font-weight:500;color:var(--text-secondary);">Pests & Disease Alert</span></div>
+                <div class="library-tile-icon">🗺️</div>
+              </div>
+              <div class="library-tile-sub">72-घंटे क्रिगिंग GIS नक्शा</div>
+            </div>
+
+            <!-- Tile 2: Cultivation Tips (Spans Taller) -->
+            <div class="library-tile pastel-lavender tall" onclick="openLibraryDetail('tips')">
+              <div class="library-tile-header">
+                <div class="library-tile-title">उन्नत खेती के उपाय<br><span style="font-size:12px;font-weight:500;color:var(--text-secondary);">Cultivation Tips</span></div>
+                <div class="library-tile-icon">💡</div>
+              </div>
+              <div class="library-tile-sub">ICAR प्रमाणित बीज चयन, सिंचाई व खाद प्रबंधन</div>
+            </div>
+
+            <!-- Tile 3: Crops Guide -->
+            <div class="library-tile pastel-sky" onclick="openLibraryDetail('crops')">
+              <div class="library-tile-header">
+                <div class="library-tile-title">फसल निर्देशिका<br><span style="font-size:12px;font-weight:500;color:var(--text-secondary);">Crops Guide</span></div>
+                <div class="library-tile-icon">🌾</div>
+              </div>
+              <div class="library-tile-sub">50+ प्रमुख फसलों की संपूर्ण जानकारी</div>
+            </div>
+
+            <!-- Tile 4: Govt Schemes & Insurance -->
+            <div class="library-tile pastel-peach" onclick="openToolModal('insurance')">
+              <div class="library-tile-header">
+                <div class="library-tile-title">PMFBY व योजनाएं<br><span style="font-size:12px;font-weight:500;color:var(--text-secondary);">Insurance Locker</span></div>
+                <div class="library-tile-icon">🛡️</div>
+              </div>
+              <div class="library-tile-sub">टैम्पर-प्रूफ बीमा दावा लॉकर</div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ==================================================================
+           TAB 2: COMMUNITY (COMMUNITY CHAT & ADVISORY)
+           ================================================================== -->
+      <section class="tab-pane" id="pane-community">
+        <div class="section-header-row">
+          <div>
+            <h2 class="section-title">किसान समुदाय (Community)</h2>
+            <p style="font-size:12.5px; color:var(--text-secondary);">कृषि वैज्ञानिकों व साथी किसानों से सीधे प्रश्न पूछें</p>
+          </div>
+          <button class="btn-assistant-pill" onclick="openNewPostSheet()">+ सवाल पूछें</button>
+        </div>
+
+        <div class="community-feed-list">
+          <!-- Community Post 1 -->
+          <div class="community-post-card">
+            <div class="post-author-row">
+              <div class="author-avatar">र</div>
+              <div class="author-info">
+                <span class="author-name">रमेश कुमार • लखनऊ</span>
+                <span class="post-time">2 घंटे पूर्व • गेहूं की फसल</span>
+              </div>
+            </div>
+            <p class="post-body-text">
+              गेहूं की पत्तियों पर पीले रंग की धारियां दिख रही हैं। क्या यह पीला रतुआ है? कौन सी दवा का छिड़काव सही रहेगा?
+            </p>
+            <div style="background:var(--bg-card-subtle); padding:10px 12px; border-radius:12px; border-left:3px solid var(--primary); font-size:12.5px;">
+              <strong style="color:var(--primary);">👨‍🔬 डॉ. एस. के. शर्मा (कृषि वैज्ञानिक):</strong><br>
+              यह पीला रतुआ (Yellow Rust) के शुरुआती लक्षण हैं। 24 घंटे में प्रोपिकोनाज़ोल 25% EC @ 1 मिली प्रति लीटर पानी में मिलाकर स्प्रे करें।
+            </div>
+            <div class="post-actions-row">
+              <button class="btn-post-action" onclick="showToast('लाइक', 'आपने पोस्ट को पसंद किया', 'success')">👍 24 मददगार</button>
+              <button class="btn-post-action" onclick="showToast('उत्तर', 'उत्तर बॉक्स खुला', 'info')">💬 5 टिप्पणियां</button>
+              <button class="btn-post-action" onclick="showToast('शेयर', 'लिंक कॉपी किया गया', 'info')">↗️ शेयर</button>
+            </div>
+          </div>
+
+          <!-- Community Post 2 -->
+          <div class="community-post-card">
+            <div class="post-author-row">
+              <div class="author-avatar" style="background:#FEF3C7; color:#B45309;">सु</div>
+              <div class="author-info">
+                <span class="author-name">सुनीता देवी • वाराणसी</span>
+                <span class="post-time">5 घंटे पूर्व • आलू की फसल</span>
+              </div>
+            </div>
+            <p class="post-body-text">
+              आलू की क्यारियों में पछेता झुलसा से बचाव हेतु खट्टी छाछ और तांबे का देशी जैविक घोल बनाकर छिड़काव किया था, बहुत अच्छा परिणाम मिला!
+            </p>
+            <div class="post-actions-row">
+              <button class="btn-post-action" onclick="showToast('लाइक', 'आपने पोस्ट को पसंद किया', 'success')">👍 42 मददगार</button>
+              <button class="btn-post-action" onclick="showToast('उत्तर', 'उत्तर बॉक्स खुला', 'info')">💬 12 टिप्पणियां</button>
+              <button class="btn-post-action" onclick="showToast('शेयर', 'लिंक कॉपी किया गया', 'info')">↗️ शेयर</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           TAB 3: MARKET (MANDI MARKET INTELLIGENCE)
+           ================================================================== -->
+      <section class="tab-pane" id="pane-market">
+        <div class="section-header-row">
+          <div>
+            <h2 class="section-title" data-i18n="mandiTitle">मंडी भाव (Market Prices)</h2>
+            <p style="font-size:12.5px; color:var(--text-secondary);" id="market-sub-status" data-i18n="mandiSub">Official AGMARKNET & e-NAM daily prices and market trends</p>
+          </div>
+          <button class="btn-icon-more" id="btn-refresh-mandi" onclick="fetchMandiPrices(null, null, true);" title="रीफ्रेश भाव (Refresh Prices)" aria-label="Refresh Mandi Prices">🔄</button>
+        </div>
+
+        <!-- Search Input with Debounced Live Filter -->
+        <input type="text" id="mandi-mobile-search" class="search-input-clean" placeholder="🔍 फसल या मंडी खोजें (उदा. Wheat, Solan)..." data-i18n-ph="mandiSearchPlaceholder" oninput="handleMandiSearchInput(this.value)">
+
+        <!-- Dynamic Horizontal Crop Selector (Populated from Real Government Market API Data) -->
+        <div class="filter-chips-scroll" id="dynamic-crop-selector" style="margin: 6px 0 10px 0; -webkit-overflow-scrolling: touch;">
+          <button class="filter-chip active" data-crop="all" onclick="selectMandiCrop('all')">🌾 सभी फसलें (All Crops)</button>
+        </div>
+
+        <!-- Active Search Scope / Status Banner -->
+        <div id="market-scope-banner" style="display:flex; justify-content:space-between; align-items:center; font-size:12px; color:var(--text-secondary); margin:0 0 12px 0; padding:6px 10px; background:var(--bg-card-subtle); border-radius:10px;">
+          <span id="market-active-location">📍 स्थान: सोलन, हिमाचल प्रदेश</span>
+          <span id="market-last-updated" style="font-style:italic;">दैनिक सरकारी भाव</span>
+        </div>
+
+        <!-- Mandi Price Cards List (Grouped by Scope) -->
+        <div class="market-card-list" id="mobile-mandi-card-list">
+          <!-- Injected dynamically via JS from allMandiData -->
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           SECTION: YOU (PROFILE, PLOTS, INSURANCE, SETTINGS)
+           ================================================================== -->
+      <section class="tab-pane" id="pane-you">
+        <div class="section-header-row" style="margin-bottom: 4px;">
+          <button class="btn-assistant-pill" style="font-size:12.5px; padding:4px 12px; min-height:34px;" onclick="switchNavTab('your-crops')">
+            ← Home (होम पेज)
+          </button>
+          <span style="font-family:var(--font-heading); font-size:16px; font-weight:700;">My Profile & Farm</span>
+        </div>
+        
+        <!-- Profile Card -->
+        <div class="profile-hero-card">
+          <div class="profile-avatar-large">👨‍🌾</div>
+          <div class="profile-hero-info">
+            <span class="profile-name" id="profile-display-name">Agri-Saarthi farmer</span>
+            <span class="profile-location" id="profile-display-location">📍 Location not set</span>
+            <span style="font-size:11.5px; color:var(--accent-mint); font-weight:700; margin-top:3px;">✓ PM-KISAN व e-KYC सत्यापित</span>
+          </div>
+        </div>
+
+        <!-- Section: Farm & Plots Management -->
+        <div class="section-container">
+          <div class="section-header-row">
+            <h3 style="font-size:15px; font-weight:700; color:var(--text-primary);">मेरे खेत व फसलें (My Plots)</h3>
+            <button class="btn-assistant-pill" style="font-size:12px; padding:4px 10px; min-height:30px;" onclick="openAddPlotModal()">+ नया खेत</button>
+          </div>
+          <div class="selection-list-container" id="plots-list-container">
+            <div class="selection-card selected" onclick="togglePlotSelect(this)">
+              <div class="selection-card-left">
+                <span class="selection-card-title">उत्तर खेत (North Field)</span>
+                   <span class="selection-card-sub" id="profile-crops-summary">Select crops during setup to personalize this view.</span>
+              </div>
+              <div class="selection-radio"><div class="selection-radio-dot"></div></div>
+            </div>
+            <div class="selection-card" onclick="togglePlotSelect(this)">
+              <div class="selection-card-left">
+                <span class="selection-card-title">गंगा किनारा प्लॉट (River Plot)</span>
+                <span class="selection-card-sub">आलू (Kufri Jyoti) • 1.45 Acre • सिंक सक्रिय</span>
+              </div>
+              <div class="selection-radio"><div class="selection-radio-dot"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: Services & Features Menu -->
+        <div class="section-container">
+          <h3 style="font-size:15px; font-weight:700; color:var(--text-primary);">सुविधाएं व सेटिंग्स (Services)</h3>
+          <div class="menu-group">
+            <div class="menu-item-row" onclick="openToolModal('insurance')">
+              <div class="menu-item-left">
+                <div class="menu-item-icon">🛡️</div>
+                <span class="menu-item-title">बीमा दावा लॉकर (PMFBY Blockchain)</span>
+              </div>
+              <span class="menu-item-chevron">›</span>
+            </div>
+            <div class="menu-item-row" onclick="openToolModal('mesh')">
+              <div class="menu-item-left">
+                <div class="menu-item-icon">📡</div>
+                <span class="menu-item-title">ऑफ़लाइन P2P मेश नोड्स (Nearby Mesh)</span>
+              </div>
+              <span class="menu-item-chevron">›</span>
+            </div>
+            <div class="menu-item-row" onclick="openToolModal('telecom')">
+              <div class="menu-item-left">
+                <div class="menu-item-icon">📟</div>
+                <span class="menu-item-title">2G टेलीकॉम एवं USSD सेवा (*123#)</span>
+              </div>
+              <span class="menu-item-chevron">›</span>
+            </div>
+            <div class="menu-item-row" onclick="openToolModal('diagnostics')">
+              <div class="menu-item-left">
+                <div class="menu-item-icon">⚙️</div>
+                <span class="menu-item-title">सिस्टम स्थिति एवं सेटिंग्स (Diagnostics)</span>
+              </div>
+              <span class="menu-item-chevron">›</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Section: App Language / Support -->
+        <div class="section-container">
+          <div class="menu-group">
+            <div class="menu-item-row" onclick="openLanguageModal()">
+              <div class="menu-item-left">
+                <div class="menu-item-icon">🌐</div>
+                <span class="menu-item-title">भाषा बदलें (Language: हिन्दी / English)</span>
+              </div>
+              <span class="menu-item-chevron">›</span>
+            </div>
+            <div class="menu-item-row" onclick="showToast('किसान हेल्पलाइन', 'टोल-फ्री 1800-180-1551 पर कॉल करें', 'info')">
+              <div class="menu-item-left">
+                <div class="menu-item-icon">📞</div>
+                <span class="menu-item-title">किसान कॉल सेंटर (1800-180-1551)</span>
+              </div>
+              <span class="menu-item-chevron">›</span>
+            </div>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ==================================================================
+           TAB 4: DISEASE MAP (VECTOR-ONLY CHOROPLETH RISK SURFACE)
+           ================================================================== -->
+      <section class="tab-pane" id="pane-disease-map">
+        <div class="section-header-row">
+          <div>
+            <h2 class="section-title">Disease Map (रोग मानचित्र)</h2>
+            <p style="font-size:12.5px; color:var(--text-secondary);">Crop disease risk by region (क्षेत्रानुसार फसल रोग जोखिम)</p>
+          </div>
+          <button class="btn-icon-more" id="btn-refresh-disease-map" onclick="refreshDiseaseMap();" title="रीफ्रेश नक्शा" aria-label="Refresh Map">🔄</button>
+        </div>
+
+        <!-- Pathogen / Disease Filter Row (Specific diseases only, no 'All Pathogens') -->
+        <div class="filter-chips-scroll" id="map-pathogen-filters">
+          <button class="filter-chip active" data-disease="yellow_rust" onclick="selectDiseaseChip('yellow_rust', this)">🌾 Yellow Rust (Wheat)</button>
+          <button class="filter-chip" data-disease="late_blight" onclick="selectDiseaseChip('late_blight', this)">🥔 Late Blight (Potato)</button>
+          <button class="filter-chip" data-disease="rice_blast" onclick="selectDiseaseChip('rice_blast', this)">🌾 Rice Blast (Paddy)</button>
+          <button class="filter-chip" data-disease="white_rust" onclick="selectDiseaseChip('white_rust', this)">🌼 White Rust (Mustard)</button>
+          <button class="filter-chip" data-disease="pink_bollworm" onclick="selectDiseaseChip('pink_bollworm', this)">🌿 Pink Bollworm (Cotton)</button>
+          <button class="filter-chip" data-disease="early_blight" onclick="selectDiseaseChip('early_blight', this)">🍅 Early Blight (Tomato)</button>
+        </div>
+
+        <!-- India Vector Choropleth Map Card (No external tiles, 100% vector SVG) -->
+        <div class="disease-map-wrapper" id="disease-map-wrapper">
+          <!-- Loading Spinner Overlay -->
+          <div class="map-loading-overlay" id="map-loading-overlay">
+            <div class="map-spinner"></div>
+            <span class="map-loading-text" style="font-size:12px; font-weight:600; color:var(--primary);">डेटा लोड हो रहा है...</span>
+          </div>
+
+          <!-- SVG Vector India Map Container -->
+          <div id="india-vector-map-container" class="india-vector-map-container">
+            <svg id="india-vector-svg" class="india-svg-map" viewBox="0 0 620 700" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+              <g id="india-states-group" class="india-states-group">
+                <!-- Dynamically injected vector state paths -->
+              </g>
+            </svg>
+          </div>
+
+          <!-- Interactive Hover Tooltip -->
+          <div class="map-hover-tooltip" id="map-hover-tooltip">
+            <div class="tooltip-state" id="tooltip-state-name">उत्तर प्रदेश</div>
+            <div class="tooltip-risk" id="tooltip-risk-badge">High Risk</div>
+            <div class="tooltip-crop" id="tooltip-crop-info">🌾 प्रमुख फसल: गेहूं</div>
+          </div>
+
+          <!-- Floating Non-Intrusive Legend Card -->
+          <div class="map-choropleth-legend">
+            <div class="legend-title">Risk Level (जोखिम)</div>
+            <div class="legend-scale-list">
+              <div class="legend-scale-item"><span class="legend-swatch swatch-vhigh"></span> Very High (अति-गंभीर)</div>
+              <div class="legend-scale-item"><span class="legend-swatch swatch-high"></span> High (उच्च)</div>
+              <div class="legend-scale-item"><span class="legend-swatch swatch-med"></span> Medium (मध्यम)</div>
+              <div class="legend-scale-item"><span class="legend-swatch swatch-low"></span> Low (कम)</div>
+              <div class="legend-scale-item"><span class="legend-swatch swatch-vlow"></span> Very Low (न्यूनतम)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Selected State Detail Card -->
+        <div class="state-detail-bottom-card" id="state-detail-bottom-card">
+          <div class="state-detail-header" style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:4px;">
+            <div>
+              <div class="state-detail-name" id="state-detail-name" style="font-size:14.5px; font-weight:700; color:var(--text-primary);">उत्तर प्रदेश (Uttar Pradesh)</div>
+              <div class="state-detail-crop" id="state-detail-crop" style="font-size:12px; color:var(--text-secondary);">🌾 मुख्य फसल: गेहूं व आलू (Wheat & Potato)</div>
+            </div>
+            <span class="state-detail-risk-badge" id="state-detail-risk-badge" style="background:#EA580C; color:#FFFFFF; padding:3px 10px; border-radius:12px; font-size:11.5px; font-weight:700;">High Risk</span>
+          </div>
+          <p class="state-detail-advisory" id="state-detail-advisory" style="font-size:12px; color:var(--text-primary); line-height:1.4; margin-top:2px;">
+            💡 तराई एवं मध्य क्षेत्र में रोग प्रसार का खतरा। समय पर अनुशंसित कवकनाशी स्प्रे करें।
+          </p>
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ==================================================================
+         FIXED 4-TAB BOTTOM NAVIGATION BAR (Section 3)
+         ================================================================== -->
+    <nav class="bottom-nav-bar" id="bottom-nav-bar">
+      <!-- Tab 1: Your Crops (Home - Default Active) -->
+      <button class="nav-tab-btn active" data-nav="your-crops" onclick="switchNavTab('your-crops')">
+        <div class="nav-tab-icon-wrap">🌱</div>
+        <span class="nav-tab-label">Your Crops</span>
+      </button>
+
+      <!-- Tab 2: Community -->
+      <button class="nav-tab-btn" data-nav="community" onclick="switchNavTab('community')">
+        <div class="nav-tab-icon-wrap">💬</div>
+        <span class="nav-tab-label">Community</span>
+      </button>
+
+      <!-- Tab 3: Market (Mandi) -->
+      <button class="nav-tab-btn" data-nav="market" onclick="switchNavTab('market')">
+        <div class="nav-tab-icon-wrap">🏪</div>
+        <span class="nav-tab-label">Market</span>
+      </button>
+
+      <!-- Tab 4: Disease Map -->
+      <button class="nav-tab-btn" data-nav="disease-map" onclick="switchNavTab('disease-map')">
+        <div class="nav-tab-icon-wrap">🗺️</div>
+        <span class="nav-tab-label">Disease Map</span>
+      </button>
+    </nav>
+
+  </div> <!-- End .mobile-app-shell -->
+
+  <!-- ==================================================================
+       AI ASSISTANT FULLSCREEN SCREEN (Section 6)
+       ================================================================== -->
+  <div class="assistant-screen" id="assistant-screen">
+    <!-- Top Bar -->
+    <div class="assistant-top-bar">
+      <button class="btn-back-round" onclick="closeAssistantScreen()" aria-label="Back">←</button>
+      <span style="font-family:var(--font-heading);font-weight:700;font-size:16px;">AI कृषि सहायक</span>
+      <button class="btn-icon-more" onclick="showToast('AI मॉडल', 'ICAR एग्रोनॉमिक नॉलेज बेस व Google Gemini से सशक्त', 'info')">ℹ️</button>
+    </div>
+
+    <!-- Segmented Toggle Switch (Voice / Text) -->
+    <div class="segmented-toggle-wrap">
+      <div class="segmented-toggle">
+        <button class="seg-btn active" id="seg-btn-voice" onclick="switchAssistantMode('voice')">
+          <span>🎙️</span> Voice (बोलें)
+        </button>
+        <button class="seg-btn" id="seg-btn-text" onclick="switchAssistantMode('text')">
+          <span>💬</span> Text (लिखें)
+        </button>
+      </div>
+    </div>
+
+    <!-- Voice Mode View -->
+    <div class="assistant-voice-view" id="assistant-voice-view">
+      <div class="avatar-voice-stage-wrap">
+        <!-- Interactive Animated Old Farmer AI Avatar -->
+        <div class="farmer-avatar-stage" id="farmer-avatar-stage" onclick="toggleVoiceListening()" role="button" tabindex="0" title="बातचीत शुरू या बंद करने के लिए दबाएं" aria-label="AI Farmer Avatar">
+          <!-- Multi-tier Ambient Glow Ripples -->
+          <div class="avatar-ripple-ring ring-1"></div>
+          <div class="avatar-ripple-ring ring-2"></div>
+          
+          <!-- Avatar Disc Container with Dynamic State Classes -->
+          <div class="farmer-avatar-disc state-idle" id="farmer-avatar-disc">
+            <svg class="farmer-avatar-svg" viewBox="0 0 200 200" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+              <defs>
+                <linearGradient id="avatarSkyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#E0F2FE"/>
+                  <stop offset="60%" stop-color="#BAE6FD"/>
+                  <stop offset="100%" stop-color="#7DD3FC"/>
+                </linearGradient>
+                <linearGradient id="turbanGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" stop-color="#F59E0B"/>
+                  <stop offset="40%" stop-color="#EA580C"/>
+                  <stop offset="100%" stop-color="#C2410C"/>
+                </linearGradient>
+                <linearGradient id="skinGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                  <stop offset="0%" stop-color="#E8B288"/>
+                  <stop offset="100%" stop-color="#CB8A5C"/>
+                </linearGradient>
+                <linearGradient id="gamchaGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="#15803D"/>
+                  <stop offset="100%" stop-color="#16A34A"/>
+                </linearGradient>
+              </defs>
+
+              <!-- Sky Backdrop -->
+              <circle cx="100" cy="100" r="95" fill="url(#avatarSkyGrad)"/>
+
+              <!-- Outer Ambient Halo Ring -->
+              <circle class="avatar-halo-ring" cx="100" cy="100" r="92" fill="none" stroke="#16A34A" stroke-width="2.5" stroke-dasharray="6 4" opacity="0.6"/>
+
+              <!-- Body / Shoulders & Traditional Kurta -->
+              <g class="farmer-body-group" id="farmer-body-group">
+                <path d="M 24,200 L 38,154 C 48,142 68,136 100,136 C 132,136 152,142 162,154 L 176,200 Z" fill="#F8FAFC" stroke="#CBD5E1" stroke-width="1.5"/>
+                <!-- Kurta Neck Placket -->
+                <path d="M 100,144 L 100,188" stroke="#94A3B8" stroke-width="2"/>
+                <circle cx="100" cy="154" r="2" fill="#64748B"/>
+                <circle cx="100" cy="168" r="2" fill="#64748B"/>
+                <!-- Green Gamcha (Traditional Farmer Scarf) -->
+                <path class="farmer-gamcha" d="M 44,148 C 54,141 68,138 80,142 L 68,200 L 36,200 Z" fill="url(#gamchaGrad)" stroke="#14532D" stroke-width="1"/>
+                <path d="M 50,158 L 74,156 M 46,174 L 70,172 M 42,190 L 66,188" stroke="#86EFAC" stroke-width="1.2" opacity="0.65"/>
+              </g>
+
+              <!-- Head & Facial Components (Tilts, Nods, Blinks, Speaks) -->
+              <g class="farmer-head-group" id="farmer-head-group">
+                <!-- Neck -->
+                <path d="M 86,128 L 86,146 C 92,150 108,150 114,146 L 114,128 Z" fill="#C5855A"/>
+
+                <!-- Ears -->
+                <path d="M 58,92 C 52,92 52,110 60,110 Z" fill="#CB8A5C" stroke="#A86E48" stroke-width="1"/>
+                <path d="M 142,92 C 148,92 148,110 140,110 Z" fill="#CB8A5C" stroke="#A86E48" stroke-width="1"/>
+                <!-- Ear lines -->
+                <path d="M 57,98 C 55,101 57,105 59,106" fill="none" stroke="#A86E48" stroke-width="1"/>
+                <path d="M 143,98 C 145,101 143,105 141,106" fill="none" stroke="#A86E48" stroke-width="1"/>
+
+                <!-- Face Contour -->
+                <path class="farmer-face-shape" d="M 62,86 C 62,64 138,64 138,86 C 138,116 126,134 100,134 C 74,134 62,116 62,86 Z" fill="url(#skinGrad)" stroke="#A86E48" stroke-width="1.2"/>
+
+                <!-- Wisdom & Wrinkle Lines -->
+                <path d="M 80,70 Q 100,67 120,70" fill="none" stroke="#B87D56" stroke-width="1.2" opacity="0.75"/>
+                <path d="M 84,75 Q 100,72 116,75" fill="none" stroke="#B87D56" stroke-width="1" opacity="0.6"/>
+
+                <!-- Eyebrows (Grey-White Bushy Farmer Eyebrows) -->
+                <g class="farmer-eyebrows" id="farmer-eyebrows">
+                  <path class="brow-left" d="M 70,82 Q 82,77 92,83" fill="none" stroke="#F1F5F9" stroke-width="3.6" stroke-linecap="round"/>
+                  <path class="brow-left" d="M 70,82 Q 82,77 92,83" fill="none" stroke="#94A3B8" stroke-width="1.4" stroke-linecap="round"/>
+
+                  <path class="brow-right" d="M 108,83 Q 118,77 130,82" fill="none" stroke="#F1F5F9" stroke-width="3.6" stroke-linecap="round"/>
+                  <path class="brow-right" d="M 108,83 Q 118,77 130,82" fill="none" stroke="#94A3B8" stroke-width="1.4" stroke-linecap="round"/>
+                </g>
+
+                <!-- Eyes & Eyelids (Blinking & Expression) -->
+                <g class="farmer-eyes" id="farmer-eyes">
+                  <!-- Left Eye -->
+                  <ellipse cx="81" cy="90" rx="7" ry="5" fill="#FFFFFF"/>
+                  <circle class="farmer-pupil pupil-left" cx="81" cy="90" r="3.2" fill="#3E2723"/>
+                  <circle cx="82.2" cy="88.8" r="1" fill="#FFFFFF"/>
+                  <!-- Left Eyelid for Blinking Animation -->
+                  <path class="farmer-eyelid eyelid-left" d="M 73,86 Q 81,84 89,86 Q 81,92 73,86 Z" fill="#CB8A5C"/>
+                  <!-- Left Smile Wrinkles -->
+                  <path d="M 71,89 C 68,88 69,92 70,94" fill="none" stroke="#B87D56" stroke-width="1"/>
+                  <path d="M 71,91 C 68,92 69,95 71,96" fill="none" stroke="#B87D56" stroke-width="1"/>
+
+                  <!-- Right Eye -->
+                  <ellipse cx="119" cy="90" rx="7" ry="5" fill="#FFFFFF"/>
+                  <circle class="farmer-pupil pupil-right" cx="119" cy="90" r="3.2" fill="#3E2723"/>
+                  <circle cx="120.2" cy="88.8" r="1" fill="#FFFFFF"/>
+                  <!-- Right Eyelid for Blinking Animation -->
+                  <path class="farmer-eyelid eyelid-right" d="M 111,86 Q 119,84 127,86 Q 119,92 111,86 Z" fill="#CB8A5C"/>
+                  <!-- Right Smile Wrinkles -->
+                  <path d="M 129,89 C 132,88 131,92 130,94" fill="none" stroke="#B87D56" stroke-width="1"/>
+                  <path d="M 129,91 C 132,92 131,95 129,96" fill="none" stroke="#B87D56" stroke-width="1"/>
+                </g>
+
+                <!-- Nose -->
+                <path d="M 100,84 L 98,102 C 94,103 94,106 98,107 C 102,108 106,107 106,104 L 102,84" fill="#C5855A" stroke="#B47A52" stroke-width="1"/>
+                <circle cx="96.5" cy="105" r="1.2" fill="#8D5B38"/>
+                <circle cx="103.5" cy="105" r="1.2" fill="#8D5B38"/>
+
+                <!-- Rosy Cheeks -->
+                <circle cx="72" cy="101" r="6" fill="#F43F5E" opacity="0.16"/>
+                <circle cx="128" cy="101" r="6" fill="#F43F5E" opacity="0.16"/>
+
+                <!-- Animated Speaking Mouth Structure -->
+                <g class="farmer-mouth-box" id="farmer-mouth-box">
+                  <path class="farmer-mouth" id="farmer-mouth" d="M 91,117 Q 100,122 109,117 Q 100,119 91,117 Z" fill="#881337" stroke="#9F1239" stroke-width="1"/>
+                  <path class="farmer-teeth" id="farmer-teeth" d="M 93,117 Q 100,118 107,117" fill="none" stroke="#FFFFFF" stroke-width="1.5" opacity="0"/>
+                </g>
+
+                <!-- Traditional Indian Farmer Mustache (Grey/White) -->
+                <path class="farmer-mustache" d="M 100,110 C 94,106 80,107 72,114 C 80,115 92,113 100,118 C 108,113 120,115 128,114 C 120,107 106,106 100,110 Z" fill="#F1F5F9" stroke="#94A3B8" stroke-width="1.2"/>
+
+                <!-- Grey/White Farmer Beard -->
+                <path class="farmer-beard" d="M 78,121 C 84,133 94,140 100,140 C 106,140 116,133 122,121 C 116,125 106,127 100,127 C 94,127 84,125 78,121 Z" fill="#F1F5F9" stroke="#CBD5E1" stroke-width="1.2"/>
+
+                <!-- Traditional Saffron-Gold Turban (Safa/Pagdi) -->
+                <g class="farmer-turban">
+                  <path d="M 52,66 C 48,42 74,26 100,26 C 126,26 152,42 148,66 C 148,72 142,76 136,78 C 126,52 74,52 64,78 C 58,76 52,72 52,66 Z" fill="url(#turbanGrad)" stroke="#9A3412" stroke-width="1.5"/>
+                  <!-- Pleat folds -->
+                  <path d="M 56,56 C 74,44 126,44 144,56" fill="none" stroke="#FDE68A" stroke-width="2.5" opacity="0.65"/>
+                  <path d="M 62,46 C 80,36 120,36 138,46" fill="none" stroke="#EA580C" stroke-width="2"/>
+                  <path d="M 70,36 C 86,30 114,30 130,36" fill="none" stroke="#FEF3C7" stroke-width="2" opacity="0.8"/>
+                  <!-- Turra / Top crest -->
+                  <path d="M 92,26 C 92,16 108,16 108,26 Z" fill="#EA580C" stroke="#9A3412" stroke-width="1.5"/>
+                  <path d="M 96,18 L 104,24" stroke="#FEF3C7" stroke-width="1.5"/>
+                  <!-- Kalgi crest jewel -->
+                  <circle cx="100" cy="50" r="3.5" fill="#FDE047" stroke="#B45309" stroke-width="1"/>
+                  <circle cx="100" cy="50" r="1.5" fill="#DC2626"/>
+                </g>
+              </g>
+            </svg>
+
+            <!-- Floating Mic Indicator Badge inside circle -->
+            <div class="avatar-mic-pip" id="avatar-mic-pip">
+              <span class="pip-icon" id="avatar-pip-icon">🎙️</span>
+            </div>
+          </div>
+
+          <!-- Interactive State Badge Pill -->
+          <div class="avatar-state-badge badge-idle" id="avatar-state-badge">
+            🌱 बोलने के लिए दबाएं
+          </div>
+        </div>
+
+        <div class="voice-caption-title" id="voice-caption-status">कृषि-सारथी AI दादाजी से पूछें</div>
+        <div class="voice-caption-sub" id="voice-caption-sub">फसल, रोग, कीटनाशक या खाद की मात्रा अपनी भाषा में बोलकर पूछें</div>
+
+        <!-- Enlarged & Formatted AI Answer Box with Clean Typography -->
+        <div class="voice-response-card" id="voice-response-card" style="display:none;">
+          <div class="voice-response-header">
+            <div style="display:flex; align-items:center; gap:6px;">
+              <span style="font-size:18px;">👨‍🌾</span>
+              <strong style="font-size:13.5px; color:var(--text-primary);">कृषि-सारथी AI का समाधान:</strong>
+            </div>
+            <button class="btn-listen-again" onclick="replayVoiceResponse()" title="उत्तर दोबारा सुनें">
+              🔊 पुनः सुनें
+            </button>
+          </div>
+          <div id="voice-response-text" class="voice-response-body"></div>
+        </div>
+      </div>
+      <p class="voice-disclaimer">
+        यह एक AI कृषि सहायक सेवा है। अनुशंसित दवाओं के प्रयोग से पहले स्थानीय कृषि विशेषज्ञ से पुष्टि करें।
+      </p>
+    </div>
+
+    <!-- Text Chat Mode View -->
+    <div class="assistant-text-view" id="assistant-text-view">
+      <!-- Quick Suggestion Chips -->
+      <div class="chat-chips-scroll">
+        <button class="chat-suggestion-chip" onclick="sendAssistantQuery('गेहूं में पीला रतुआ का इलाज क्या है?')">🌾 गेहूं पीला रतुआ इलाज</button>
+        <button class="chat-suggestion-chip" onclick="sendAssistantQuery('टमाटर में अगेती झुलसा स्प्रे मात्रा')">🍅 टमाटर झुलसा स्प्रे</button>
+        <button class="chat-suggestion-chip" onclick="sendAssistantQuery('आज लखनऊ मंडी में गेहूं का भाव क्या है?')">💰 आज का मंडी भाव</button>
+        <button class="chat-suggestion-chip" onclick="sendAssistantQuery('PM-KISAN ई-केवाईसी कैसे करें?')">🏛️ PM-KISAN योजना</button>
+      </div>
+
+      <!-- Messages Thread -->
+      <div class="chat-thread-container" id="assistant-chat-thread">
+        <div class="chat-bubble ai">
+          <strong>🤖 कृषि-सारथी AI:</strong><br>
+          नमस्ते! मैं आपका डिजिटल कृषि वैज्ञानिक हूँ। अपनी फसल, बीमारी या खाद संबंधी कोई भी सवाल पूछें।
+        </div>
+      </div>
+
+      <!-- Input Bar -->
+      <div class="chat-input-bar">
+        <input type="text" id="assistant-text-input" class="chat-input-field" placeholder="फसल या बीमारी का सवाल पूछें..." onkeypress="if(event.key==='Enter') sendAssistantQuery()">
+        <button class="btn-chat-send" onclick="sendAssistantQuery()" aria-label="Send Message">➤</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================================================================
+       MODAL SHEETS FOR TOOLS & FEATURES
+       ================================================================== -->
+
+  <!-- Modal: Crop Disease Scanner & Remedies -->
+  <div class="app-modal" id="modal-scanner">
+    <div class="app-modal-sheet">
+      <div class="sheet-handle-bar"></div>
+      <div class="sheet-header">
+        <span class="sheet-title">🔬 फसल रोग स्कैनर (AI Diagnosis)</span>
+        <button class="btn-close-sheet" onclick="closeAppModal('modal-scanner')">✕</button>
+      </div>
+      <div class="sheet-body">
+        <!-- Sample Presets Row -->
+        <div class="sample-pills-row">
+          <span style="font-size:12px; font-weight:700; align-self:center; color:var(--text-secondary);">नमूना पत्ती:</span>
+          <button class="sample-pill-btn" onclick="loadSampleLeafModal('tomato')">🍅 टमाटर (Early Blight)</button>
+          <button class="sample-pill-btn" onclick="loadSampleLeafModal('wheat')">🌾 गेहूं (Yellow Rust)</button>
+          <button class="sample-pill-btn" onclick="loadSampleLeafModal('potato')">🥔 आलू (Late Blight)</button>
+          <button class="sample-pill-btn" onclick="loadSampleLeafModal('healthy')">🌿 स्वस्थ पत्ती</button>
+        </div>
+
+        <!-- Camera Upload Box -->
+        <div class="scanner-container" id="modal-scanner-dropzone">
+          <input type="file" accept="image/*" onchange="handleModalImageUpload(event)">
+          <div style="font-size:36px;">📷</div>
+          <strong style="font-size:14px; color:var(--text-primary);" id="modal-scanner-text">पत्ते की फोटो खींचें या चुनें</strong>
+          <span style="font-size:12px; color:var(--text-tertiary);">TFLite न्यूरल नेटवर्क द्वारा त्वरित विश्लेषण</span>
+        </div>
+
+        <!-- Diagnosis Result Card -->
+        <div class="diag-result-card" id="modal-diag-result" style="display:none;">
+          <div class="diag-status-badge danger" id="modal-diag-badge">
+            ⚠️ Early Blight (अगेती झुलसा) • 94.2% सटीकता
+          </div>
+          <div id="modal-diag-details">
+            <h4 style="font-size:15px; margin-bottom:4px;" id="modal-diag-crop">फसल: टमाटर (Tomato)</h4>
+            <p style="font-size:12.5px; color:var(--text-secondary); margin-bottom:8px;" id="modal-diag-why">
+              उच्च सापेक्ष आर्द्रता (88%) एवं 21°C तापमान के कारण फफूंद बीजाणुओं का फैलाव हो रहा है।
+            </p>
+          </div>
+
+          <!-- Remedies Tabs -->
+          <div class="remedy-switcher">
+            <button class="remedy-tab-btn active" onclick="switchModalRemedyTab('chemical', this)">💊 रासायनिक</button>
+            <button class="remedy-tab-btn" onclick="switchModalRemedyTab('organic', this)">🌿 जैविक देशी</button>
+            <button class="remedy-tab-btn" onclick="switchModalRemedyTab('prevention', this)">🛡️ रोकथाम</button>
+          </div>
+          <div class="remedy-content" id="modal-remedy-content">
+            प्रोपिकोनाज़ोल 25% EC (टिल्ट) @ 1 मिली प्रति लीटर पानी में मिलाकर पत्तियों के नीचे छिड़काव करें।
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Anti-Counterfeit Fertilizer Check -->
+  <div class="app-modal" id="modal-fertilizer">
+    <div class="app-modal-sheet">
+      <div class="sheet-handle-bar"></div>
+      <div class="sheet-header">
+        <span class="sheet-title">🧪 उर्वरक एवं बीज बारकोड जाँच</span>
+        <button class="btn-close-sheet" onclick="closeAppModal('modal-fertilizer')">✕</button>
+      </div>
+      <div class="sheet-body">
+        <p style="font-size:13px; color:var(--text-secondary);">
+          उर्वरक बैग का बारकोड नंबर दर्ज करें या तुरंत टेस्ट बटन दबाएं:
+        </p>
+        <div style="display:flex; gap:8px;">
+          <input type="text" id="modal-fertilizer-input" class="search-input-clean" value="8901234567890" placeholder="बारकोड (उदा. 8901234567890)...">
+          <button class="btn-assistant-pill" style="min-height:46px;" onclick="runModalFertilizerCheck()">जाँचें</button>
+        </div>
+
+        <div style="display:flex; gap:8px; margin-top:4px;">
+          <button class="sample-pill-btn" onclick="document.getElementById('modal-fertilizer-input').value='8901234567890'; runModalFertilizerCheck();">✅ IFFCO असली नैनो यूरिया</button>
+          <button class="sample-pill-btn" onclick="document.getElementById('modal-fertilizer-input').value='8901111222233'; runModalFertilizerCheck();">❌ पारस नकली यूरिया</button>
+        </div>
+
+        <div id="modal-fertilizer-result" style="margin-top:10px;"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Kriging GIS Disease Vector Map -->
+  <div class="app-modal" id="modal-gis-map">
+    <div class="app-modal-sheet" style="max-height:92vh;">
+      <div class="sheet-handle-bar"></div>
+      <div class="sheet-header">
+        <span class="sheet-title">🗺️ 72-घंटे रोग फैलाव नक्शा (Kriging GIS)</span>
+        <button class="btn-close-sheet" onclick="closeAppModal('modal-gis-map')">✕</button>
+      </div>
+      <div class="sheet-body">
+        <div class="filter-chips-scroll">
+          <button class="filter-chip active" onclick="filterModalMap('all', this)">समस्त रोग</button>
+          <button class="filter-chip" onclick="filterModalMap('Yellow Rust', this)">गेहूं पीला रतुआ</button>
+          <button class="filter-chip" onclick="filterModalMap('Late Blight', this)">आलू झुलसा</button>
+          <button class="filter-chip" onclick="filterModalMap('Rice Blast', this)">धान ब्लास्ट</button>
+        </div>
+        <div id="modal-leaflet-map" class="map-frame"></div>
+        <div style="font-size:12px; color:var(--text-secondary); background:var(--bg-card-subtle); padding:10px; border-radius:12px;">
+          🔴 गंभीर प्रकोप (&gt;85%) • 🟠 मध्यम फैलाव (50-70%) • हवा गति 14 km/h ENE
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Weather & Spray Advisory -->
+  <div class="app-modal" id="modal-weather">
+    <div class="app-modal-sheet">
+      <div class="sheet-handle-bar"></div>
+      <div class="sheet-header">
+        <span class="sheet-title">🌤️ मौसम पूर्वानुमान व कृषि सलाह</span>
+        <button class="btn-close-sheet" onclick="closeAppModal('modal-weather')">✕</button>
+      </div>
+      <div class="sheet-body">
+        <div style="background:var(--hero-gradient); padding:16px; border-radius:16px; display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <div style="font-size:28px; font-weight:800;">28.5°C</div>
+            <div style="font-size:13px; color:var(--text-secondary);">आंशिक बादल (Partly Cloudy) • लखनऊ</div>
+          </div>
+          <div style="text-align:right; font-size:12px; color:var(--text-secondary);">
+            <div>💧 आर्द्रता: <strong>68%</strong></div>
+            <div>💨 वायु गति: <strong>12.4 km/h</strong></div>
+          </div>
+        </div>
+        <div style="background:#FFFFFF; border:1px solid var(--border-card); padding:14px; border-radius:16px;">
+          <h4 style="font-size:14px; font-weight:700; color:var(--accent-mint); margin-bottom:6px;">🌾 कृषि परामर्श (Agricultural Advisory):</h4>
+          <p style="font-size:13px; color:var(--text-primary); line-height:1.45;">
+            अगले 36 घंटों में हल्की वर्षा की संभावना है। रासायनिक कीटनाशक छिड़काव गुरुवार दोपहर तक रोकें ताकि दवा बह न जाए।
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Insurance Locker -->
+  <div class="app-modal" id="modal-insurance">
+    <div class="app-modal-sheet">
+      <div class="sheet-handle-bar"></div>
+      <div class="sheet-header">
+        <span class="sheet-title">🛡️ PMFBY बीमा दावा लॉकर</span>
+        <button class="btn-close-sheet" onclick="closeAppModal('modal-insurance')">✕</button>
+      </div>
+      <div class="sheet-body" id="modal-insurance-content">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: P2P Mesh Network -->
+  <div class="app-modal" id="modal-mesh">
+    <div class="app-modal-sheet">
+      <div class="sheet-handle-bar"></div>
+      <div class="sheet-header">
+        <span class="sheet-title">📡 P2P मेश नेटवर्क (0 KB Internet)</span>
+        <button class="btn-close-sheet" onclick="closeAppModal('modal-mesh')">✕</button>
+      </div>
+      <div class="sheet-body" id="modal-mesh-content">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Telecom Gateway (*123#) -->
+  <div class="app-modal" id="modal-telecom">
+    <div class="app-modal-sheet">
+      <div class="sheet-handle-bar"></div>
+      <div class="sheet-header">
+        <span class="sheet-title">📟 2G टेलीकॉम गेटवे (*123#)</span>
+        <button class="btn-close-sheet" onclick="closeAppModal('modal-telecom')">✕</button>
+      </div>
+      <div class="sheet-body">
+        <div style="background:#1B281E; border:2px solid #2E7D32; border-radius:16px; padding:14px; color:#A5D6A7; font-family:monospace; font-size:12px;">
+          <div style="border-bottom:1px solid #4CAF50; padding-bottom:4px; margin-bottom:6px; display:flex; justify-content:space-between;">
+            <span>BSNL Bharat 2G</span>
+            <span>📶 4 Bars</span>
+          </div>
+          <div id="modal-ussd-screen" style="min-height:80px; white-space:pre-line;">
+            🌱 कृषि-सारथी टेलीकॉम सेवा (*123#)
+            1. फसल रोग व उपचार
+            2. लाइव मंडी भाव
+            3. मौसम अलर्ट
+          </div>
+        </div>
+        <div style="display:flex; gap:8px;">
+          <button class="btn-bottom-action" onclick="simulateUssdCall()">📞 *123# डायल करें</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: System Diagnostics & Settings (Hidden Internal View) -->
+  <div class="app-modal" id="modal-diagnostics">
+    <div class="app-modal-sheet">
+      <div class="sheet-handle-bar"></div>
+      <div class="sheet-header">
+        <span class="sheet-title">⚙️ सिस्टम स्थिति व सेटिंग्स (Diagnostics)</span>
+        <button class="btn-close-sheet" onclick="closeAppModal('modal-diagnostics')">✕</button>
+      </div>
+      <div class="sheet-body">
+        <div class="debug-card">
+          <div><strong>Backend API:</strong> http://localhost:8000 (Connected)</div>
+          <div><strong>Active AI Engine:</strong> <span id="diag-active-model">Gemini 2.5 Flash / ICAR</span></div>
+          <div><strong>API Latency:</strong> <span id="diag-latency">14 ms</span></div>
+          <div><strong>Kriging Interpolator:</strong> Active (Carto HD Tier)</div>
+          <div><strong>Mesh Protocol:</strong> Nearby Store-and-Forward</div>
+        </div>
+        <div style="margin-top:12px;">
+          <label style="font-size:12px; font-weight:700; color:var(--text-secondary); display:block; margin-bottom:6px;">Google Gemini API Key:</label>
+          <div style="display:flex; gap:8px;">
+            <input type="password" id="input-modal-gemini-key" class="search-input-clean" placeholder="AIzaSy...">
+            <button class="btn-assistant-pill" onclick="saveAIKeyModal()">Save</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
