@@ -1,0 +1,3 @@
+# This directory is reserved for ML models and training pipelines.
+# Dataset and training files are kept local while in development.
+

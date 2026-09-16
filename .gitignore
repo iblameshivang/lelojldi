@@ -151,4 +151,11 @@ Desktop.ini
 *.log
 docker-compose.override.yml
 
+# ──────────────────────────────────────────────────────────────────────────────
+# 8. ML MODELS WORKING DIRECTORY (In development - kept local)
+# ──────────────────────────────────────────────────────────────────────────────
+ml_models/*
+!ml_models/.gitkeep
+tempCodeRunnerFile.*
+
 <!-- Agri-Saarthi 2026 Sync -->
