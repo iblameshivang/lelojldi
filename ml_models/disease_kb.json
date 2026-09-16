@@ -1,0 +1,41 @@
+{
+  "Potato___Early_blight": {
+    "crop": "Potato",
+    "disease": "Early Blight",
+    "severity": "Medium",
+    "immediate_action": "Spray Mancozeb 75 WP @ 2g per liter of water immediately.",
+    "faq": [
+      { "q": "What causes this?", "a": "Alternaria solani fungus spreading in warm, humid weather." },
+      { "q": "Exact spray dosage?", "a": "Mancozeb 75 WP @ 2g/L or Chlorothalonil @ 2g/L every 7-10 days." },
+      { "q": "Organic alternative?", "a": "Spray 5% neem seed kernel extract (NSKE) or bio-fungicide Trichoderma." },
+      { "q": "Will it spread quickly?", "a": "Yes, through wind and splashing water. Prune infected lower leaves." },
+      { "q": "Future prevention?", "a": "Rotate crops with non-solanaceous plants and use certified disease-free seeds." }
+    ]
+  },
+  "Potato___Late_blight": {
+    "crop": "Potato",
+    "disease": "Late Blight",
+    "severity": "High",
+    "immediate_action": "Spray Ridomil Gold (Metalaxyl + Mancozeb) @ 2.5g/L within 24 hours.",
+    "faq": [
+      { "q": "What causes this?", "a": "Phytophthora infestans water mold active during cool, damp, foggy conditions." },
+      { "q": "Exact spray dosage?", "a": "Cymoxanil + Mancozeb @ 2g/L or Metalaxyl 8% + Mancozeb 64% @ 2.5g/L." },
+      { "q": "Organic alternative?", "a": "Copper hydroxide formulations or Bordeaux mixture (1%)." },
+      { "q": "Will it spread quickly?", "a": "Extremely fast. It can destroy an entire field within a week if left untreated." },
+      { "q": "Future prevention?", "a": "Ensure proper field drainage, avoid overhead irrigation, and destroy infected tubers." }
+    ]
+  },
+  "Tomato___healthy": {
+    "crop": "Tomato",
+    "disease": "Healthy",
+    "severity": "None",
+    "immediate_action": "Crop is in healthy condition. Maintain regular nutrient and irrigation schedule.",
+    "faq": [
+      { "q": "Any treatment needed?", "a": "No chemical intervention required right now." },
+      { "q": "Nutrient recommendation?", "a": "Apply balanced NPK as per current vegetative or flowering stage." },
+      { "q": "Watering schedule?", "a": "Maintain consistent drip irrigation; avoid waterlogging." },
+      { "q": "Pest surveillance?", "a": "Keep yellow sticky traps installed to monitor whiteflies and aphids." },
+      { "q": "Next inspection?", "a": "Inspect leaf undersides every 4–5 days." }
+    ]
+  }
+}

@@ -582,16 +582,7 @@ async function searchProgressiveMarketPrices({
 
     const apiKey = process.env.DATA_GOV_API_KEY || process.env.OGD_API_KEY || process.env.AGMARKNET_API_KEY;
     if (!apiKey) {
-        console.warn("[MarketService] DATA_GOV_API_KEY is not configured in backend/.env.");
-        const noKeyPayload = {
-            success: false,
-            errorType: "MARKET_UNAVAILABLE",
-            message: "Market data is temporarily unavailable. Please retry shortly.",
-            count: 0,
-            availableCrops: [],
-            results: []
-        };
-        return noKeyPayload;
+        console.warn("[MarketService] DATA_GOV_API_KEY is not configured; using bundled verified records.");
     }
 
     let collectedRecords = [];
@@ -611,7 +602,7 @@ async function searchProgressiveMarketPrices({
     }
 
     // --- LEVEL 1: Local District Query ---
-    if (userDistrict && userState) {
+    if (apiKey && userDistrict && userState) {
         try {
             const l1 = await queryOfficialDataGovApi({
                 crop: normalizedCrop,
@@ -629,7 +620,7 @@ async function searchProgressiveMarketPrices({
     }
 
     // --- LEVEL 2 & 3: Same State Query (if local results < 3) ---
-    if (collectedRecords.length < 3 && userState) {
+    if (apiKey && collectedRecords.length < 3 && userState) {
         try {
             const l2 = await queryOfficialDataGovApi({
                 crop: normalizedCrop,
@@ -646,7 +637,7 @@ async function searchProgressiveMarketPrices({
     }
 
     // --- LEVEL 4: Nearby States Query (if results < 3 and state has neighbors) ---
-    if (collectedRecords.length < 3 && userState && INDIAN_NEIGHBORING_STATES[userState]) {
+    if (apiKey && collectedRecords.length < 3 && userState && INDIAN_NEIGHBORING_STATES[userState]) {
         const neighbors = INDIAN_NEIGHBORING_STATES[userState];
         for (const nState of neighbors) {
             if (collectedRecords.length >= 6) break;
@@ -666,7 +657,7 @@ async function searchProgressiveMarketPrices({
     }
 
     // --- LEVEL 5: National Query (if still no results found) ---
-    if (collectedRecords.length === 0) {
+    if (apiKey && collectedRecords.length === 0) {
         try {
             const l5 = await queryOfficialDataGovApi({
                 crop: normalizedCrop,

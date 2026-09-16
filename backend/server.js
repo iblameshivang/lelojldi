@@ -7,10 +7,12 @@
  * ==============================================================================
  */
 
-require('dotenv').config();
+const path = require('path');
+const dotenv = require('dotenv');
+dotenv.config();
+dotenv.config({ path: path.join(__dirname, '.env') });
 const express = require('express');
 const cors = require('cors');
-const path = require('path');
 const { GoogleGenAI } = require('@google/genai');
 
 const {
@@ -383,16 +385,6 @@ async function handleAssistantChat(req, res) {
             });
         }
 
-        const apiKey = process.env.GEMINI_API_KEY;
-        if (!apiKey) {
-            console.error("[Assistant] Error: GEMINI_API_KEY is not configured in backend environment.");
-            return res.status(500).json({
-                success: false,
-                errorType: "API_AUTH_ERROR",
-                error: "GEMINI_API_KEY is not configured on the backend server."
-            });
-        }
-
         const intent = classifyIntent(message);
         const detectedLang = detectLanguageServer(message, language, history);
 
@@ -405,6 +397,40 @@ async function handleAssistantChat(req, res) {
             if (marketContext) {
                 console.log(`[Assistant] Grounded with Verified Official Government Mandi Data`);
             }
+        }
+
+        const apiKey = process.env.GEMINI_API_KEY;
+        if (!apiKey) {
+            const isEnglish = detectedLang.shortCode === "en";
+            const offlineAnswer = marketContext
+                ? (isEnglish
+                    ? `Here are the verified government market records I found:\n${marketContext}`
+                    : `यहां उपलब्ध सत्यापित सरकारी मंडी जानकारी है:\n${marketContext}`)
+                : (isEnglish
+                    ? "Gemini is not configured, so I am running in offline mode. Ask me about crop diseases, fertilizer, weather, or mandi prices."
+                    : "Gemini API चालू नहीं है, इसलिए मैं ऑफलाइन मोड में काम कर रहा हूं। आप फसल रोग, खाद, मौसम या मंडी भाव के बारे में पूछ सकते हैं।");
+
+            return res.json({
+                success: true,
+                answer: offlineAnswer,
+                reply: offlineAnswer,
+                speechText: makeSpeechFriendly(offlineAnswer),
+                model: "krishi-offline-assistant",
+                intent,
+                source: "offline_fallback",
+                language: {
+                    code: detectedLang.code,
+                    langKey: detectedLang.shortCode,
+                    name: detectedLang.name,
+                    nativeName: detectedLang.nativeName
+                },
+                metadata: {
+                    latencyMs: Date.now() - startTime,
+                    grounded: Boolean(marketContext),
+                    language: detectedLang.name,
+                    languageCode: detectedLang.code
+                }
+            });
         }
 
         const ai = new GoogleGenAI({ apiKey });

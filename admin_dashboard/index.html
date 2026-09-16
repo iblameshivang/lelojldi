@@ -28,17 +28,15 @@
         <div class="language-grid" id="language-grid"></div>
       </div>
 
-      <!-- Step 2: Terms and Privacy -->
+      <!-- Step 3: Location Access & Confirmation -->
       <div class="onboarding-step" data-step="2" hidden>
         <div class="onboarding-kicker" data-i18n="step2Kicker">Step 2</div>
-        <h2 data-i18n="step2Title">Terms and privacy</h2>
-        <p data-i18n="termsDesc">Agri-Saarthi uses your choices to personalize crop advice, weather and market tools. Location is optional and is not continuously tracked.</p>
-        <label class="consent-row"><input type="checkbox" id="terms-consent"> <span data-i18n="termsConsent">I have read and accept the Terms of Use and Privacy Policy.</span></label>
-      </div>
-
-      <!-- Step 3: Location Access & Confirmation -->
-      <div class="onboarding-step" data-step="3" hidden>
-        <div class="onboarding-kicker" data-i18n="step3Kicker">Step 3</div>
+        <div class="permission-card">
+          <h2 data-i18n="micAccessTitle">Allow microphone access</h2>
+          <p data-i18n="micAccessDesc">Microphone access is needed for voice questions and spoken answers.</p>
+          <button class="onboarding-primary" id="allow-microphone" type="button" data-i18n="allowMicBtn">🎙️ Allow Microphone</button>
+          <p class="onboarding-status" id="microphone-status"></p>
+        </div>
         <h2 data-i18n="step3Title">Allow location access</h2>
         <p data-i18n="locDesc">Your location helps find nearby agricultural markets and local crop prices.</p>
         
@@ -67,8 +65,8 @@
       </div>
 
       <!-- Step 4: Crop Selection -->
-      <div class="onboarding-step" data-step="4" hidden>
-        <div class="onboarding-kicker" data-i18n="step4Kicker">Step 4</div>
+      <div class="onboarding-step" data-step="3" hidden>
+        <div class="onboarding-kicker" data-i18n="step3Kicker">Step 3</div>
         <h2 data-i18n="step4Title">Select your crops</h2>
         <p data-i18n="cropsDesc">Choose one or more crops. You can change these later.</p>
         <input class="crop-search" id="onboarding-crop-search" placeholder="Search crops (उदा. गेहूं, सेब)..." data-i18n-ph="searchCropsPlaceholder">
@@ -76,8 +74,8 @@
       </div>
 
       <!-- Step 5: Setup Complete -->
-      <div class="onboarding-step" data-step="5" hidden>
-        <div class="onboarding-kicker" data-i18n="step5Kicker">Setup complete</div>
+      <div class="onboarding-step" data-step="4" hidden>
+        <div class="onboarding-kicker" data-i18n="step4Kicker">Step 4</div>
         <h2 data-i18n="step5Title">Your farm view is ready</h2>
         <p id="onboarding-summary" data-i18n="step5Desc">Your saved preferences will personalize the dashboard.</p>
         <div class="onboarding-complete-mark">✓</div>
@@ -97,7 +95,7 @@
     <header class="top-app-bar">
       <a href="#" class="brand-group" onclick="switchNavTab('your-crops'); return false;">
         <div class="brand-leaf-icon">🌱</div>
-        <span class="brand-name">कृषि-सारथी</span>
+        <span class="brand-name" data-i18n="appName">Agri-Saarthi</span>
       </a>
       <div class="top-bar-actions">
         <button class="btn-assistant-pill" id="btn-open-assistant" onclick="openAssistantScreen()">
@@ -122,8 +120,8 @@
           <div class="home-profile-left">
             <div class="home-profile-avatar">👨‍🌾</div>
             <div class="home-profile-text">
-              <span class="home-profile-title">My Profile & Farm (मेरा प्रोफ़ाइल व खेत)</span>
-              <span class="home-profile-sub">Manage your crops, plots & account</span>
+              <span class="home-profile-title" data-i18n="profileTitle">My Profile & Farm</span>
+              <span class="home-profile-sub" data-i18n="profileSub">Manage your crops, plots & account</span>
             </div>
           </div>
           <span class="home-profile-chevron">›</span>
@@ -135,57 +133,57 @@
           <div class="hero-flow-subcard">
             <div class="flow-step">
               <div class="flow-step-icon">📷</div>
-              <span class="flow-step-caption">फोटो लें<br><small style="color:var(--text-secondary);">Take picture</small></span>
+                <span class="flow-step-caption" data-i18n="flowTakePicture">Take picture</span>
             </div>
             <div class="flow-step-arrow">›</div>
             <div class="flow-step">
               <div class="flow-step-icon">🔬</div>
-              <span class="flow-step-caption">निदान देखें<br><small style="color:var(--text-secondary);">See diagnosis</small></span>
+                <span class="flow-step-caption" data-i18n="flowSeeDiagnosis">See diagnosis</span>
             </div>
             <div class="flow-step-arrow">›</div>
             <div class="flow-step">
               <div class="flow-step-icon">💊</div>
-              <span class="flow-step-caption">इलाज पाएं<br><small style="color:var(--text-secondary);">Get medicine</small></span>
+                <span class="flow-step-caption" data-i18n="flowGetMedicine">Get medicine</span>
             </div>
           </div>
 
           <!-- One Primary Action Button (The single most important button) -->
           <button class="btn-primary-hero" id="btn-hero-take-picture" onclick="triggerCameraCapture()">
-            <span style="font-size: 20px;">📷</span> फोटो लें (Take a picture)
+            <span style="font-size: 20px;">📷</span> <span data-i18n="heroTakePicture">Take a picture</span>
           </button>
         </div>
 
         <!-- D. Tools Section (Horizontally Scrollable Cards) -->
         <div class="section-container">
           <div class="section-header-row">
-            <h2 class="section-title">Tools (उपकरण)</h2>
+            <h2 class="section-title" data-i18n="toolsTitle">Tools</h2>
           </div>
           <div class="tools-scroll-row">
             <!-- Tool 1: Fertilizer Check -->
             <div class="tool-card" onclick="openToolModal('fertilizer')">
               <span class="badge-new">New</span>
               <div class="tool-card-icon">🧪</div>
-              <div class="tool-card-title">उर्वरक जाँच<br><small style="color:var(--text-secondary);font-weight:400;">Fertilizer check</small></div>
+              <div class="tool-card-title" data-i18n="toolFertilizer">Fertilizer check</div>
             </div>
             <!-- Tool 2: Pesticide & Dosage Calculator -->
             <div class="tool-card" onclick="openToolModal('calculator')">
               <div class="tool-card-icon">📐</div>
-              <div class="tool-card-title">दवा कैलकुलेटर<br><small style="color:var(--text-secondary);font-weight:400;">Dosage calc</small></div>
+              <div class="tool-card-title" data-i18n="toolCalculator">Dosage calculator</div>
             </div>
             <!-- Tool 3: Crop Health Scanner -->
             <div class="tool-card" onclick="openToolModal('scanner')">
               <div class="tool-card-icon">🔬</div>
-              <div class="tool-card-title">रोग स्कैनर<br><small style="color:var(--text-secondary);font-weight:400;">Health scan</small></div>
+              <div class="tool-card-title" data-i18n="toolScanner">Crop health scanner</div>
             </div>
             <!-- Tool 4: Weather & Spray Advisory -->
             <div class="tool-card" onclick="openToolModal('weather')">
               <div class="tool-card-icon">🌤️</div>
-              <div class="tool-card-title">मौसम सलाह<br><small style="color:var(--text-secondary);font-weight:400;">Weather & rain</small></div>
+              <div class="tool-card-title" data-i18n="toolWeather">Weather & rain</div>
             </div>
             <!-- Tool 5: Emergency SMS -->
             <div class="tool-card" onclick="openToolModal('telecom')">
               <div class="tool-card-icon">📟</div>
-              <div class="tool-card-title">SMS व USSD<br><small style="color:var(--text-secondary);font-weight:400;">*123# Gateway</small></div>
+              <div class="tool-card-title" data-i18n="toolTelecom">SMS & USSD</div>
             </div>
           </div>
         </div>
@@ -193,43 +191,43 @@
         <!-- E. Library Section (2-Column Pastel Grid) -->
         <div class="section-container">
           <div class="section-header-row">
-            <h2 class="section-title">Library (कृषि ज्ञान कोष)</h2>
+            <h2 class="section-title" data-i18n="libraryTitle">Library</h2>
           </div>
           <div class="library-grid">
             <!-- Tile 1: Pests & Disease Alert (Kriging GIS Entry) -->
             <div class="library-tile pastel-mint" onclick="openToolModal('gis-map')">
               <div class="library-tile-header">
-                <div class="library-tile-title">रोग फैलाव अलर्ट<br><span style="font-size:12px;font-weight:500;color:var(--text-secondary);">Pests & Disease Alert</span></div>
+                  <div class="library-tile-title" data-i18n="libraryDisease">Pests & disease alert</div>
                 <div class="library-tile-icon">🗺️</div>
               </div>
-              <div class="library-tile-sub">72-घंटे क्रिगिंग GIS नक्शा</div>
+              <div class="library-tile-sub" data-i18n="libraryDiseaseSub">72-hour disease risk map</div>
             </div>
 
             <!-- Tile 2: Cultivation Tips (Spans Taller) -->
             <div class="library-tile pastel-lavender tall" onclick="openLibraryDetail('tips')">
               <div class="library-tile-header">
-                <div class="library-tile-title">उन्नत खेती के उपाय<br><span style="font-size:12px;font-weight:500;color:var(--text-secondary);">Cultivation Tips</span></div>
+                  <div class="library-tile-title" data-i18n="libraryTips">Cultivation tips</div>
                 <div class="library-tile-icon">💡</div>
               </div>
-              <div class="library-tile-sub">ICAR प्रमाणित बीज चयन, सिंचाई व खाद प्रबंधन</div>
+              <div class="library-tile-sub" data-i18n="libraryTipsSub">ICAR-certified seed, irrigation and fertilizer guidance</div>
             </div>
 
             <!-- Tile 3: Crops Guide -->
             <div class="library-tile pastel-sky" onclick="openLibraryDetail('crops')">
               <div class="library-tile-header">
-                <div class="library-tile-title">फसल निर्देशिका<br><span style="font-size:12px;font-weight:500;color:var(--text-secondary);">Crops Guide</span></div>
+                  <div class="library-tile-title" data-i18n="libraryCrops">Crops guide</div>
                 <div class="library-tile-icon">🌾</div>
               </div>
-              <div class="library-tile-sub">50+ प्रमुख फसलों की संपूर्ण जानकारी</div>
+              <div class="library-tile-sub" data-i18n="libraryCropsSub">Complete information for 50+ major crops</div>
             </div>
 
             <!-- Tile 4: Govt Schemes & Insurance -->
             <div class="library-tile pastel-peach" onclick="openToolModal('insurance')">
               <div class="library-tile-header">
-                <div class="library-tile-title">PMFBY व योजनाएं<br><span style="font-size:12px;font-weight:500;color:var(--text-secondary);">Insurance Locker</span></div>
+                  <div class="library-tile-title" data-i18n="libraryInsurance">Government schemes & insurance</div>
                 <div class="library-tile-icon">🛡️</div>
               </div>
-              <div class="library-tile-sub">टैम्पर-प्रूफ बीमा दावा लॉकर</div>
+              <div class="library-tile-sub" data-i18n="libraryInsuranceSub">Tamper-proof insurance claim locker</div>
             </div>
           </div>
         </div>
@@ -242,10 +240,10 @@
       <section class="tab-pane" id="pane-community">
         <div class="section-header-row">
           <div>
-            <h2 class="section-title">किसान समुदाय (Community)</h2>
-            <p style="font-size:12.5px; color:var(--text-secondary);">कृषि वैज्ञानिकों व साथी किसानों से सीधे प्रश्न पूछें</p>
+            <h2 class="section-title" data-i18n="communityTitle">Farmer community</h2>
+            <p style="font-size:12.5px; color:var(--text-secondary);" data-i18n="communitySub">Ask questions directly to agricultural scientists and fellow farmers</p>
           </div>
-          <button class="btn-assistant-pill" onclick="openNewPostSheet()">+ सवाल पूछें</button>
+          <button class="btn-assistant-pill" onclick="openNewPostSheet()" data-i18n="askQuestion">Ask a question</button>
         </div>
 
         <div class="community-feed-list">
@@ -254,21 +252,21 @@
             <div class="post-author-row">
               <div class="author-avatar">र</div>
               <div class="author-info">
-                <span class="author-name">रमेश कुमार • लखनऊ</span>
-                <span class="post-time">2 घंटे पूर्व • गेहूं की फसल</span>
+                <span class="author-name" data-i18n="post1Author">Ramesh Kumar • Lucknow</span>
+                <span class="post-time" data-i18n="post1Time">2 hours ago • Wheat crop</span>
               </div>
             </div>
             <p class="post-body-text">
-              गेहूं की पत्तियों पर पीले रंग की धारियां दिख रही हैं। क्या यह पीला रतुआ है? कौन सी दवा का छिड़काव सही रहेगा?
+              <span data-i18n="post1Body">Yellow stripes are appearing on my wheat leaves. Is this yellow rust? Which spray should I use?</span>
             </p>
             <div style="background:var(--bg-card-subtle); padding:10px 12px; border-radius:12px; border-left:3px solid var(--primary); font-size:12.5px;">
-              <strong style="color:var(--primary);">👨‍🔬 डॉ. एस. के. शर्मा (कृषि वैज्ञानिक):</strong><br>
-              यह पीला रतुआ (Yellow Rust) के शुरुआती लक्षण हैं। 24 घंटे में प्रोपिकोनाज़ोल 25% EC @ 1 मिली प्रति लीटर पानी में मिलाकर स्प्रे करें।
+              <strong style="color:var(--primary);">👨‍🔬 <span data-i18n="post1Expert">Dr. S. K. Sharma (Agricultural Scientist):</span></strong><br>
+              <span data-i18n="post1Answer">These are early symptoms of yellow rust. Spray Propiconazole 25% EC at 1 ml per litre of water within 24 hours.</span>
             </div>
             <div class="post-actions-row">
-              <button class="btn-post-action" onclick="showToast('लाइक', 'आपने पोस्ट को पसंद किया', 'success')">👍 24 मददगार</button>
-              <button class="btn-post-action" onclick="showToast('उत्तर', 'उत्तर बॉक्स खुला', 'info')">💬 5 टिप्पणियां</button>
-              <button class="btn-post-action" onclick="showToast('शेयर', 'लिंक कॉपी किया गया', 'info')">↗️ शेयर</button>
+              <button class="btn-post-action" onclick="showToast('Like', 'Post liked', 'success')">👍 24 <span data-i18n="helpful">helpful</span></button>
+              <button class="btn-post-action" onclick="showToast('Reply', 'Reply box opened', 'info')">💬 5 <span data-i18n="comments">comments</span></button>
+              <button class="btn-post-action" onclick="showToast('Share', 'Link copied', 'info')">↗️ <span data-i18n="share">Share</span></button>
             </div>
           </div>
 
@@ -277,17 +275,17 @@
             <div class="post-author-row">
               <div class="author-avatar" style="background:#FEF3C7; color:#B45309;">सु</div>
               <div class="author-info">
-                <span class="author-name">सुनीता देवी • वाराणसी</span>
-                <span class="post-time">5 घंटे पूर्व • आलू की फसल</span>
+                <span class="author-name" data-i18n="post2Author">Sunita Devi • Varanasi</span>
+                <span class="post-time" data-i18n="post2Time">5 hours ago • Potato crop</span>
               </div>
             </div>
             <p class="post-body-text">
-              आलू की क्यारियों में पछेता झुलसा से बचाव हेतु खट्टी छाछ और तांबे का देशी जैविक घोल बनाकर छिड़काव किया था, बहुत अच्छा परिणाम मिला!
+              <span data-i18n="post2Body">I sprayed a natural buttermilk and copper solution to protect my potato beds from late blight and got very good results!</span>
             </p>
             <div class="post-actions-row">
-              <button class="btn-post-action" onclick="showToast('लाइक', 'आपने पोस्ट को पसंद किया', 'success')">👍 42 मददगार</button>
-              <button class="btn-post-action" onclick="showToast('उत्तर', 'उत्तर बॉक्स खुला', 'info')">💬 12 टिप्पणियां</button>
-              <button class="btn-post-action" onclick="showToast('शेयर', 'लिंक कॉपी किया गया', 'info')">↗️ शेयर</button>
+              <button class="btn-post-action" onclick="showToast('Like', 'Post liked', 'success')">👍 42 <span data-i18n="helpful">helpful</span></button>
+              <button class="btn-post-action" onclick="showToast('Reply', 'Reply box opened', 'info')">💬 12 <span data-i18n="comments">comments</span></button>
+              <button class="btn-post-action" onclick="showToast('Share', 'Link copied', 'info')">↗️ <span data-i18n="share">Share</span></button>
             </div>
           </div>
         </div>
@@ -331,7 +329,7 @@
       <section class="tab-pane" id="pane-you">
         <div class="section-header-row" style="margin-bottom: 4px;">
           <button class="btn-assistant-pill" style="font-size:12.5px; padding:4px 12px; min-height:34px;" onclick="switchNavTab('your-crops')">
-            ← Home (होम पेज)
+            ← <span data-i18n="homeBtn">Home</span>
           </button>
           <span style="font-family:var(--font-heading); font-size:16px; font-weight:700;">My Profile & Farm</span>
         </div>
@@ -342,28 +340,28 @@
           <div class="profile-hero-info">
             <span class="profile-name" id="profile-display-name">Agri-Saarthi farmer</span>
             <span class="profile-location" id="profile-display-location">📍 Location not set</span>
-            <span style="font-size:11.5px; color:var(--accent-mint); font-weight:700; margin-top:3px;">✓ PM-KISAN व e-KYC सत्यापित</span>
+            <span style="font-size:11.5px; color:var(--accent-mint); font-weight:700; margin-top:3px;">✓ <span data-i18n="verifiedProfile">PM-KISAN and e-KYC verified</span></span>
           </div>
         </div>
 
         <!-- Section: Farm & Plots Management -->
         <div class="section-container">
           <div class="section-header-row">
-            <h3 style="font-size:15px; font-weight:700; color:var(--text-primary);">मेरे खेत व फसलें (My Plots)</h3>
-            <button class="btn-assistant-pill" style="font-size:12px; padding:4px 10px; min-height:30px;" onclick="openAddPlotModal()">+ नया खेत</button>
+            <h3 style="font-size:15px; font-weight:700; color:var(--text-primary);" data-i18n="plotsTitle">My plots</h3>
+            <button class="btn-assistant-pill" style="font-size:12px; padding:4px 10px; min-height:30px;" onclick="openAddPlotModal()" data-i18n="addPlot">Add a new plot</button>
           </div>
           <div class="selection-list-container" id="plots-list-container">
             <div class="selection-card selected" onclick="togglePlotSelect(this)">
               <div class="selection-card-left">
-                <span class="selection-card-title">उत्तर खेत (North Field)</span>
+                <span class="selection-card-title" data-i18n="northField">North Field</span>
                    <span class="selection-card-sub" id="profile-crops-summary">Select crops during setup to personalize this view.</span>
               </div>
               <div class="selection-radio"><div class="selection-radio-dot"></div></div>
             </div>
             <div class="selection-card" onclick="togglePlotSelect(this)">
               <div class="selection-card-left">
-                <span class="selection-card-title">गंगा किनारा प्लॉट (River Plot)</span>
-                <span class="selection-card-sub">आलू (Kufri Jyoti) • 1.45 Acre • सिंक सक्रिय</span>
+                <span class="selection-card-title" data-i18n="riverPlot">River Plot</span>
+                <span class="selection-card-sub" data-i18n="riverPlotDetails">Potato (Kufri Jyoti) • 1.45 acres • Sync active</span>
               </div>
               <div class="selection-radio"><div class="selection-radio-dot"></div></div>
             </div>
@@ -372,33 +370,33 @@
 
         <!-- Section: Services & Features Menu -->
         <div class="section-container">
-          <h3 style="font-size:15px; font-weight:700; color:var(--text-primary);">सुविधाएं व सेटिंग्स (Services)</h3>
+          <h3 style="font-size:15px; font-weight:700; color:var(--text-primary);" data-i18n="servicesTitle">Services and settings</h3>
           <div class="menu-group">
             <div class="menu-item-row" onclick="openToolModal('insurance')">
               <div class="menu-item-left">
                 <div class="menu-item-icon">🛡️</div>
-                <span class="menu-item-title">बीमा दावा लॉकर (PMFBY Blockchain)</span>
+                <span class="menu-item-title" data-i18n="insuranceMenu">Insurance claim locker (PMFBY Blockchain)</span>
               </div>
               <span class="menu-item-chevron">›</span>
             </div>
             <div class="menu-item-row" onclick="openToolModal('mesh')">
               <div class="menu-item-left">
                 <div class="menu-item-icon">📡</div>
-                <span class="menu-item-title">ऑफ़लाइन P2P मेश नोड्स (Nearby Mesh)</span>
+                <span class="menu-item-title" data-i18n="meshMenu">Offline P2P mesh nodes (Nearby Mesh)</span>
               </div>
               <span class="menu-item-chevron">›</span>
             </div>
             <div class="menu-item-row" onclick="openToolModal('telecom')">
               <div class="menu-item-left">
                 <div class="menu-item-icon">📟</div>
-                <span class="menu-item-title">2G टेलीकॉम एवं USSD सेवा (*123#)</span>
+                <span class="menu-item-title" data-i18n="telecomMenu">2G telecom and USSD service (*123#)</span>
               </div>
               <span class="menu-item-chevron">›</span>
             </div>
             <div class="menu-item-row" onclick="openToolModal('diagnostics')">
               <div class="menu-item-left">
                 <div class="menu-item-icon">⚙️</div>
-                <span class="menu-item-title">सिस्टम स्थिति एवं सेटिंग्स (Diagnostics)</span>
+                <span class="menu-item-title" data-i18n="diagnosticsMenu">System status and settings (Diagnostics)</span>
               </div>
               <span class="menu-item-chevron">›</span>
             </div>
@@ -411,14 +409,14 @@
             <div class="menu-item-row" onclick="openLanguageModal()">
               <div class="menu-item-left">
                 <div class="menu-item-icon">🌐</div>
-                <span class="menu-item-title">भाषा बदलें (Language: हिन्दी / English)</span>
+                <span class="menu-item-title" data-i18n="changeLanguage">Change language</span>
               </div>
               <span class="menu-item-chevron">›</span>
             </div>
             <div class="menu-item-row" onclick="showToast('किसान हेल्पलाइन', 'टोल-फ्री 1800-180-1551 पर कॉल करें', 'info')">
               <div class="menu-item-left">
                 <div class="menu-item-icon">📞</div>
-                <span class="menu-item-title">किसान कॉल सेंटर (1800-180-1551)</span>
+                <span class="menu-item-title" data-i18n="farmerCallCenter">Farmer call center (1800-180-1551)</span>
               </div>
               <span class="menu-item-chevron">›</span>
             </div>
@@ -433,8 +431,8 @@
       <section class="tab-pane" id="pane-disease-map">
         <div class="section-header-row">
           <div>
-            <h2 class="section-title">Disease Map (रोग मानचित्र)</h2>
-            <p style="font-size:12.5px; color:var(--text-secondary);">Crop disease risk by region (क्षेत्रानुसार फसल रोग जोखिम)</p>
+            <h2 class="section-title" data-i18n="diseaseMapTitle">Disease Map</h2>
+            <p style="font-size:12.5px; color:var(--text-secondary);" data-i18n="diseaseMapSub">Crop disease risk by region</p>
           </div>
           <button class="btn-icon-more" id="btn-refresh-disease-map" onclick="refreshDiseaseMap();" title="रीफ्रेश नक्शा" aria-label="Refresh Map">🔄</button>
         </div>
@@ -454,7 +452,7 @@
           <!-- Loading Spinner Overlay -->
           <div class="map-loading-overlay" id="map-loading-overlay">
             <div class="map-spinner"></div>
-            <span class="map-loading-text" style="font-size:12px; font-weight:600; color:var(--primary);">डेटा लोड हो रहा है...</span>
+            <span class="map-loading-text" data-i18n="mapLoading" style="font-size:12px; font-weight:600; color:var(--primary);">Loading data...</span>
           </div>
 
           <!-- SVG Vector India Map Container -->
@@ -475,13 +473,13 @@
 
           <!-- Floating Non-Intrusive Legend Card -->
           <div class="map-choropleth-legend">
-            <div class="legend-title">Risk Level (जोखिम)</div>
+            <div class="legend-title" data-i18n="mapRiskLevel">Risk level</div>
             <div class="legend-scale-list">
-              <div class="legend-scale-item"><span class="legend-swatch swatch-vhigh"></span> Very High (अति-गंभीर)</div>
-              <div class="legend-scale-item"><span class="legend-swatch swatch-high"></span> High (उच्च)</div>
-              <div class="legend-scale-item"><span class="legend-swatch swatch-med"></span> Medium (मध्यम)</div>
-              <div class="legend-scale-item"><span class="legend-swatch swatch-low"></span> Low (कम)</div>
-              <div class="legend-scale-item"><span class="legend-swatch swatch-vlow"></span> Very Low (न्यूनतम)</div>
+              <div class="legend-scale-item"><span class="legend-swatch swatch-vhigh"></span> <span data-i18n="mapVeryHigh">Very high</span></div>
+              <div class="legend-scale-item"><span class="legend-swatch swatch-high"></span> <span data-i18n="mapHigh">High</span></div>
+              <div class="legend-scale-item"><span class="legend-swatch swatch-med"></span> <span data-i18n="mapMedium">Medium</span></div>
+              <div class="legend-scale-item"><span class="legend-swatch swatch-low"></span> <span data-i18n="mapLow">Low</span></div>
+              <div class="legend-scale-item"><span class="legend-swatch swatch-vlow"></span> <span data-i18n="mapVeryLow">Very low</span></div>
             </div>
           </div>
         </div>
@@ -510,25 +508,25 @@
       <!-- Tab 1: Your Crops (Home - Default Active) -->
       <button class="nav-tab-btn active" data-nav="your-crops" onclick="switchNavTab('your-crops')">
         <div class="nav-tab-icon-wrap">🌱</div>
-        <span class="nav-tab-label">Your Crops</span>
+        <span class="nav-tab-label" data-i18n="tabYourCrops">Your Crops</span>
       </button>
 
       <!-- Tab 2: Community -->
       <button class="nav-tab-btn" data-nav="community" onclick="switchNavTab('community')">
         <div class="nav-tab-icon-wrap">💬</div>
-        <span class="nav-tab-label">Community</span>
+        <span class="nav-tab-label" data-i18n="tabCommunity">Community</span>
       </button>
 
       <!-- Tab 3: Market (Mandi) -->
       <button class="nav-tab-btn" data-nav="market" onclick="switchNavTab('market')">
         <div class="nav-tab-icon-wrap">🏪</div>
-        <span class="nav-tab-label">Market</span>
+        <span class="nav-tab-label" data-i18n="tabMarket">Market</span>
       </button>
 
       <!-- Tab 4: Disease Map -->
       <button class="nav-tab-btn" data-nav="disease-map" onclick="switchNavTab('disease-map')">
         <div class="nav-tab-icon-wrap">🗺️</div>
-        <span class="nav-tab-label">Disease Map</span>
+        <span class="nav-tab-label" data-i18n="tabDiseaseMap">Disease Map</span>
       </button>
     </nav>
 
@@ -541,7 +539,7 @@
     <!-- Top Bar -->
     <div class="assistant-top-bar">
       <button class="btn-back-round" onclick="closeAssistantScreen()" aria-label="Back">←</button>
-      <span style="font-family:var(--font-heading);font-weight:700;font-size:16px;">AI कृषि सहायक</span>
+      <span data-i18n="assistantTitle" style="font-family:var(--font-heading);font-weight:700;font-size:16px;">AI Agricultural Assistant</span>
       <button class="btn-icon-more" onclick="showToast('AI मॉडल', 'ICAR एग्रोनॉमिक नॉलेज बेस व Google Gemini से सशक्त', 'info')">ℹ️</button>
     </div>
 
@@ -549,10 +547,10 @@
     <div class="segmented-toggle-wrap">
       <div class="segmented-toggle">
         <button class="seg-btn active" id="seg-btn-voice" onclick="switchAssistantMode('voice')">
-          <span>🎙️</span> Voice (बोलें)
+          <span>🎙️</span> <span data-i18n="voiceMode">Voice</span>
         </button>
         <button class="seg-btn" id="seg-btn-text" onclick="switchAssistantMode('text')">
-          <span>💬</span> Text (लिखें)
+          <span>💬</span> <span data-i18n="textMode">Text</span>
         </button>
       </div>
     </div>
@@ -717,17 +715,17 @@
           <div class="voice-response-header">
             <div style="display:flex; align-items:center; gap:6px;">
               <span style="font-size:18px;">👨‍🌾</span>
-              <strong style="font-size:13.5px; color:var(--text-primary);">कृषि-सारथी AI का समाधान:</strong>
+              <strong style="font-size:13.5px; color:var(--text-primary);" data-i18n="answerLabel">Agri-Saarthi AI answer:</strong>
             </div>
             <button class="btn-listen-again" onclick="replayVoiceResponse()" title="उत्तर दोबारा सुनें">
-              🔊 पुनः सुनें
+              🔊 <span data-i18n="replayLabel">Listen again</span>
             </button>
           </div>
           <div id="voice-response-text" class="voice-response-body"></div>
         </div>
       </div>
-      <p class="voice-disclaimer">
-        यह एक AI कृषि सहायक सेवा है। अनुशंसित दवाओं के प्रयोग से पहले स्थानीय कृषि विशेषज्ञ से पुष्टि करें।
+      <p class="voice-disclaimer" data-i18n="assistantDisclaimer">
+        This is an AI agricultural assistant. Confirm recommended treatments with a local agricultural expert before use.
       </p>
     </div>
 
@@ -735,23 +733,23 @@
     <div class="assistant-text-view" id="assistant-text-view">
       <!-- Quick Suggestion Chips -->
       <div class="chat-chips-scroll">
-        <button class="chat-suggestion-chip" onclick="sendAssistantQuery('गेहूं में पीला रतुआ का इलाज क्या है?')">🌾 गेहूं पीला रतुआ इलाज</button>
-        <button class="chat-suggestion-chip" onclick="sendAssistantQuery('टमाटर में अगेती झुलसा स्प्रे मात्रा')">🍅 टमाटर झुलसा स्प्रे</button>
-        <button class="chat-suggestion-chip" onclick="sendAssistantQuery('आज लखनऊ मंडी में गेहूं का भाव क्या है?')">💰 आज का मंडी भाव</button>
-        <button class="chat-suggestion-chip" onclick="sendAssistantQuery('PM-KISAN ई-केवाईसी कैसे करें?')">🏛️ PM-KISAN योजना</button>
+        <button class="chat-suggestion-chip" onclick="sendAssistantQuery('What is the treatment for wheat yellow rust?')">🌾 <span data-i18n="suggestionRust">Wheat yellow rust treatment</span></button>
+        <button class="chat-suggestion-chip" onclick="sendAssistantQuery('What is the spray dosage for tomato blight?')">🍅 <span data-i18n="suggestionBlight">Tomato blight spray dosage</span></button>
+        <button class="chat-suggestion-chip" onclick="sendAssistantQuery('What is today market price for wheat?')">💰 <span data-i18n="suggestionMarket">Today's market price</span></button>
+        <button class="chat-suggestion-chip" onclick="sendAssistantQuery('How do I complete PM-KISAN e-KYC?')">🏛️ <span data-i18n="suggestionScheme">PM-KISAN scheme</span></button>
       </div>
 
       <!-- Messages Thread -->
       <div class="chat-thread-container" id="assistant-chat-thread">
         <div class="chat-bubble ai">
-          <strong>🤖 कृषि-सारथी AI:</strong><br>
-          नमस्ते! मैं आपका डिजिटल कृषि वैज्ञानिक हूँ। अपनी फसल, बीमारी या खाद संबंधी कोई भी सवाल पूछें।
+          <strong>🤖 Agri-Saarthi AI:</strong><br>
+          <span data-i18n="assistantWelcome">Hello! I am your digital agricultural scientist. Ask me anything about your crop, disease, or fertilizer.</span>
         </div>
       </div>
 
       <!-- Input Bar -->
       <div class="chat-input-bar">
-        <input type="text" id="assistant-text-input" class="chat-input-field" placeholder="फसल या बीमारी का सवाल पूछें..." onkeypress="if(event.key==='Enter') sendAssistantQuery()">
+        <input type="text" id="assistant-text-input" class="chat-input-field" placeholder="Ask about crops or diseases..." data-i18n-ph="chatInputPlaceholder" onkeypress="if(event.key==='Enter') sendAssistantQuery()">
         <button class="btn-chat-send" onclick="sendAssistantQuery()" aria-label="Send Message">➤</button>
       </div>
     </div>
@@ -766,25 +764,25 @@
     <div class="app-modal-sheet">
       <div class="sheet-handle-bar"></div>
       <div class="sheet-header">
-        <span class="sheet-title">🔬 फसल रोग स्कैनर (AI Diagnosis)</span>
+        <span class="sheet-title">🔬 <span data-i18n="scannerTitle">Crop disease scanner (AI diagnosis)</span></span>
         <button class="btn-close-sheet" onclick="closeAppModal('modal-scanner')">✕</button>
       </div>
       <div class="sheet-body">
         <!-- Sample Presets Row -->
         <div class="sample-pills-row">
-          <span style="font-size:12px; font-weight:700; align-self:center; color:var(--text-secondary);">नमूना पत्ती:</span>
-          <button class="sample-pill-btn" onclick="loadSampleLeafModal('tomato')">🍅 टमाटर (Early Blight)</button>
-          <button class="sample-pill-btn" onclick="loadSampleLeafModal('wheat')">🌾 गेहूं (Yellow Rust)</button>
-          <button class="sample-pill-btn" onclick="loadSampleLeafModal('potato')">🥔 आलू (Late Blight)</button>
-          <button class="sample-pill-btn" onclick="loadSampleLeafModal('healthy')">🌿 स्वस्थ पत्ती</button>
+          <span style="font-size:12px; font-weight:700; align-self:center; color:var(--text-secondary);" data-i18n="sampleLeaf">Sample leaf:</span>
+          <button class="sample-pill-btn" onclick="loadSampleLeafModal('tomato')">🍅 Tomato (Early Blight)</button>
+          <button class="sample-pill-btn" onclick="loadSampleLeafModal('wheat')">🌾 Wheat (Yellow Rust)</button>
+          <button class="sample-pill-btn" onclick="loadSampleLeafModal('potato')">🥔 Potato (Late Blight)</button>
+          <button class="sample-pill-btn" onclick="loadSampleLeafModal('healthy')">🌿 Healthy leaf</button>
         </div>
 
         <!-- Camera Upload Box -->
         <div class="scanner-container" id="modal-scanner-dropzone">
           <input type="file" accept="image/*" onchange="handleModalImageUpload(event)">
           <div style="font-size:36px;">📷</div>
-          <strong style="font-size:14px; color:var(--text-primary);" id="modal-scanner-text">पत्ते की फोटो खींचें या चुनें</strong>
-          <span style="font-size:12px; color:var(--text-tertiary);">TFLite न्यूरल नेटवर्क द्वारा त्वरित विश्लेषण</span>
+          <strong style="font-size:14px; color:var(--text-primary);" id="modal-scanner-text" data-i18n="chooseLeaf">Take or choose a leaf photo</strong>
+          <span style="font-size:12px; color:var(--text-tertiary);" data-i18n="scannerHint">Quick analysis by the TFLite neural network</span>
         </div>
 
         <!-- Diagnosis Result Card -->
@@ -801,9 +799,9 @@
 
           <!-- Remedies Tabs -->
           <div class="remedy-switcher">
-            <button class="remedy-tab-btn active" onclick="switchModalRemedyTab('chemical', this)">💊 रासायनिक</button>
-            <button class="remedy-tab-btn" onclick="switchModalRemedyTab('organic', this)">🌿 जैविक देशी</button>
-            <button class="remedy-tab-btn" onclick="switchModalRemedyTab('prevention', this)">🛡️ रोकथाम</button>
+            <button class="remedy-tab-btn active" onclick="switchModalRemedyTab('chemical', this)">💊 <span data-i18n="chemicalTab">Chemical</span></button>
+            <button class="remedy-tab-btn" onclick="switchModalRemedyTab('organic', this)">🌿 <span data-i18n="organicTab">Organic</span></button>
+            <button class="remedy-tab-btn" onclick="switchModalRemedyTab('prevention', this)">🛡️ <span data-i18n="preventionTab">Prevention</span></button>
           </div>
           <div class="remedy-content" id="modal-remedy-content">
             प्रोपिकोनाज़ोल 25% EC (टिल्ट) @ 1 मिली प्रति लीटर पानी में मिलाकर पत्तियों के नीचे छिड़काव करें।
@@ -818,21 +816,21 @@
     <div class="app-modal-sheet">
       <div class="sheet-handle-bar"></div>
       <div class="sheet-header">
-        <span class="sheet-title">🧪 उर्वरक एवं बीज बारकोड जाँच</span>
+        <span class="sheet-title">🧪 <span data-i18n="fertilizerTitle">Fertilizer and seed barcode check</span></span>
         <button class="btn-close-sheet" onclick="closeAppModal('modal-fertilizer')">✕</button>
       </div>
       <div class="sheet-body">
         <p style="font-size:13px; color:var(--text-secondary);">
-          उर्वरक बैग का बारकोड नंबर दर्ज करें या तुरंत टेस्ट बटन दबाएं:
+          <span data-i18n="barcodeDesc">Enter the fertilizer bag barcode or run an instant test:</span>
         </p>
         <div style="display:flex; gap:8px;">
           <input type="text" id="modal-fertilizer-input" class="search-input-clean" value="8901234567890" placeholder="बारकोड (उदा. 8901234567890)...">
-          <button class="btn-assistant-pill" style="min-height:46px;" onclick="runModalFertilizerCheck()">जाँचें</button>
+          <button class="btn-assistant-pill" style="min-height:46px;" onclick="runModalFertilizerCheck()" data-i18n="checkBtn">Check</button>
         </div>
 
         <div style="display:flex; gap:8px; margin-top:4px;">
-          <button class="sample-pill-btn" onclick="document.getElementById('modal-fertilizer-input').value='8901234567890'; runModalFertilizerCheck();">✅ IFFCO असली नैनो यूरिया</button>
-          <button class="sample-pill-btn" onclick="document.getElementById('modal-fertilizer-input').value='8901111222233'; runModalFertilizerCheck();">❌ पारस नकली यूरिया</button>
+          <button class="sample-pill-btn" onclick="document.getElementById('modal-fertilizer-input').value='8901234567890'; runModalFertilizerCheck();">✅ <span data-i18n="authenticSample">IFFCO authentic nano urea</span></button>
+          <button class="sample-pill-btn" onclick="document.getElementById('modal-fertilizer-input').value='8901111222233'; runModalFertilizerCheck();">❌ <span data-i18n="fakeSample">Paras counterfeit urea</span></button>
         </div>
 
         <div id="modal-fertilizer-result" style="margin-top:10px;"></div>
@@ -845,19 +843,19 @@
     <div class="app-modal-sheet" style="max-height:92vh;">
       <div class="sheet-handle-bar"></div>
       <div class="sheet-header">
-        <span class="sheet-title">🗺️ 72-घंटे रोग फैलाव नक्शा (Kriging GIS)</span>
+        <span class="sheet-title">🗺️ <span data-i18n="gisTitle">72-hour disease spread map (Kriging GIS)</span></span>
         <button class="btn-close-sheet" onclick="closeAppModal('modal-gis-map')">✕</button>
       </div>
       <div class="sheet-body">
         <div class="filter-chips-scroll">
-          <button class="filter-chip active" onclick="filterModalMap('all', this)">समस्त रोग</button>
-          <button class="filter-chip" onclick="filterModalMap('Yellow Rust', this)">गेहूं पीला रतुआ</button>
-          <button class="filter-chip" onclick="filterModalMap('Late Blight', this)">आलू झुलसा</button>
-          <button class="filter-chip" onclick="filterModalMap('Rice Blast', this)">धान ब्लास्ट</button>
+          <button class="filter-chip active" onclick="filterModalMap('all', this)" data-i18n="allDiseases">All diseases</button>
+          <button class="filter-chip" onclick="filterModalMap('Yellow Rust', this)" data-i18n="wheatRust">Wheat yellow rust</button>
+          <button class="filter-chip" onclick="filterModalMap('Late Blight', this)" data-i18n="potatoBlight">Potato blight</button>
+          <button class="filter-chip" onclick="filterModalMap('Rice Blast', this)" data-i18n="riceBlast">Rice blast</button>
         </div>
         <div id="modal-leaflet-map" class="map-frame"></div>
-        <div style="font-size:12px; color:var(--text-secondary); background:var(--bg-card-subtle); padding:10px; border-radius:12px;">
-          🔴 गंभीर प्रकोप (&gt;85%) • 🟠 मध्यम फैलाव (50-70%) • हवा गति 14 km/h ENE
+        <div data-i18n="gisLegendText" style="font-size:12px; color:var(--text-secondary); background:var(--bg-card-subtle); padding:10px; border-radius:12px;">
+          🔴 Severe outbreak (&gt;85%) • 🟠 Moderate spread (50-70%) • Wind speed 14 km/h ENE
         </div>
       </div>
     </div>
@@ -868,24 +866,24 @@
     <div class="app-modal-sheet">
       <div class="sheet-handle-bar"></div>
       <div class="sheet-header">
-        <span class="sheet-title">🌤️ मौसम पूर्वानुमान व कृषि सलाह</span>
+        <span class="sheet-title">🌤️ <span data-i18n="weatherTitle">Weather forecast and farm advisory</span></span>
         <button class="btn-close-sheet" onclick="closeAppModal('modal-weather')">✕</button>
       </div>
       <div class="sheet-body">
         <div style="background:var(--hero-gradient); padding:16px; border-radius:16px; display:flex; justify-content:space-between; align-items:center;">
           <div>
             <div style="font-size:28px; font-weight:800;">28.5°C</div>
-            <div style="font-size:13px; color:var(--text-secondary);">आंशिक बादल (Partly Cloudy) • लखनऊ</div>
+            <div style="font-size:13px; color:var(--text-secondary);"><span data-i18n="partlyCloudy">Partly cloudy</span> • Lucknow</div>
           </div>
           <div style="text-align:right; font-size:12px; color:var(--text-secondary);">
-            <div>💧 आर्द्रता: <strong>68%</strong></div>
-            <div>💨 वायु गति: <strong>12.4 km/h</strong></div>
+            <div>💧 <span data-i18n="humidity">Humidity</span>: <strong>68%</strong></div>
+            <div>💨 <span data-i18n="windSpeed">Wind speed</span>: <strong>12.4 km/h</strong></div>
           </div>
         </div>
         <div style="background:#FFFFFF; border:1px solid var(--border-card); padding:14px; border-radius:16px;">
-          <h4 style="font-size:14px; font-weight:700; color:var(--accent-mint); margin-bottom:6px;">🌾 कृषि परामर्श (Agricultural Advisory):</h4>
+          <h4 style="font-size:14px; font-weight:700; color:var(--accent-mint); margin-bottom:6px;">🌾 <span data-i18n="advisoryTitle">Agricultural advisory</span>:</h4>
           <p style="font-size:13px; color:var(--text-primary); line-height:1.45;">
-            अगले 36 घंटों में हल्की वर्षा की संभावना है। रासायनिक कीटनाशक छिड़काव गुरुवार दोपहर तक रोकें ताकि दवा बह न जाए।
+            <span data-i18n="weatherAdvice">Light rain is possible over the next 36 hours. Pause chemical pesticide spraying until Thursday afternoon to prevent wash-off.</span>
           </p>
         </div>
       </div>
@@ -897,7 +895,7 @@
     <div class="app-modal-sheet">
       <div class="sheet-handle-bar"></div>
       <div class="sheet-header">
-        <span class="sheet-title">🛡️ PMFBY बीमा दावा लॉकर</span>
+        <span class="sheet-title">🛡️ <span data-i18n="insuranceTitle">PMFBY insurance claim locker</span></span>
         <button class="btn-close-sheet" onclick="closeAppModal('modal-insurance')">✕</button>
       </div>
       <div class="sheet-body" id="modal-insurance-content">
@@ -911,7 +909,7 @@
     <div class="app-modal-sheet">
       <div class="sheet-handle-bar"></div>
       <div class="sheet-header">
-        <span class="sheet-title">📡 P2P मेश नेटवर्क (0 KB Internet)</span>
+        <span class="sheet-title">📡 <span data-i18n="meshTitle">P2P mesh network (0 KB internet)</span></span>
         <button class="btn-close-sheet" onclick="closeAppModal('modal-mesh')">✕</button>
       </div>
       <div class="sheet-body" id="modal-mesh-content">
@@ -925,7 +923,7 @@
     <div class="app-modal-sheet">
       <div class="sheet-handle-bar"></div>
       <div class="sheet-header">
-        <span class="sheet-title">📟 2G टेलीकॉम गेटवे (*123#)</span>
+        <span class="sheet-title">📟 <span data-i18n="telecomTitle">2G telecom gateway (*123#)</span></span>
         <button class="btn-close-sheet" onclick="closeAppModal('modal-telecom')">✕</button>
       </div>
       <div class="sheet-body">
@@ -935,14 +933,14 @@
             <span>📶 4 Bars</span>
           </div>
           <div id="modal-ussd-screen" style="min-height:80px; white-space:pre-line;">
-            🌱 कृषि-सारथी टेलीकॉम सेवा (*123#)
-            1. फसल रोग व उपचार
-            2. लाइव मंडी भाव
-            3. मौसम अलर्ट
+            🌱 <span data-i18n="telecomService">Agri-Saarthi telecom service (*123#)</span>
+            <span data-i18n="telecomDisease">1. Crop disease and treatment</span>
+            <span data-i18n="telecomMarket">2. Live market prices</span>
+            <span data-i18n="telecomWeather">3. Weather alerts</span>
           </div>
         </div>
         <div style="display:flex; gap:8px;">
-          <button class="btn-bottom-action" onclick="simulateUssdCall()">📞 *123# डायल करें</button>
+          <button class="btn-bottom-action" onclick="simulateUssdCall()">📞 <span data-i18n="dialBtn">Dial *123#</span></button>
         </div>
       </div>
     </div>
@@ -953,7 +951,7 @@
     <div class="app-modal-sheet">
       <div class="sheet-handle-bar"></div>
       <div class="sheet-header">
-        <span class="sheet-title">⚙️ सिस्टम स्थिति व सेटिंग्स (Diagnostics)</span>
+        <span class="sheet-title">⚙️ <span data-i18n="diagnosticsTitle">System status and settings</span></span>
         <button class="btn-close-sheet" onclick="closeAppModal('modal-diagnostics')">✕</button>
       </div>
       <div class="sheet-body">

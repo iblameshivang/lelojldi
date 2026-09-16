@@ -126,6 +126,8 @@
 .onboarding-primary:disabled { cursor: not-allowed; opacity: .45; }
 .onboarding-secondary { border: 1px solid #cbd8ce; background: white; color: #34533f; }
 .manual-location-fields { display: grid; gap: 10px; margin-top: 14px; }
+.permission-card { margin: 14px 0 20px; padding: 14px; border: 1px solid #d8e5dc; border-radius: 14px; background: #f3f8f4; }
+.permission-card h2 { margin-top: 0; }
 .manual-location-fields input, .crop-search { width: 100%; min-height: 48px; padding: 11px 13px; border: 1px solid #cbd8ce; border-radius: 10px; background: white; color: var(--text-primary); font: 500 14px var(--font-main); }
 .onboarding-status { min-height: 24px; margin-top: 12px; color: var(--status-info-text) !important; font-size: 13px; }
 .onboarding-complete-mark { display: grid; width: 64px; height: 64px; place-items: center; margin: 26px auto 4px; border-radius: 50%; background: var(--accent-mint-light); color: var(--accent-mint-dark); font-size: 34px; font-weight: 800; }

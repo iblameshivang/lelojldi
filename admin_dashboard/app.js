@@ -21,6 +21,11 @@ const TRANSLATIONS = {
     termsConsent: "I have read and accept the Terms of Use and Privacy Policy.",
     step3Kicker: "Step 3",
     step3Title: "Allow location access",
+    micAccessTitle: "Allow microphone access",
+    micAccessDesc: "Microphone access is needed for voice questions and spoken answers.",
+    allowMicBtn: "🎙️ Allow Microphone",
+    micGranted: "✓ Microphone ready",
+    micDenied: "Microphone access was denied. You can enable it from the browser lock icon.",
     locDesc: "Your location helps us find nearby agricultural markets and local crop prices.",
     allowLocBtn: "📍 Allow Location (Auto Detect)",
     manualLocBtn: "Enter Location Manually",
@@ -63,6 +68,109 @@ const TRANSLATIONS = {
     voiceListeningBadge: "🎙️ Listening...",
     voiceThinkingBadge: "🧠 Thinking...",
     voiceSpeakingBadge: "🔊 Speaking...",
+    assistantTitle: "AI Agricultural Assistant",
+    voiceMode: "Voice",
+    textMode: "Text",
+    profileTitle: "My Profile & Farm",
+    profileSub: "Manage your crops, plots & account",
+    toolsTitle: "Tools",
+    libraryTitle: "Library",
+    flowTakePicture: "Take picture",
+    flowSeeDiagnosis: "See diagnosis",
+    flowGetMedicine: "Get medicine",
+    heroTakePicture: "Take a picture",
+    toolFertilizer: "Fertilizer check",
+    toolCalculator: "Dosage calculator",
+    toolScanner: "Crop health scanner",
+    toolWeather: "Weather & rain",
+    toolTelecom: "SMS & USSD",
+    libraryDisease: "Pests & disease alert",
+    libraryTips: "Cultivation tips",
+    libraryCrops: "Crops guide",
+    libraryInsurance: "Government schemes & insurance",
+    libraryDiseaseSub: "72-hour disease risk map",
+    libraryTipsSub: "ICAR-certified seed, irrigation and fertilizer guidance",
+    libraryCropsSub: "Complete information for 50+ major crops",
+    libraryInsuranceSub: "Tamper-proof insurance claim locker",
+    communityTitle: "Farmer community",
+    communitySub: "Ask questions directly to agricultural scientists and fellow farmers",
+    askQuestion: "Ask a question",
+    diseaseMapTitle: "Disease Map",
+    diseaseMapSub: "Crop disease risk by region",
+    mapLoading: "Loading data...",
+    mapRiskLevel: "Risk level",
+    mapMajorCrop: "Major crop",
+    mapVeryHigh: "Very high",
+    mapHigh: "High",
+    mapMedium: "Medium",
+    mapLow: "Low",
+    mapVeryLow: "Very low",
+    gisTitle: "72-hour disease spread map (Kriging GIS)",
+    allDiseases: "All diseases",
+    wheatRust: "Wheat yellow rust",
+    potatoBlight: "Potato blight",
+    riceBlast: "Rice blast",
+    gisLegendText: "🔴 Severe outbreak (>85%) • 🟠 Moderate spread (50-70%) • Wind speed 14 km/h ENE",
+    post1Author: "Ramesh Kumar • Lucknow",
+    post1Time: "2 hours ago • Wheat crop",
+    post1Body: "Yellow stripes are appearing on my wheat leaves. Is this yellow rust? Which spray should I use?",
+    post1Expert: "Dr. S. K. Sharma (Agricultural Scientist):",
+    post1Answer: "These are early symptoms of yellow rust. Spray Propiconazole 25% EC at 1 ml per litre of water within 24 hours.",
+    post2Author: "Sunita Devi • Varanasi",
+    post2Time: "5 hours ago • Potato crop",
+    post2Body: "I sprayed a natural buttermilk and copper solution to protect my potato beds from late blight and got very good results!",
+    helpful: "helpful",
+    comments: "comments",
+    share: "Share",
+    scannerTitle: "Crop disease scanner (AI diagnosis)",
+    sampleLeaf: "Sample leaf:",
+    chooseLeaf: "Take or choose a leaf photo",
+    scannerHint: "Quick analysis by the TFLite neural network",
+    chemicalTab: "Chemical",
+    organicTab: "Organic",
+    preventionTab: "Prevention",
+    fertilizerTitle: "Fertilizer and seed barcode check",
+    barcodeDesc: "Enter the fertilizer bag barcode or run an instant test:",
+    checkBtn: "Check",
+    weatherTitle: "Weather forecast and farm advisory",
+    partlyCloudy: "Partly cloudy",
+    humidity: "Humidity",
+    windSpeed: "Wind speed",
+    advisoryTitle: "Agricultural advisory",
+    insuranceTitle: "PMFBY insurance claim locker",
+    meshTitle: "P2P mesh network (0 KB internet)",
+    telecomTitle: "2G telecom gateway (*123#)",
+    diagnosticsTitle: "System status and settings",
+    weatherAdvice: "Light rain is possible over the next 36 hours. Pause chemical pesticide spraying until Thursday afternoon to prevent wash-off.",
+    authenticSample: "IFFCO authentic nano urea",
+    fakeSample: "Paras counterfeit urea",
+    telecomService: "Agri-Saarthi telecom service (*123#)",
+    telecomDisease: "1. Crop disease and treatment",
+    telecomMarket: "2. Live market prices",
+    telecomWeather: "3. Weather alerts",
+    dialBtn: "Dial *123#",
+    homeBtn: "Home",
+    verifiedProfile: "PM-KISAN and e-KYC verified",
+    plotsTitle: "My plots",
+    addPlot: "Add a new plot",
+    servicesTitle: "Services and settings",
+    insuranceMenu: "Insurance claim locker (PMFBY Blockchain)",
+    meshMenu: "Offline P2P mesh nodes (Nearby Mesh)",
+    telecomMenu: "2G telecom and USSD service (*123#)",
+    diagnosticsMenu: "System status and settings (Diagnostics)",
+    changeLanguage: "Change language",
+    farmerCallCenter: "Farmer call center (1800-180-1551)",
+    assistantDisclaimer: "This is an AI agricultural assistant. Confirm recommended treatments with a local agricultural expert before use.",
+    answerLabel: "Agri-Saarthi AI answer:",
+    replayLabel: "Listen again",
+    suggestionRust: "Wheat yellow rust treatment",
+    suggestionBlight: "Tomato blight spray dosage",
+    suggestionMarket: "Today's market price",
+    suggestionScheme: "PM-KISAN scheme",
+    assistantWelcome: "Hello! I am your digital agricultural scientist. Ask me anything about your crop, disease, or fertilizer.",
+    northField: "North Field",
+    riverPlot: "River Plot",
+    riverPlotDetails: "Potato (Kufri Jyoti) • 1.45 acres • Sync active",
     btnListenAgain: "🔊 Listen Again",
     chatInputPlaceholder: "Ask about crops, diseases, fertilizers, or prices...",
     voiceUnavailableNotice: "Voice playback is unavailable on this device."
@@ -79,6 +187,11 @@ const TRANSLATIONS = {
     termsConsent: "मैंने उपयोग की शर्तें और गोपनीयता नीति पढ़ ली है और स्वीकार करता हूँ।",
     step3Kicker: "चरण 3",
     step3Title: "स्थान की अनुमति दें",
+    micAccessTitle: "माइक्रोफ़ोन की अनुमति दें",
+    micAccessDesc: "वॉइस सवाल और बोले गए जवाबों के लिए माइक्रोफ़ोन की अनुमति आवश्यक है।",
+    allowMicBtn: "🎙️ माइक्रोफ़ोन की अनुमति दें",
+    micGranted: "✓ माइक्रोफ़ोन तैयार है",
+    micDenied: "माइक्रोफ़ोन की अनुमति नहीं मिली। ब्राउज़र के लॉक आइकन से अनुमति दें।",
     locDesc: "आपका स्थान हमें नजदीकी कृषि मंडियों और स्थानीय फसल भावों को खोजने में मदद करता है।",
     allowLocBtn: "📍 स्थान की अनुमति दें (स्वतः पहचानें)",
     manualLocBtn: "स्थान मैन्युअल रूप से दर्ज करें",
@@ -121,6 +234,109 @@ const TRANSLATIONS = {
     voiceListeningBadge: "🎙️ सुन रहे हैं...",
     voiceThinkingBadge: "🧠 सोच रहे हैं...",
     voiceSpeakingBadge: "🔊 उत्तर बोल रहे हैं...",
+    assistantTitle: "AI कृषि सहायक",
+    voiceMode: "वॉइस (बोलें)",
+    textMode: "टेक्स्ट (लिखें)",
+    profileTitle: "मेरा प्रोफ़ाइल और खेत",
+    profileSub: "अपनी फसलें, प्लॉट और खाता संभालें",
+    toolsTitle: "उपकरण",
+    libraryTitle: "कृषि ज्ञान कोष",
+    flowTakePicture: "फोटो लें",
+    flowSeeDiagnosis: "निदान देखें",
+    flowGetMedicine: "इलाज पाएं",
+    heroTakePicture: "फोटो लें",
+    toolFertilizer: "उर्वरक जाँच",
+    toolCalculator: "दवा कैलकुलेटर",
+    toolScanner: "रोग स्कैनर",
+    toolWeather: "मौसम सलाह",
+    toolTelecom: "SMS और USSD",
+    libraryDisease: "रोग फैलाव अलर्ट",
+    libraryTips: "उन्नत खेती के उपाय",
+    libraryCrops: "फसल निर्देशिका",
+    libraryInsurance: "सरकारी योजनाएं और बीमा",
+    libraryDiseaseSub: "72 घंटे का रोग जोखिम नक्शा",
+    libraryTipsSub: "ICAR प्रमाणित बीज, सिंचाई और खाद प्रबंधन",
+    libraryCropsSub: "50+ प्रमुख फसलों की पूरी जानकारी",
+    libraryInsuranceSub: "सुरक्षित बीमा दावा लॉकर",
+    communityTitle: "किसान समुदाय",
+    communitySub: "कृषि वैज्ञानिकों और साथी किसानों से सीधे सवाल पूछें",
+    askQuestion: "+ सवाल पूछें",
+    diseaseMapTitle: "रोग मानचित्र",
+    diseaseMapSub: "क्षेत्रानुसार फसल रोग जोखिम",
+    mapLoading: "डेटा लोड हो रहा है...",
+    mapRiskLevel: "जोखिम स्तर",
+    mapMajorCrop: "प्रमुख फसल",
+    mapVeryHigh: "अति-गंभीर",
+    mapHigh: "उच्च",
+    mapMedium: "मध्यम",
+    mapLow: "कम",
+    mapVeryLow: "न्यूनतम",
+    gisTitle: "72 घंटे का रोग फैलाव नक्शा (Kriging GIS)",
+    allDiseases: "समस्त रोग",
+    wheatRust: "गेहूं पीला रतुआ",
+    potatoBlight: "आलू झुलसा",
+    riceBlast: "धान ब्लास्ट",
+    gisLegendText: "🔴 गंभीर प्रकोप (>85%) • 🟠 मध्यम फैलाव (50-70%) • हवा गति 14 km/h ENE",
+    post1Author: "रमेश कुमार • लखनऊ",
+    post1Time: "2 घंटे पूर्व • गेहूं की फसल",
+    post1Body: "गेहूं की पत्तियों पर पीले रंग की धारियां दिख रही हैं। क्या यह पीला रतुआ है? कौन सी दवा का छिड़काव सही रहेगा?",
+    post1Expert: "डॉ. एस. के. शर्मा (कृषि वैज्ञानिक):",
+    post1Answer: "यह पीला रतुआ के शुरुआती लक्षण हैं। 24 घंटे में प्रोपिकोनाज़ोल 25% EC @ 1 मिली प्रति लीटर पानी में मिलाकर स्प्रे करें।",
+    post2Author: "सुनीता देवी • वाराणसी",
+    post2Time: "5 घंटे पूर्व • आलू की फसल",
+    post2Body: "आलू की क्यारियों में पछेता झुलसा से बचाव हेतु खट्टी छाछ और तांबे का देशी जैविक घोल बनाकर छिड़काव किया था, बहुत अच्छा परिणाम मिला!",
+    helpful: "मददगार",
+    comments: "टिप्पणियां",
+    share: "शेयर",
+    scannerTitle: "फसल रोग स्कैनर (AI निदान)",
+    sampleLeaf: "नमूना पत्ती:",
+    chooseLeaf: "पत्ते की फोटो खींचें या चुनें",
+    scannerHint: "TFLite न्यूरल नेटवर्क द्वारा त्वरित विश्लेषण",
+    chemicalTab: "रासायनिक",
+    organicTab: "जैविक देशी",
+    preventionTab: "रोकथाम",
+    fertilizerTitle: "उर्वरक एवं बीज बारकोड जाँच",
+    barcodeDesc: "उर्वरक बैग का बारकोड नंबर दर्ज करें या तुरंत टेस्ट बटन दबाएं:",
+    checkBtn: "जाँचें",
+    weatherTitle: "मौसम पूर्वानुमान व कृषि सलाह",
+    partlyCloudy: "आंशिक बादल",
+    humidity: "आर्द्रता",
+    windSpeed: "वायु गति",
+    advisoryTitle: "कृषि परामर्श",
+    insuranceTitle: "PMFBY बीमा दावा लॉकर",
+    meshTitle: "P2P मेश नेटवर्क (0 KB इंटरनेट)",
+    telecomTitle: "2G टेलीकॉम गेटवे (*123#)",
+    diagnosticsTitle: "सिस्टम स्थिति व सेटिंग्स",
+    weatherAdvice: "अगले 36 घंटों में हल्की वर्षा की संभावना है। दवा बहने से रोकने के लिए गुरुवार दोपहर तक रासायनिक कीटनाशक का छिड़काव रोकें।",
+    authenticSample: "IFFCO असली नैनो यूरिया",
+    fakeSample: "पारस नकली यूरिया",
+    telecomService: "कृषि-सारथी टेलीकॉम सेवा (*123#)",
+    telecomDisease: "1. फसल रोग व उपचार",
+    telecomMarket: "2. लाइव मंडी भाव",
+    telecomWeather: "3. मौसम अलर्ट",
+    dialBtn: "*123# डायल करें",
+    homeBtn: "होम",
+    verifiedProfile: "PM-KISAN और e-KYC सत्यापित",
+    plotsTitle: "मेरे खेत और फसलें",
+    addPlot: "+ नया खेत",
+    servicesTitle: "सुविधाएं और सेटिंग्स",
+    insuranceMenu: "बीमा दावा लॉकर (PMFBY Blockchain)",
+    meshMenu: "ऑफ़लाइन P2P मेश नोड्स (Nearby Mesh)",
+    telecomMenu: "2G टेलीकॉम एवं USSD सेवा (*123#)",
+    diagnosticsMenu: "सिस्टम स्थिति एवं सेटिंग्स (Diagnostics)",
+    changeLanguage: "भाषा बदलें",
+    farmerCallCenter: "किसान कॉल सेंटर (1800-180-1551)",
+    assistantDisclaimer: "यह एक AI कृषि सहायक सेवा है। अनुशंसित दवाओं के प्रयोग से पहले स्थानीय कृषि विशेषज्ञ से पुष्टि करें।",
+    answerLabel: "कृषि-सारथी AI का समाधान:",
+    replayLabel: "पुनः सुनें",
+    suggestionRust: "गेहूं पीला रतुआ इलाज",
+    suggestionBlight: "टमाटर झुलसा स्प्रे",
+    suggestionMarket: "आज का मंडी भाव",
+    suggestionScheme: "PM-KISAN योजना",
+    assistantWelcome: "नमस्ते! मैं आपका डिजिटल कृषि वैज्ञानिक हूँ। अपनी फसल, बीमारी या खाद संबंधी कोई भी सवाल पूछें।",
+    northField: "उत्तर खेत",
+    riverPlot: "गंगा किनारा प्लॉट",
+    riverPlotDetails: "आलू (कुफरी ज्योति) • 1.45 एकड़ • सिंक सक्रिय",
     btnListenAgain: "🔊 पुनः सुनें",
     chatInputPlaceholder: "फसल, रोग, खाद या मंडी भाव का सवाल पूछें...",
     voiceUnavailableNotice: "इस डिवाइस पर वॉयस प्लेबैक उपलब्ध नहीं है।"
@@ -391,6 +607,10 @@ function applyLanguage(langCode) {
   if (!langCode) return;
   currentAppLanguage = langCode.split('-')[0];
   document.documentElement.lang = currentAppLanguage;
+  const selectedVoiceLanguage = window.VoiceManager && LANGUAGE_CONFIG[currentAppLanguage];
+  if (selectedVoiceLanguage) {
+    window.VoiceManager.selectedLang = selectedVoiceLanguage.recognition;
+  }
 
   // Translate all data-i18n text content
   document.querySelectorAll('[data-i18n]').forEach(el => {
@@ -414,9 +634,12 @@ function applyLanguage(langCode) {
   
   const voiceState = FarmerAvatar.currentState || 'IDLE';
   if (voiceState === 'IDLE') {
-    const badge = document.getElementById('avatar-state-badge');
-    if (badge) badge.textContent = t('voiceIdleBadge');
+    window.FarmerAvatar?.setState('IDLE');
   }
+
+  document.querySelectorAll('.author-avatar').forEach((avatar, index) => {
+    if (currentAppLanguage === 'en') avatar.textContent = index === 0 ? 'R' : 'S';
+  });
 }
 
 /* ─── State Management ─── */
@@ -510,14 +733,25 @@ function renderCropChoices(query) {
 
 function updateOnboardingControls() {
   const next = document.getElementById('onboarding-next');
-  const consent = document.getElementById('terms-consent');
-  if (consent) onboardingProfile.termsAccepted = consent.checked;
   if (!next) return;
+  if (onboardingStep === 2) {
+    const city = document.getElementById('manual-city')?.value.trim();
+    const state = document.getElementById('manual-state')?.value.trim();
+    if (city && state && !onboardingProfile.location?.confirmed) {
+      onboardingProfile.location = {
+        ...onboardingProfile.location,
+        city,
+        state,
+        district: city,
+        country: document.getElementById('manual-country')?.value.trim() || 'India',
+        confirmed: true
+      };
+    }
+  }
   next.disabled = onboardingStep === 1 ? !onboardingProfile.language
-    : onboardingStep === 2 ? !onboardingProfile.termsAccepted
-      : onboardingStep === 3 ? !onboardingProfile.location?.confirmed
-        : onboardingStep === 4 ? onboardingProfile.crops.length === 0 : false;
-  next.textContent = onboardingStep === 5 ? t('btnOpenDashboard') : t('btnContinue');
+    : onboardingStep === 2 ? !(onboardingProfile.microphone?.handled && onboardingProfile.location?.confirmed)
+      : onboardingStep === 3 ? onboardingProfile.crops.length === 0 : false;
+  next.textContent = onboardingStep === 4 ? t('btnOpenDashboard') : t('btnContinue');
 }
 
 function renderOnboardingStep() {
@@ -525,7 +759,24 @@ function renderOnboardingStep() {
     step.hidden = Number(step.dataset.step) !== onboardingStep;
   });
   const progress = document.getElementById('onboarding-progress');
-  if (progress) progress.innerHTML = Array.from({ length: 5 }, (_, index) => `<span class="${index + 1 <= onboardingStep ? 'active' : ''}"></span>`).join('');
+  if (progress) progress.innerHTML = Array.from({ length: 4 }, (_, index) => `<span class="${index + 1 <= onboardingStep ? 'active' : ''}"></span>`).join('');
+  updateOnboardingControls();
+}
+
+function syncManualLocation() {
+  const city = document.getElementById('manual-city')?.value.trim();
+  const state = document.getElementById('manual-state')?.value.trim();
+  const country = document.getElementById('manual-country')?.value.trim() || 'India';
+  if (!city || !state) return;
+
+  onboardingProfile.location = {
+    ...onboardingProfile.location,
+    city,
+    state,
+    district: city,
+    country,
+    confirmed: true
+  };
   updateOnboardingControls();
 }
 
@@ -546,7 +797,7 @@ function startOnboarding(force = false) {
   document.getElementById('onboarding-overlay')?.classList.remove('is-hidden');
   onboardingProfile = {
     language: saved?.language || 'hi',
-    termsAccepted: saved?.termsAccepted || false,
+    microphone: saved?.microphone || { handled: false, granted: false },
     location: saved?.location || {},
     crops: saved?.crops || ['wheat']
   };
@@ -663,12 +914,37 @@ function detectCurrentLocation() {
   );
 }
 
+async function requestMicrophoneAccess() {
+  const status = document.getElementById('microphone-status');
+  const button = document.getElementById('allow-microphone');
+  if (!navigator.mediaDevices?.getUserMedia) {
+    onboardingProfile.microphone = { handled: true, granted: false };
+    if (status) status.textContent = t('micDenied');
+    updateOnboardingControls();
+    return;
+  }
+
+  if (status) status.textContent = t('locDetecting');
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    stream.getTracks().forEach(track => track.stop());
+    onboardingProfile.microphone = { handled: true, granted: true };
+    if (button) button.textContent = t('micGranted');
+    if (status) status.textContent = t('micGranted');
+  } catch (error) {
+    console.warn('[Microphone] Permission error:', error);
+    onboardingProfile.microphone = { handled: true, granted: false };
+    if (status) status.textContent = t('micDenied');
+  }
+  updateOnboardingControls();
+}
+
 function setupOnboardingEvents() {
   document.getElementById('onboarding-next')?.addEventListener('click', () => {
-    if (onboardingStep === 5) { finishOnboarding(); return; }
-    if (onboardingStep === 3 && !onboardingProfile.location?.confirmed) return;
+    if (onboardingStep === 4) { finishOnboarding(); return; }
+    if (onboardingStep === 2 && !onboardingProfile.location?.confirmed) return;
     onboardingStep += 1;
-    if (onboardingStep === 5) {
+    if (onboardingStep === 4) {
       const summary = document.getElementById('onboarding-summary');
       if (summary) summary.textContent = `${onboardingProfile.crops.length} crop(s) selected. ${[onboardingProfile.location.city, onboardingProfile.location.state].filter(Boolean).join(', ') || 'Location can be added later.'}`;
     }
@@ -677,9 +953,9 @@ function setupOnboardingEvents() {
   document.getElementById('onboarding-back')?.addEventListener('click', () => {
     if (onboardingStep > 1) { onboardingStep -= 1; renderOnboardingStep(); }
   });
-  document.getElementById('terms-consent')?.addEventListener('change', updateOnboardingControls);
   document.getElementById('onboarding-crop-search')?.addEventListener('input', event => renderCropChoices(event.target.value));
 
+  document.getElementById('allow-microphone')?.addEventListener('click', requestMicrophoneAccess);
   document.getElementById('allow-location')?.addEventListener('click', detectCurrentLocation);
 
   document.getElementById('btn-use-detected-location')?.addEventListener('click', () => {
@@ -698,21 +974,21 @@ function setupOnboardingEvents() {
   });
 
   document.getElementById('manual-location')?.addEventListener('click', () => {
+    const savedLocation = onboardingProfile.location || {};
     document.getElementById('manual-location-fields').hidden = false;
     document.getElementById('location-status').textContent = 'Enter your town/city and state, then continue.';
-    onboardingProfile.location = { confirmed: false };
-    ['manual-city', 'manual-state', 'manual-country'].forEach(id => document.getElementById(id)?.addEventListener('input', () => {
-      const city = document.getElementById('manual-city')?.value.trim();
-      const state = document.getElementById('manual-state')?.value.trim();
-      onboardingProfile.location = {
-        city,
-        state,
-        district: city,
-        country: document.getElementById('manual-country')?.value.trim() || 'India',
-        confirmed: Boolean(city && state)
-      };
-      updateOnboardingControls();
-    }));
+    onboardingProfile.location = { ...savedLocation, confirmed: false };
+    const cityInput = document.getElementById('manual-city');
+    const stateInput = document.getElementById('manual-state');
+    const countryInput = document.getElementById('manual-country');
+    if (cityInput) cityInput.value = savedLocation.city || '';
+    if (stateInput) stateInput.value = savedLocation.state || '';
+    if (countryInput) countryInput.value = savedLocation.country || 'India';
+    ['manual-city', 'manual-state', 'manual-country'].forEach(id => {
+      document.getElementById(id)?.addEventListener('input', syncManualLocation);
+      document.getElementById(id)?.addEventListener('change', syncManualLocation);
+    });
+    syncManualLocation();
   });
 }
 
@@ -766,6 +1042,8 @@ function switchNavTab(tabName) {
     activePane.classList.add('active');
   }
 
+  applyLanguage(currentAppLanguage);
+
   // Scroll smoothly to top
   const scrollArea = document.querySelector('.screen-scroll-area');
   if (scrollArea) scrollArea.scrollTop = 0;
@@ -810,8 +1088,9 @@ function openToolModal(modalName) {
   const modalId = `modal-${modalName}`;
   const modal = document.getElementById(modalId);
   if (modal) {
+    applyLanguage(currentAppLanguage);
     modal.classList.add('active');
-    if (modalName === 'gis-map') {
+    if (modalName === 'gis-map' && typeof initModalLeafletMap === 'function') {
       setTimeout(initModalLeafletMap, 200);
     } else if (modalName === 'insurance') {
       loadInsuranceClaimsModal();
@@ -979,7 +1258,7 @@ function renderDynamicCropSelector(cropsList = []) {
   if (!container) return;
 
   // Always start with "All" action pill
-  let html = `<button class="filter-chip ${selectedMandiCrop === 'all' ? 'active' : ''}" data-crop="all" onclick="selectMandiCrop('all')">🌾 All</button>`;
+  let html = `<button class="filter-chip ${selectedMandiCrop === 'all' ? 'active' : ''}" data-crop="all" onclick="selectMandiCrop('all')">🌾 ${currentAppLanguage === 'en' ? 'All' : 'सभी'}</button>`;
 
   if (Array.isArray(cropsList) && cropsList.length > 0) {
     cropsList.forEach(cropName => {
@@ -1033,7 +1312,7 @@ async function fetchMandiPrices(requestedCrop = null, customLoc = null, isUserRe
   if (crop === 'all' || crop === 'All Crops') crop = null;
 
   if (locBanner) {
-    const locName = loc.city || loc.district || loc.state || 'सोलन, हिमाचल प्रदेश';
+    const locName = loc.city || loc.district || loc.state || (currentAppLanguage === 'en' ? 'Solan, Himachal Pradesh' : 'सोलन, हिमाचल प्रदेश');
     const stateName = loc.state && !locName.includes(loc.state) ? `, ${loc.state}` : '';
     locBanner.textContent = `📍 ${locName}${stateName}`;
   }
@@ -1042,8 +1321,8 @@ async function fetchMandiPrices(requestedCrop = null, customLoc = null, isUserRe
     container.innerHTML = `
       <div class="market-loading-state" style="padding:28px 16px; text-align:center; background:var(--bg-card-subtle); border-radius:16px;">
         <div style="font-size:26px; animation:spin 1s linear infinite; display:inline-block; margin-bottom:8px;">⏳</div>
-        <strong style="font-size:14px; color:var(--text-primary); display:block;">सरकारी मंडी भाव प्राप्त किए जा रहे हैं...</strong>
-        <span style="font-size:12px; color:var(--text-secondary);">AGMARKNET व data.gov.in आधिकारिक सरकारी सर्वर से कनेक्ट हो रहे हैं</span>
+        <strong style="font-size:14px; color:var(--text-primary); display:block;">${currentAppLanguage === 'en' ? 'Loading official market prices...' : 'सरकारी मंडी भाव प्राप्त किए जा रहे हैं...'}</strong>
+        <span style="font-size:12px; color:var(--text-secondary);">${currentAppLanguage === 'en' ? 'Connecting to official AGMARKNET and data.gov.in servers' : 'AGMARKNET व data.gov.in आधिकारिक सरकारी सर्वर से कनेक्ट हो रहे हैं'}</span>
       </div>
     `;
   }
@@ -1081,10 +1360,12 @@ async function fetchMandiPrices(requestedCrop = null, customLoc = null, isUserRe
       renderMobileMandiList(allMandiData, data.message);
 
       if (updatedBanner) {
-        updatedBanner.textContent = isUserRefresh ? '✓ अभी-अभी अपडेट हुआ' : `दैनिक सरकारी भाव: ${data.dataDate || '14 Sep 2026'}`;
+        updatedBanner.textContent = isUserRefresh
+          ? (currentAppLanguage === 'en' ? '✓ Updated just now' : '✓ अभी-अभी अपडेट हुआ')
+          : `${currentAppLanguage === 'en' ? 'Daily official price' : 'दैनिक सरकारी भाव'}: ${data.dataDate || '14 Sep 2026'}`;
       }
       if (isUserRefresh && typeof showToast === 'function') {
-        showToast('मंडी अपडेट', 'ताज़ा सरकारी मंडी भाव लोड हो गए हैं', 'success');
+        showToast(currentAppLanguage === 'en' ? 'Market updated' : 'मंडी अपडेट', currentAppLanguage === 'en' ? 'Fresh official prices are loaded' : 'ताज़ा सरकारी मंडी भाव लोड हो गए हैं', 'success');
       }
       return;
     }
@@ -1098,7 +1379,7 @@ async function fetchMandiPrices(requestedCrop = null, customLoc = null, isUserRe
     if (fallbackRes.ok) {
       allMandiData = await fallbackRes.json();
       renderMobileMandiList(allMandiData);
-      if (updatedBanner) updatedBanner.textContent = 'दैनिक सरकारी भाव';
+      if (updatedBanner) updatedBanner.textContent = currentAppLanguage === 'en' ? 'Daily official prices' : 'दैनिक सरकारी भाव';
       return;
     }
   } catch (e) {
@@ -1109,9 +1390,9 @@ async function fetchMandiPrices(requestedCrop = null, customLoc = null, isUserRe
     container.innerHTML = `
       <div class="market-error-state" style="padding:24px 16px; text-align:center; background:var(--bg-card-subtle); border-radius:16px; border:1px solid #FCA5A5;">
         <span style="font-size:28px; display:block; margin-bottom:8px;">⚠️</span>
-        <strong style="font-size:14px; color:#DC2626; display:block; margin-bottom:4px;">मंडी भाव सेवा वर्तमान में अनुपलब्ध है</strong>
-        <p style="font-size:12px; color:var(--text-secondary); margin-bottom:12px;">सरकारी सर्वर से संपर्क नहीं हो सका। कृपया पुनः प्रयास करें।</p>
-        <button class="onboarding-primary" onclick="fetchMandiPrices(selectedMandiCrop === 'all' ? null : selectedMandiCrop, null, true)" style="padding:6px 16px; font-size:12.5px; border-radius:12px;">🔄 पुनः प्रयास करें (Retry)</button>
+        <strong style="font-size:14px; color:#DC2626; display:block; margin-bottom:4px;">${currentAppLanguage === 'en' ? 'Market price service is unavailable' : 'मंडी भाव सेवा वर्तमान में अनुपलब्ध है'}</strong>
+        <p style="font-size:12px; color:var(--text-secondary); margin-bottom:12px;">${currentAppLanguage === 'en' ? 'Could not reach the government server. Please try again.' : 'सरकारी सर्वर से संपर्क नहीं हो सका। कृपया पुनः प्रयास करें।'}</p>
+        <button class="onboarding-primary" onclick="fetchMandiPrices(selectedMandiCrop === 'all' ? null : selectedMandiCrop, null, true)" style="padding:6px 16px; font-size:12.5px; border-radius:12px;">🔄 ${currentAppLanguage === 'en' ? 'Retry' : 'पुनः प्रयास करें'}</button>
       </div>
     `;
   }
@@ -1213,11 +1494,11 @@ function renderMobileMandiList(items, customEmptyMessage = null) {
 
   // Scope Section Labels
   const scopeHeadings = {
-    'local': '🌾 स्थानीय मंडी (Local / Nearest Market)',
-    'nearby': '🟡 पास की मंडी (Nearby Markets)',
-    'same_state': '🟠 जिला / राज्य की अन्य मंडियां (Nearby Districts / Same State)',
-    'nearby_state': '🔵 नजदीकी राज्य (Nearby States)',
-    'national': '🟣 अन्य सत्यापित मंडियां (Wider Verified Markets)'
+    'local': currentAppLanguage === 'en' ? '🌾 Local / Nearest Market' : '🌾 स्थानीय मंडी (Local / Nearest Market)',
+    'nearby': currentAppLanguage === 'en' ? '🟡 Nearby Markets' : '🟡 पास की मंडी (Nearby Markets)',
+    'same_state': currentAppLanguage === 'en' ? '🟠 Nearby Districts / Same State' : '🟠 जिला / राज्य की अन्य मंडियां (Nearby Districts / Same State)',
+    'nearby_state': currentAppLanguage === 'en' ? '🔵 Nearby States' : '🔵 नजदीकी राज्य (Nearby States)',
+    'national': currentAppLanguage === 'en' ? '🟣 Wider Verified Markets' : '🟣 अन्य सत्यापित मंडियां (Wider Verified Markets)'
   };
 
   // Group items by scope
@@ -1249,9 +1530,11 @@ function renderMobileMandiList(items, customEmptyMessage = null) {
 
       // Distance: Show numeric km ONLY if verified coordinates exist; otherwise omit km
       const distBadge = m.distanceKm != null ? `${m.distanceKm} km` : (m.district ? `${m.district}` : `${m.state || ''}`);
-      const scopeBadge = m.scopeLabel || (m.distanceKm != null && m.distanceKm <= 35 ? '🌾 LOCAL MARKET' : '🟡 NEARBY MARKET');
+      const scopeBadge = currentAppLanguage === 'en'
+        ? (m.distanceKm != null && m.distanceKm <= 35 ? '🌾 LOCAL MARKET' : '🟡 NEARBY MARKET')
+        : (m.scopeLabel || (m.distanceKm != null && m.distanceKm <= 35 ? '🌾 LOCAL MARKET' : '🟡 NEARBY MARKET'));
 
-      const commodityName = m.crop_name_hi || m.commodity || m.crop_name || 'Crop';
+      const commodityName = currentAppLanguage === 'en' ? (m.commodity || m.crop_name || m.crop_name_hi || 'Crop') : (m.crop_name_hi || m.commodity || m.crop_name || 'Crop');
       const commodityEnglish = m.commodity || m.crop_name || '';
       const varietyName = m.variety || 'Standard';
       const gradeName = m.grade || 'FAQ';
@@ -1269,7 +1552,7 @@ function renderMobileMandiList(items, customEmptyMessage = null) {
               ${scopeBadge}${m.distanceKm != null ? ` • ${distBadge}` : ''}
             </span>
             <span style="font-size:11px; font-weight:700; background:#DCFCE7; color:#166534; padding:2px 8px; border-radius:10px;">
-              ✓ सत्यापित (Verified)
+              ${currentAppLanguage === 'en' ? '✓ Verified' : '✓ सत्यापित (Verified)'}
             </span>
           </div>
 
@@ -1291,7 +1574,7 @@ function renderMobileMandiList(items, customEmptyMessage = null) {
                 ${Number.isFinite(modal) && modal > 0 ? `₹${modal.toLocaleString('en-IN')}` : '<span style="font-size:14px; font-weight:600; color:var(--text-secondary);">Modal unavailable</span>'}
               </div>
               <span style="font-size:11.5px; color:var(--text-secondary); font-weight:600; display:block; margin-top:2px;">per quintal</span>
-              <span style="font-size:10.5px; color:var(--text-secondary); opacity:0.85;">(मॉडल भाव / Modal)</span>
+              <span style="font-size:10.5px; color:var(--text-secondary); opacity:0.85;">${currentAppLanguage === 'en' ? '(Modal price)' : '(मॉडल भाव / Modal)'}</span>
             </div>
           </div>
 
@@ -1318,6 +1601,7 @@ function renderMobileMandiList(items, customEmptyMessage = null) {
 
 /* ─── Phase 5: AI Assistant Screen Controller ─── */
 function openAssistantScreen() {
+  applyLanguage(currentAppLanguage);
   const screen = document.getElementById('assistant-screen');
   if (screen) screen.classList.add('active');
 }/**
@@ -1350,28 +1634,28 @@ const FarmerAvatar = {
         disc.classList.add('state-listening');
         stage?.classList.add('is-listening');
         badge?.classList.add('badge-listening');
-        if (badge) badge.innerHTML = '🎙️ सुन रहा हूँ... बोलिए';
+        if (badge) badge.innerHTML = `🎙️ ${t('voiceListeningBadge')}`;
         if (pipIcon) pipIcon.textContent = '🎙️';
-        if (captionTitle) captionTitle.textContent = customTitle || 'सुन रहा हूँ... (Listening)';
-        if (captionSub) captionSub.textContent = customSubText || 'अपनी फसल, कीट, खाद या मौसम के बारे में बोलें...';
+        if (captionTitle) captionTitle.textContent = customTitle || t('voiceListeningBadge');
+        if (captionSub) captionSub.textContent = customSubText || t('voiceCaptionSub');
         break;
 
       case 'THINKING':
         disc.classList.add('state-thinking');
         badge?.classList.add('badge-thinking');
-        if (badge) badge.innerHTML = '🤔 समाधान खोज रहा हूँ...';
+        if (badge) badge.innerHTML = `🧠 ${t('voiceThinkingBadge')}`;
         if (pipIcon) pipIcon.textContent = '⏳';
-        if (captionTitle) captionTitle.textContent = customTitle || '🤖 समाधान खोज रहा हूँ...';
-        if (captionSub) captionSub.textContent = customSubText || 'कृषि वैज्ञानिक डेटाबेस से परामर्श जारी है...';
+        if (captionTitle) captionTitle.textContent = customTitle || t('voiceThinkingBadge');
+        if (captionSub) captionSub.textContent = customSubText || t('voiceCaptionSub');
         break;
 
       case 'SPEAKING':
         disc.classList.add('state-speaking');
         badge?.classList.add('badge-speaking');
-        if (badge) badge.innerHTML = '🔊 बता रहा हूँ...';
+        if (badge) badge.innerHTML = `🔊 ${t('voiceSpeakingBadge')}`;
         if (pipIcon) pipIcon.textContent = '🔊';
-        if (captionTitle) captionTitle.textContent = customTitle || 'कृषि-सारथी AI दादाजी बता रहे हैं:';
-        if (captionSub) captionSub.textContent = customSubText || 'उत्तर ध्यानपूर्वक सुनें या नीचे पढ़ें';
+        if (captionTitle) captionTitle.textContent = customTitle || t('voiceSpeakingBadge');
+        if (captionSub) captionSub.textContent = customSubText || t('voiceCaptionSub');
         break;
 
       case 'ERROR':
@@ -1387,10 +1671,10 @@ const FarmerAvatar = {
       default:
         disc.classList.add('state-idle');
         badge?.classList.add('badge-idle');
-        if (badge) badge.innerHTML = '🌱 बोलने के लिए दबाएं';
+        if (badge) badge.innerHTML = t('voiceIdleBadge');
         if (pipIcon) pipIcon.textContent = '🎙️';
-        if (captionTitle) captionTitle.textContent = customTitle || 'कृषि-सारथी AI दादाजी से पूछें';
-        if (captionSub) captionSub.textContent = customSubText || 'फसल, रोग, कीटनाशक या खाद की मात्रा अपनी भाषा में बोलकर पूछें';
+        if (captionTitle) captionTitle.textContent = customTitle || t('voiceCaptionTitle');
+        if (captionSub) captionSub.textContent = customSubText || t('voiceCaptionSub');
         break;
     }
   }
@@ -1413,6 +1697,7 @@ const VoiceManager = {
   lastVoiceReplyText: '',
   lastUserQuestion: '',
   selectedLang: 'hi-IN',
+  networkRetryCount: 0,
   DEBOUNCE_SILENCE_MS: 2600, // 2.6 seconds natural human pause tolerance before concluding speech
 
   /**
@@ -1458,36 +1743,46 @@ const VoiceManager = {
   /**
    * Start listening session with continuous speech recognition and auto-restart resilience
    */
-  async startListening() {
+  async startListening(isRetry = false) {
     this.cleanup();
     const sessionId = ++this.activeSessionId;
     this.isProcessing = false;
+    if (!isRetry) this.networkRetryCount = 0;
 
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     if (!SpeechRecognition) {
       FarmerAvatar.setState('ERROR', 'माइक्रोफोन अनुपलब्ध', 'ब्राउज़र में स्पीच रिकग्निशन समर्थित नहीं है। Text मोड का उपयोग करें।');
       showToast('वॉइस मोड', 'कृपया Text (लिखें) मोड में सवाल टाइप करें', 'warning');
+      switchAssistantMode('text');
+      document.getElementById('assistant-text-input')?.focus();
       return;
     }
 
     const responseCard = document.getElementById('voice-response-card');
     if (responseCard) responseCard.style.display = 'none';
 
-    FarmerAvatar.setState('LISTENING', 'माइक्रोफोन तैयार हो रहा है...', 'बोलना शुरू करें...');
+    FarmerAvatar.setState('LISTENING', t('voiceListeningBadge'), t('voiceCaptionSub'));
 
     try {
+      if (navigator.mediaDevices?.getUserMedia) {
+        const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        stream.getTracks().forEach(track => track.stop());
+      }
+
       this.recognition = new SpeechRecognition();
-      this.recognition.continuous = true;
+      this.recognition.continuous = false;
       this.recognition.interimResults = true;
       this.recognition.maxAlternatives = 1;
-      this.recognition.lang = this.selectedLang || 'hi-IN';
+      const primaryRecognitionLanguage = this.selectedLang || 'hi-IN';
+      const fallbackRecognitionLanguage = primaryRecognitionLanguage.startsWith('en') ? 'en-US' : 'en-IN';
+      this.recognition.lang = this.networkRetryCount > 0 ? fallbackRecognitionLanguage : primaryRecognitionLanguage;
 
       this.recognition.onstart = () => {
         if (sessionId !== this.activeSessionId) return;
         this.isListening = true;
         this.accumulatedChunks = [];
         this.currentInterim = '';
-        FarmerAvatar.setState('LISTENING', 'सुन रहा हूँ... बोलिए', 'आपकी फसल, रोग, खाद या मौसम के बारे में बोलें...');
+        FarmerAvatar.setState('LISTENING', t('voiceListeningBadge'), t('voiceCaptionSub'));
         showToast('वॉइस मोड', 'बोलिए, दादाजी ध्यान से सुन रहे हैं...', 'info');
         this.resetSilenceTimer();
       };
@@ -1501,6 +1796,7 @@ const VoiceManager = {
           const transcriptChunk = (res[0]?.transcript || '').trim();
 
           if (res.isFinal) {
+            this.networkRetryCount = 0;
             if (transcriptChunk && !this.accumulatedChunks.includes(transcriptChunk)) {
               this.accumulatedChunks.push(transcriptChunk);
             }
@@ -1533,27 +1829,41 @@ const VoiceManager = {
           }
         } else if (e.error === 'not-allowed' || e.error === 'service-not-allowed') {
           this.isListening = false;
-          FarmerAvatar.setState('ERROR', 'माइक्रोफोन अनुमति अस्वीकृत', 'कृपया ब्राउज़र सेटिंग्स में माइक्रोफोन की अनुमति दें।');
-          showToast('माइक्रोफोन', 'माइक्रोफोन की अनुमति दें', 'error');
+          FarmerAvatar.setState('ERROR', 'माइक्रोफोन अनुमति अस्वीकृत', 'एड्रेस बार में लॉक आइकन दबाकर Microphone को Allow करें, फिर दोबारा दबाएं।');
+          showToast('माइक्रोफोन', 'एड्रेस बार से Microphone को Allow करें', 'error');
+        } else if (e.error === 'audio-capture') {
+          this.isListening = false;
+          FarmerAvatar.setState('ERROR', 'माइक्रोफोन उपलब्ध नहीं', 'माइक्रोफोन जुड़ा है या किसी दूसरे ऐप में उपयोग हो रहा है।');
+          showToast('माइक्रोफोन', 'माइक्रोफोन उपलब्ध नहीं है', 'error');
+        } else if (e.error === 'network') {
+          this.isListening = false;
+          if (this.networkRetryCount === 0) {
+            this.networkRetryCount = 1;
+            showToast('वॉइस मोड', 'वॉइस सेवा से दोबारा संपर्क किया जा रहा है...', 'info');
+            setTimeout(() => {
+              if (sessionId === this.activeSessionId) this.startListening(true);
+            }, 250);
+          } else {
+            this.networkRetryCount = 0;
+            FarmerAvatar.setState('ERROR', 'स्पीच सेवा अनुपलब्ध', 'इंटरनेट कनेक्शन जाँचें और दादाजी पर दोबारा दबाएं।');
+            showToast('वॉइस मोड', 'स्पीच सेवा से संपर्क नहीं हो सका। दोबारा प्रयास करें।', 'warning');
+          }
         } else if (e.error !== 'aborted') {
+          this.isListening = false;
+          FarmerAvatar.setState('ERROR', 'वॉइस त्रुटि', 'कृपया दोबारा प्रयास करें या Text मोड का उपयोग करें।');
           console.warn('[VoiceManager] Recoverable recognition error:', e.error);
         }
       };
 
       this.recognition.onend = () => {
         if (sessionId !== this.activeSessionId) return;
-        // If the browser recognition engine ended due to its internal timeout while we are still listening:
-        // Transparently restart recognition to preserve continuous listening.
         if (this.isListening && !this.isProcessing) {
-          try {
-            this.recognition.start();
-          } catch (err) {
-            if (this.restartBackoffTimer) clearTimeout(this.restartBackoffTimer);
-            this.restartBackoffTimer = setTimeout(() => {
-              if (this.isListening && !this.isProcessing && sessionId === this.activeSessionId) {
-                try { this.recognition.start(); } catch (e) {}
-              }
-            }, 120);
+          const question = this.getCleanFullTranscript();
+          this.isListening = false;
+          if (question.length >= 2) {
+            this.finalizeAndProcessSpeech(question);
+          } else {
+            FarmerAvatar.setState('IDLE', 'फिर से बोलें', 'सवाल सुनाई नहीं दिया। दादाजी पर टैप करके दोबारा प्रयास करें।');
           }
         }
       };
@@ -1562,7 +1872,15 @@ const VoiceManager = {
     } catch (err) {
       console.error('[VoiceManager] Start recognition failure:', err);
       this.isListening = false;
-      FarmerAvatar.setState('ERROR', 'माइक्रोफोन त्रुटि', 'स्पीच सेवा शुरू करने में समस्या। Text मोड चुनें।');
+      if (err.name === 'NotFoundError') {
+        FarmerAvatar.setState('ERROR', 'माइक्रोफोन नहीं मिला', 'माइक्रोफोन जोड़ें या Windows में उसे सक्षम करें, फिर दोबारा दबाएं।');
+        showToast('माइक्रोफोन', 'कोई माइक्रोफोन डिवाइस नहीं मिला', 'error');
+      } else if (err.name === 'NotAllowedError' || err.name === 'SecurityError') {
+        FarmerAvatar.setState('ERROR', 'माइक्रोफोन अनुमति अस्वीकृत', 'एड्रेस बार में लॉक आइकन दबाकर Microphone को Allow करें।');
+        showToast('माइक्रोफोन', 'माइक्रोफोन अनुमति दें', 'error');
+      } else {
+        FarmerAvatar.setState('ERROR', 'माइक्रोफोन त्रुटि', 'स्पीच सेवा शुरू करने में समस्या। Text मोड चुनें।');
+      }
     }
   },
 
@@ -1597,7 +1915,7 @@ const VoiceManager = {
     this.lastUserQuestion = question;
 
     // Set Avatar to THINKING state
-    FarmerAvatar.setState('THINKING', '🤖 समाधान खोज रहा हूँ...', `सवाल: "${question}"`);
+    FarmerAvatar.setState('THINKING', t('voiceThinkingBadge'), `Question: "${question}"`);
 
     try {
       const history = getChatHistory();
@@ -2092,14 +2410,20 @@ function cleanTextForSpeech(rawText) {
  * Speak text aloud using browser's SpeechSynthesis API with Language-Matched Voice & Animated Avatar Sync
  */
 function speakText(text, targetLangObj = null) {
-  if (!('speechSynthesis' in window)) return;
+  if (!('speechSynthesis' in window)) {
+    FarmerAvatar.setState('IDLE', 'कृषि-सारथी AI का समाधान', 'उत्तर स्क्रीन पर पढ़ें या पुनः सुनने का प्रयास करें');
+    return;
+  }
 
   try {
     VoiceManager.cleanup();
     window.speechSynthesis.cancel();
 
     const cleanSpeech = cleanTextForSpeech(text);
-    if (!cleanSpeech) return;
+    if (!cleanSpeech) {
+      FarmerAvatar.setState('IDLE', 'कृषि-सारथी AI का समाधान', 'अन्य सवाल पूछने के लिए दादाजी पर टैप करें');
+      return;
+    }
 
     const langConfig = targetLangObj || detectLanguage(cleanSpeech);
     const utterance = new SpeechSynthesisUtterance(cleanSpeech);
@@ -2116,8 +2440,9 @@ function speakText(text, targetLangObj = null) {
       console.log(`[SpeechSynthesis] No exact voice matched for ${langConfig.name}. Using default with lang=${utterance.lang}`);
     }
 
+    FarmerAvatar.setState('SPEAKING', t('voiceSpeakingBadge'), t('voiceCaptionSub'));
     utterance.onstart = () => {
-      FarmerAvatar.setState('SPEAKING', `🔊 ${langConfig.nativeName || langConfig.name} में बता रहे हैं:`, 'उत्तर ध्यानपूर्वक सुनें या स्क्रीन पर पढ़ें');
+      FarmerAvatar.setState('SPEAKING', t('voiceSpeakingBadge'), t('voiceCaptionSub'));
       VoiceManager.cleanup();
     };
 
@@ -2556,7 +2881,8 @@ function handleStateHover(code, e) {
   if (!tooltip) return;
 
   const risk = activeStateRiskData[code] || 'Very Low';
-  tooltip.innerHTML = `<strong>${st.name}</strong><br><span style="font-size:11px;">जोखिम: ${risk}</span>`;
+  const stateName = currentAppLanguage === 'en' ? st.enName : st.name;
+  tooltip.innerHTML = `<strong>${stateName}</strong><br><span style="font-size:11px;">${t('mapRiskLevel')}: ${risk}</span>`;
   tooltip.style.display = 'block';
 
   if (e && e.target) {
@@ -2595,17 +2921,35 @@ function updateSelectedStateCard(code) {
   const cropEl = document.getElementById('state-detail-crop') || document.getElementById('selected-state-crop-advisory');
   const advisoryEl = document.getElementById('state-detail-advisory');
 
-  if (nameEl) nameEl.textContent = `${st.name} (${st.enName})`;
+  const stateName = currentAppLanguage === 'en' ? st.enName : `${st.name} (${st.enName})`;
+  const cropName = currentAppLanguage === 'en'
+    ? (st.crop.match(/\(([^)]+)\)/)?.[1] || st.crop)
+    : st.crop;
+  if (nameEl) nameEl.textContent = stateName;
   if (riskEl) {
-    riskEl.textContent = `जोखिम: ${risk}`;
+    riskEl.textContent = `${t('mapRiskLevel')}: ${risk}`;
     riskEl.style.backgroundColor = color;
     riskEl.style.color = '#FFFFFF';
   }
   if (cropEl) {
-    cropEl.textContent = `प्रमुख फसलें: ${st.crop}. मौसम के अनुसार निगरानी जारी रखें।`;
+    cropEl.textContent = currentAppLanguage === 'en'
+      ? `${t('mapMajorCrop')}: ${cropName}. Continue monitoring according to weather conditions.`
+      : `प्रमुख फसलें: ${cropName}. मौसम के अनुसार निगरानी जारी रखें।`;
+  }
+  const tooltipState = document.getElementById('tooltip-state-name');
+  const tooltipRisk = document.getElementById('tooltip-risk-badge');
+  const tooltipCrop = document.getElementById('tooltip-crop-info');
+  if (tooltipState) tooltipState.textContent = stateName;
+  if (tooltipRisk) tooltipRisk.textContent = `${t('mapRiskLevel')}: ${risk}`;
+  if (tooltipCrop) {
+    tooltipCrop.textContent = currentAppLanguage === 'en'
+      ? `🌾 ${t('mapMajorCrop')}: ${cropName}`
+      : `🌾 प्रमुख फसल: ${cropName}`;
   }
   if (advisoryEl) {
-    advisoryEl.textContent = `💡 ${st.name} में ${risk} जोखिम स्तर है। ${st.crop} की निगरानी और समय पर प्रबंधन अपनाएँ।`;
+    advisoryEl.textContent = currentAppLanguage === 'en'
+      ? `💡 ${stateName} has a ${risk.toLowerCase()} risk level. Monitor ${cropName} and follow timely crop management.`
+      : `💡 ${st.name} में ${risk} जोखिम स्तर है। ${st.crop} की निगरानी और समय पर प्रबंधन अपनाएँ।`;
   }
 }
 
@@ -2811,7 +3155,7 @@ function formatMarkdown(raw) {
 /* ─── Initialization on DOMContentLoaded ─── */
 document.addEventListener('DOMContentLoaded', () => {
   setupOnboardingEvents();
-  startOnboarding();
+  startOnboarding(true);
   fetchMandiPrices();
   initIndiaVectorMap(150);
 });
